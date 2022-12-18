@@ -15,12 +15,11 @@ from .helpers.generate_domain_name import generate_domain_name
 from .helpers.get_host_name import get_hostname
 
 # Create your views here.
-
 @csrf_exempt
 def application_list(request):
     """
     retrieve:
-    """
+    """   
 
     if request.method == 'GET':
         applications = Application.objects.all()

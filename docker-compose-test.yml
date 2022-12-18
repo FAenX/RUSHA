@@ -7,22 +7,19 @@ services:
     volumes:
       - ./rusha_django_project:/code
       - ./applications:/applications
-      - ./tmp:/tmp
       - ./git:/git
-      - ./ansible/dev_playbook.yml:/code/dev_playbook.yml
-      - ./ansible/hosts.ini:/code/hosts.ini
-      - ./nginx:/nginx
     working_dir: /code
     ports:
-      - 8000:8000   
+      - 8000:8000
+   
     environment:
       - RUSHA_HOME=/code
     restart: always
     command: bash -c "
         python manage.py makemigrations &&
         python manage.py migrate &&
-        ansible-playbook -i hosts.ini dev_playbook.yml &&
         python manage.py runserver 0.0.0.0:8000" 
+
     depends_on:
       - mssql
       - rusha_nginx
@@ -51,7 +48,6 @@ services:
       - ./static:/usr/share/nginx/html
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/nginx.conf.d:/etc/nginx/conf.d
-      - ./nginx/sites-available:/etc/nginx/sites-available
   
   rusha_ui: 
     image: node:16
@@ -59,7 +55,7 @@ services:
     ports: 
       - 3000:3000
     volumes: 
-      - ./rusha_react_app/:/src
+      - ./rusha-ui/:/src
     working_dir: /src
     
     depends_on:
@@ -68,9 +64,6 @@ services:
       - rusha_nginx
     command: bash -c "npm install && npm start"
 
-  
-
- 
 volumes:
   nginx:
   mssql:

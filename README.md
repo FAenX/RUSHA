@@ -2,7 +2,7 @@
 
 Install Docker and docker compose then run the following command
 
-`docker-compose -f docker-compose-dev.yml up`
+`./local/run.sh`
 
 Basically I am trying to build an infrastructure that 'high level' looks like the image below, (apologies for the crudeness)...
 

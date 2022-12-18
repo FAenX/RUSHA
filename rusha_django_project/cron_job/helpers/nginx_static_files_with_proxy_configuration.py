@@ -35,17 +35,14 @@ server {{
             '''
             
             # create /etc/nginx/sites-available/application_name.conf
-            with open(f'/etc/nginx/sites-available/{self.application_name}.conf', 'w') as f:
+            with open(f'../nginx/sites-available/{self.application_name}.conf', 'w') as f:
                 f.write(template)
-
-            # create symlink if not exists
-            if not os.path.exists(f'/etc/nginx/sites-enabled/{self.application_name}.conf'):
-                os.symlink(f'/etc/nginx/sites-available/{self.application_name}.conf', f'/etc/nginx/sites-enabled/{self.application_name}.conf')
 
             # reload nginx if valid
             # os.system('nginx -t')
-            os.system('systemctl restart nginx')
-            return
+            # os.system('systemctl restart nginx')
+            # return
+            # que a restart if needed
             
 
             

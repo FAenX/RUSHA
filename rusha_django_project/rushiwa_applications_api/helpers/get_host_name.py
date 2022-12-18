@@ -10,9 +10,6 @@ def get_hostname():
 
     """
     try:
-        with open(f'rusha_config.yml', 'r') as f:
-            yaml_content = yaml.load(f, Loader=yaml.FullLoader)
-            host_name = yaml_content["host_name"]
-            return f"{host_name['prefix']}://{host_name['name']}"
+        return f"example.com"
     except Exception as e:
         raise e

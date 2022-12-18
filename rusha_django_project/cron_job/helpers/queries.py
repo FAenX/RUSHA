@@ -14,8 +14,8 @@ def get_pending_applications():
         cur = connection.cursor()
         data = cur.execute(
             f"""SELECT *
-                FROM rusha_applications_api_nginxconfcreatequeue rq
-                JOIN rusha_applications_api_application ra ON rq.application_id = ra.id        
+                FROM rushiwa_applications_api_nginxconfcreatequeue rq
+                JOIN rushiwa_applications_api_application ra ON rq.application_id = ra.id        
                 WHERE rq.status = 'pending'
             """)
         data = cur.fetchall()
@@ -33,7 +33,7 @@ def update_application_status(application_id, status):
     try:
         cur = connection.cursor()
         cur.execute(
-            f"""UPDATE rusha_applications_api_nginxconfcreatequeue
+            f"""UPDATE rushiwa_applications_api_nginxconfcreatequeue
                 SET status = '{status}'
                 WHERE application_id = '{application_id}'
             """)
@@ -48,7 +48,7 @@ def update_git_dir(application_id, git_dir_path):
     try:
         cur = connection.cursor()
         cur.execute(
-            f"""UPDATE rusha_applications_api_application
+            f"""UPDATE rushiwa_applications_api_application
                 SET local_git_repo = '{git_dir_path}'
                 WHERE id = '{application_id}'
             """)

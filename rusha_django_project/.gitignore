@@ -6,8 +6,8 @@ __pycache__
 db.sqlite3
 media
 
-
-
+dev_playbook.yml
+hosts.ini
 # Backup files # 
 *.bak 
 

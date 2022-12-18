@@ -1,0 +1,28 @@
+- hosts: docker
+  vars:
+    ansible_connection: local
+    path: "{{ lookup('env', 'RUSHA_HOME')}}"
+  tasks:        
+    - name: Install cron
+      apt:
+        name: cron
+        state: present
+      
+    - name: Enable cron
+      service:
+        name: cron
+        state: started
+        enabled: yes
+    
+    - name: Make cron file executable
+      file:
+        path: dequeue_new_applications.py
+        mode: 0755
+    
+    - name: crontab entry for python app
+      cron:
+        name: "python app"
+        minute: "*/1"
+        job: "{{ path }}/dequeue_new_applications.py >> {{ path }}/dequeue_new_applications_log_$(date +\\%Y\\%m\\%d).log 2>&1"
+
+   

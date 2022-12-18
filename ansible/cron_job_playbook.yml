@@ -1,5 +1,0 @@
-- hosts: docker
-  vars:
-    ansible_connection: local
-    path: "{{ lookup('env', 'RUSHA_HOME')}}"
-  tasks:
