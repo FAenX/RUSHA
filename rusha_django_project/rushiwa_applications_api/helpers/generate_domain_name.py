@@ -1,5 +1,7 @@
 import yaml
 
+env = 'local'
+
 def generate_domain_name(application_name):
     """Generate a domain name for the application.
 
@@ -13,7 +15,12 @@ def generate_domain_name(application_name):
 
     """
     try:
-            domain_name = f"example.com-{application_name}"
+        if env == 'local':
+            domain_name = f"{application_name}.localhost"
             return domain_name
+
+        elif env == 'production':
+            pass
+
     except Exception as e:
         raise e

@@ -6,5 +6,5 @@ git
 static
 applications
 .env*
-nginx/sites-available/*
+nginx/nginx.conf.d/auto*.conf
 tmp
