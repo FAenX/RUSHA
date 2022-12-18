@@ -8,3 +8,4 @@ applications
 .env*
 nginx/nginx.conf.d/auto*.conf
 tmp
+redis

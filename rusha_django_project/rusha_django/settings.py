@@ -81,6 +81,21 @@ WSGI_APPLICATION = 'rusha_django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+from django.core.cache import cache
+
+cache.set('my_key', 'my_value')
+value = cache.get('my_key')
+
 DATABASES = {
      'default': {
         'ENGINE': 'mssql',
@@ -90,7 +105,7 @@ DATABASES = {
         'PASSWORD': 'Your_password123',
         'OPTIONS' : {
             'driver': 'ODBC Driver 17 for SQL Server',
-        },
+        }
     }
 }
 
