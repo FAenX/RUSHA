@@ -13,7 +13,7 @@ def generate_domain_name(application_name):
 
     """
     try:
-            domain_name = "example.com"
+            domain_name = f"example.com-{application_name}"
             return domain_name
     except Exception as e:
         raise e
