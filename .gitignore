@@ -1,0 +1,9 @@
+hosts.ini
+
+mssql
+logs/*
+git
+nginx
+static
+applications
+.env*
