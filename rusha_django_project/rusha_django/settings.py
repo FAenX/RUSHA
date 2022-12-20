@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
      'rest_framework',
      'rushiwa_applications_api',
-     'corsheaders'
+     'corsheaders',
+     'cron_jobs'
 ]
 
 MIDDLEWARE = [
@@ -84,17 +85,14 @@ WSGI_APPLICATION = 'rusha_django.wsgi.application'
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis",
+        "LOCATION": "redis://redis",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     }
 }
 
-from django.core.cache import cache
 
-cache.set('my_key', 'my_value')
-value = cache.get('my_key')
 
 DATABASES = {
      'default': {

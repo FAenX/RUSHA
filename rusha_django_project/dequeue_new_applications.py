@@ -4,6 +4,8 @@ import os
 import sys
 import logging
 import django
+import redis
+from django_redis import get_redis_connection
 
 
 def main():
@@ -13,15 +15,24 @@ def main():
         logging.getLogger().setLevel(logging.INFO)
         logging.info('-----------------')
         logging.info('Starting cron job')
-        from cron_job.utils.create_git_repo import GitRepo
-        from cron_job.utils.create_nginx_conf import NginxConf
+        from cron_jobs.utils.create_git_repo import GitRepo
+        from cron_jobs.utils.create_nginx_conf import NginxConf
 
 
         
         GitRepo().create_git_repo()
    
         NginxConf().create_nginx_conf()
-    
+
+        # 
+
+        con = get_redis_connection('default')
+
+        print(con)
+
+        # Left Push
+        res = con.lpush("mylist", "two", "one")
+        print(res)
 
         logging.info('-----------------')
     

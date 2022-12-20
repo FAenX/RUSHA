@@ -4,11 +4,14 @@ import os
 
 import yaml
 import logging
+
+
 from .queries import get_pending_applications, update_application_status, update_git_dir
 from .post_receive_templates import replace_template
 from .application import Application
 
-HOME = "/code"
+
+
 
 class GitRepo:
     def create_git_repo(self):
@@ -30,7 +33,7 @@ class GitRepo:
                 subprocess.check_call(f'chmod +x {git_dir_path}/hooks/post-receive', shell=True)
 
                 update_git_dir(application.application_id, git_dir_path)
-                # update_application_status(application.application_id, 'git_repo_created')
+              
                 
 
             return 0
