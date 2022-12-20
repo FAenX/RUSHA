@@ -10,7 +10,7 @@
 6. Celery
 7. Git
 8. Bash
-~ 9. Cron ~
+9. ~Cron~
 
 Install Docker and docker compose then run the following command
 
