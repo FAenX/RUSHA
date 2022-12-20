@@ -4,8 +4,6 @@ import os
 import sys
 import logging
 import django
-import redis
-from django_redis import get_redis_connection
 
 
 def main():
@@ -24,17 +22,6 @@ def main():
    
         NginxConf().create_nginx_conf()
 
-        # 
-
-        con = get_redis_connection('default')
-
-        print(con)
-
-        # Left Push
-        res = con.lpush("mylist", "two", "one")
-        print(res)
-
-        logging.info('-----------------')
     
     except Exception as e:
         logging.getLogger().setLevel(logging.ERROR)

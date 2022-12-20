@@ -17,6 +17,5 @@ docker run --rm -v "${PWD}":/github/workspace \
 rusha-rushiwa_django -c "\
     cd rusha_django_project; \
     ls -la; \
-    /usr/local/bin/poetry add redis; \
-    poetry add django-redis; 
+    poetry update -vvv; \   
    "

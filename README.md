@@ -1,5 +1,17 @@
 # rusha_django_project
 
+# Technologies used
+
+1. Django
+2. Docker
+3. Nginx
+4. Mssql
+5. Redis 
+6. Celery
+7. Git
+8. Bash
+~ 9. Cron ~
+
 Install Docker and docker compose then run the following command
 
 `./local/run.sh`

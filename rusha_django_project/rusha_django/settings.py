@@ -40,7 +40,8 @@ INSTALLED_APPS = [
      'rest_framework',
      'rushiwa_applications_api',
      'corsheaders',
-     'cron_jobs'
+     'cron_jobs',
+    #  'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -91,7 +92,13 @@ CACHES = {
         }
     }
 }
+CELERY_BROKER_URL = "redis://redis"
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_TASK_TRACK_STARTED = True
 
+CELERY_CACHE_BACKEND = 'default'
 
 
 DATABASES = {

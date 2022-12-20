@@ -13,6 +13,7 @@ from .helpers.generate_application_path import generate_application_path
 from .helpers.generate_application_port import generate_application_port
 from .helpers.generate_domain_name import generate_domain_name
 from .helpers.get_host_name import get_hostname
+from .tasks import hello
 
 # Create your views here.
 @csrf_exempt
@@ -24,6 +25,7 @@ def application_list(request):
     if request.method == 'GET':
         applications = Application.objects.all()
         serializer = ApplicationSerializer(applications, many=True)
+        hello.delay(serializer.data)
         return JsonResponse(serializer.data, safe=False)
 
 
