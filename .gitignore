@@ -9,3 +9,4 @@ applications
 nginx/nginx.conf.d/auto*.conf
 tmp
 redis
+requirements.txt 
