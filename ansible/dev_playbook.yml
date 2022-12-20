@@ -4,4 +4,4 @@
     path: "{{ lookup('env', 'RUSHA_HOME')}}"
   tasks:        
     - name: Run celery daemon
-      shell: "cd {{path}} && celery -A rusha_django.celery worker --loglevel=INFO --detach --pidfile={{path}}/celery.pid --logfile={{path}}/celery_$(date +\\%Y\\%m\\%d).log"
+      shell: "cd {{path}} && celery -A rusha_django.celery worker --loglevel=INFO --detach --logfile={{path}}/celery_$(date +\\%Y\\%m\\%d).log"

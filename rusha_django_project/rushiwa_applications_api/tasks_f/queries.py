@@ -45,6 +45,7 @@ def update_application_status(application_id, status):
         raise e
 
 def update_git_dir(application_id, git_dir_path):
+    print(application_id, git_dir_path)
     try:
         cur = connection.cursor()
         cur.execute(
