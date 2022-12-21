@@ -3,8 +3,6 @@
 import os
 import logging
 
-from .queries import update_application_status
-
 env = 'local'
 
 

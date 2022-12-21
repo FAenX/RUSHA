@@ -6,7 +6,6 @@ import yaml
 import logging
 
 
-from .queries import get_pending_applications, update_application_status
 from .post_receive_templates import replace_template
 from .application import Application
 
