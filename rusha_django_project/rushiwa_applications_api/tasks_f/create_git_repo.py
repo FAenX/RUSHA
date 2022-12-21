@@ -6,9 +6,12 @@ import yaml
 import logging
 
 
-from .queries import get_pending_applications, update_application_status, update_git_dir
+from .queries import get_pending_applications, update_application_status
 from .post_receive_templates import replace_template
 from .application import Application
+
+from rushiwa_applications_api.models import Application as ApplicationModel
+
 
 
 
@@ -16,9 +19,9 @@ from .application import Application
 class GitRepo:
     def create_git_repo(self, **application):
 
-        app = application 
+        
         try:            
-            application = Application(app)
+            application = Application(application)
             
             git_dir_path = f"../git/{application.application_name}.git"
             project_path = f"../applications/{application.application_name}"
@@ -32,10 +35,10 @@ class GitRepo:
             
             subprocess.check_call(f'chmod +x {git_dir_path}/hooks/post-receive', shell=True)
 
-            print(application)
+            print("try to update git dir")
+            ApplicationModel.objects.filter(id=application.id).update(local_git_repo=git_dir_path)
 
-            a = update_git_dir(application.application_id, git_dir_path)
-            print(a)
+    
             
                 
 

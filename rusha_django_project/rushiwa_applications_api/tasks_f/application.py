@@ -1,3 +1,4 @@
+import json
 from typing import Any
 
 
@@ -13,7 +14,7 @@ class Application:
             self.__setattr__(key, value)
 
     def __repr__(self):
-        return f"Application({self.__dict__})"
+        return json.dumps(self.__dict__)
     
     
     

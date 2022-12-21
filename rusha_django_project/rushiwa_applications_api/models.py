@@ -1,3 +1,4 @@
+import datetime
 import uuid
 
 import django
@@ -12,14 +13,11 @@ class Application(models.Model):
     local_git_repo = models.CharField(max_length=200, null=True)
     description = models.CharField(max_length=200, null=True)
     tag = models.CharField(max_length=200, default='latest')
-    date_created = models.DateField(default=django.utils.timezone.now)
+    date_created = models.DateTimeField(default=datetime.datetime.now)
     application_port = models.IntegerField(unique=True)
     domain_name = models.CharField(max_length=200, unique=True)
     application_path = models.CharField(max_length=200, unique=True)
     proxy_host_name_and_or_port = models.CharField(max_length=200, default='http://localhost:8080')
-    
-    
-
     
     
     def __str__(self):

@@ -44,18 +44,19 @@ def update_application_status(application_id, status):
         logging.error(f'update_application_status error: {e}')
         raise e
 
-def update_git_dir(application_id, git_dir_path):
-    print(application_id, git_dir_path)
-    try:
-        cur = connection.cursor()
-        cur.execute(
-            f"""UPDATE rushiwa_applications_api_application
-                SET local_git_repo = '{git_dir_path}'
-                WHERE id = '{application_id}'
-            """)
+# def update_git_dir(application_id, git_dir_path):
+    # print(application_id, git_dir_path)
+    # try:
+    #     cur = connection.cursor()
+    #     a = cur.execute
+    #     cur.execute(
+    #         f"""UPDATE rushiwa_applications_api_application
+    #             SET local_git_repo = '{git_dir_path}'
+    #             WHERE id = '{application_id}'
+    #         """)
 
-        cur.close()
-        return 0
+    #     cur.close()
+    #     return 0
     except Exception as e:
         logging.error(f'update_git_dir error: {e}')
         raise e

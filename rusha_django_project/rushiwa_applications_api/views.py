@@ -56,32 +56,28 @@ def deploy_application(request):
         application_dict['domain_name'] = domain_name
         application_dict['proxy_host_name_and_or_port'] = f'{get_hostname()}:{application_port}'
 
-        print('application_dict', application_dict)
+
         app_serializer = ApplicationSerializer(data=application_dict)
 
         if app_serializer.is_valid():
-            a = Application.objects.create(**app_serializer.validated_data)
+            a =  create_git_repo_task.delay(**app_serializer.validated_data)
            
         else:
             return JsonResponse(app_serializer.errors, status=400)
 
         #  insert into NginxConfCreateQueue
-        
-        application_dict["application_id"] = a.pk
-        print(a)
-        print(a.pk)
-        print(app_serializer.data)
+        # application = Application.objects.get(pk=a.pk)
+        # application = ApplicationSerializer(application).data
 
-        print('application_dict', application_dict)
-        application_dict['application_id'] = str(a.pk)
-        print('application_dict', application_dict)
+        # print(application)
 
-        create_git_repo_task.delay(**application_dict)
+        # create_git_repo_task.delay(**application)
 
         return JsonResponse(app_serializer.data, status=201)
     
     except Exception as e:
         print(e)
+        raise e
         return HttpResponse(e, status=500)
         
 
