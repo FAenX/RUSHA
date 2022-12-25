@@ -2,7 +2,7 @@ version: '3.9'
 services:
   rushiwa_django:
     build: 
-      dockerfile: ./rusha_django_project/Dockerfile
+      dockerfile: ./Dockerfile
     container_name: rushiwa_django
     volumes:
       - ./rusha_django_project:/code
@@ -24,22 +24,36 @@ services:
         ansible-playbook -i hosts.ini dev_playbook.yml &&
         python manage.py runserver 0.0.0.0:8000" 
     depends_on:
-      - mssql
+      - postgresdb
       - rusha_nginx
       - redis
 
-  mssql:
-    image: mcr.microsoft.com/mssql/server:2017-latest
-    container_name: mssql
+  postgresdb:
+    image: postgres:latest
     restart: always
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Your_password123
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: postgres
     ports:
-      - 1433:1433
+      - 5432:5432
     volumes:
-      - ./mssql:/var/opt/mssql
-      - ./mssql:/docker-entrypoint-initdb.d
+      - postgres:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
+  pgAdmin:
+    image: dpage/pgadmin4:latest
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'test@test.com'
+      PGADMIN_DEFAULT_PASSWORD: '123456'
+    ports:
+      - 5050:80
+    depends_on:
+      - postgresdb
+    volumes:
+      - pgAdmin:/var/lib/pgadmin
+    
+    
 
   rusha_nginx:
     image: nginx:latest
@@ -49,7 +63,7 @@ services:
     expose: 
       - 80
     volumes:
-      - ./static:/usr/share/nginx/html
+      - ./static:/usr/share/nginx/htm
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/nginx.conf.d:/etc/nginx/conf.d  
   rusha_ui: 
@@ -59,11 +73,11 @@ services:
       - 3000:3000
     volumes: 
       - ./rusha_react_app/:/src
-    working_dir: /src
+    working_dir: /sr
     
     depends_on:
       - rushiwa_django
-      - mssql
+      - postgresdb
       - rusha_nginx
       - redis
     command: bash -c "npm install && npm start"
@@ -82,7 +96,8 @@ services:
  
 volumes:
   nginx:
-  mssql:
+  postgres:
+  pgAdmin:
   rusha_ui:
   applications:
   git:

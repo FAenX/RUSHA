@@ -103,14 +103,12 @@ CELERY_CACHE_BACKEND = 'default'
 
 DATABASES = {
      'default': {
-        'ENGINE': 'mssql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'rusha_database',
-        'HOST': 'mssql',
-        'USER': 'sa',
-        'PASSWORD': 'Your_password123',
-        'OPTIONS' : {
-            'driver': 'ODBC Driver 17 for SQL Server',
-        }
+        'HOST': 'postgresdb',
+        'USER': 'postgres',
+        'PASSWORD': '123456',
+        
     }
 }
 

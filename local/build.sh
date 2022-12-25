@@ -14,8 +14,10 @@ docker run --rm -v "${PWD}":/github/workspace \
 --entrypoint /bin/bash \
 --volume "${PWD}:/github/workspace" \
 --workdir /github/workspace \
-rusha-rushiwa_django -c "\
+python:3.9 -c "\
     cd rusha_django_project; \
     ls -la; \
-    poetry update -vvv; \   
+    pip install poetry; \
+    poetry add psycopg2; \
+    # poetry update -vvv; \   
    "

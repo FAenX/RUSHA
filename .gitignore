@@ -10,3 +10,5 @@ nginx/nginx.conf.d/auto*.conf
 tmp
 redis
 requirements.txt 
+data
+.DS_Store
