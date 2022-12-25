@@ -12,6 +12,7 @@ services:
       - ./ansible/dev_playbook.yml:/code/dev_playbook.yml
       - ./ansible/hosts.ini:/code/hosts.ini
       - ./nginx:/nginx
+      - ./static:/static
     working_dir: /code
     ports:
       - 8000:8000   
