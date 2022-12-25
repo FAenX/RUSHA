@@ -73,7 +73,7 @@ services:
       - 3000:3000
     volumes: 
       - ./rusha_react_app/:/src
-    working_dir: /sr
+    working_dir: /src
     
     depends_on:
       - rushiwa_django

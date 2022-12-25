@@ -4,7 +4,7 @@ mssql
 logs/*
 git
 static
-applications
+./applications
 .env*
 nginx/nginx.conf.d/auto*.conf
 tmp
