@@ -60,8 +60,8 @@ const ReactDeployment = () => {
                     id={responseData?.id} 
                     application_name={responseData?.application_name} 
                     local_git_repo={responseData?.local_git_repo}
-                    requestedAt={responseData?.requestedAt}  
-                    applicationUpdatedAt={responseData?.applicationUpdatedAt}                  
+                    date_created={responseData? responseData.date_created : new Date()}  
+                    // applicationUpdatedAt={responseData?.applicationUpdatedAt}                  
                 />
                 </div>}
         

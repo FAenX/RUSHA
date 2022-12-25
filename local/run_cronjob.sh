@@ -1,8 +1,11 @@
-docker run --rm -v "${PWD}":/github/workspace \
---workdir /github/workspace \
+
+docker build . -t celery_task &&
+docker run --rm \
+--volume cronjob:/home/root \
+--volume "${PWD}":/home/root/app \
+--workdir /home/root/app \
 --entrypoint /bin/bash \
---volume "${PWD}:/github/workspace" \
---workdir /github/workspace \
-rusha-rushiwa_django -c "\
-   python ./rusha_django_project/dequeue_new_applications.py; \
-   "
+--network host \
+celery_task -c "\
+      cd rusha_django_project && celery -A rusha_django.nginx_restart_task beat --loglevel=INFO  \
+   ";

@@ -1,8 +1,8 @@
-from .application import Application
-from .nginx_static_files_with_proxy_configuration import NginxStaticFilesWithProxyConfiguration
+from .helpers.application import Application
+from .helpers.nginx_static_files_with_proxy_configuration import NginxStaticFilesWithProxyConfiguration
 import logging
 import os
-from .application_types import static_files, api
+from .helpers.application_types import static_files, api
 from rushiwa_applications_api.models import Application as ApplicationModel
 import redis
 from django_redis import get_redis_connection

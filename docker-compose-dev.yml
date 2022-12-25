@@ -3,16 +3,14 @@ services:
   rushiwa_django:
     build: 
       dockerfile: ./Dockerfile
-    container_name: rushiwa_django
     volumes:
       - ./rusha_django_project:/code
       - ./applications:/applications
       - ./tmp:/tmp
       - ./git:/git
-      - ./ansible/dev_playbook.yml:/code/dev_playbook.yml
-      - ./ansible/hosts.ini:/code/hosts.ini
       - ./nginx:/nginx
       - ./static:/static
+      - ./ansible:/ansible
     working_dir: /code
     ports:
       - 8000:8000   
@@ -22,7 +20,7 @@ services:
     command: bash -c "
         python manage.py makemigrations &&
         python manage.py migrate &&
-        ansible-playbook -i hosts.ini dev_playbook.yml &&
+        ansible-playbook -i ../ansible/hosts.ini ../ansible/dev_playbook.yml &&
         python manage.py runserver 0.0.0.0:8000" 
     depends_on:
       - postgresdb
@@ -91,6 +89,23 @@ services:
       - 6379:6379
     volumes:
       - ./redis:/data
+
+  celery_beat:
+    build: 
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./rusha_django_project:/code
+    working_dir: /code
+    command: bash -c "celery -A rusha_django.nginx_restart beat --loglevel=INFO --logfile=celery_beat_$(date +\\%Y\\%m\\%d).log"
+
+  celery_worker:
+    build: 
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./rusha_django_project:/code
+    working_dir: /code
+    command: bash -c "celery -A rusha_django.celery worker --loglevel=INFO --logfile=celery_$(date +\\%Y\\%m\\%d).log"
+
 
   
 

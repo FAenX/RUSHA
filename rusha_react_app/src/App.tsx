@@ -1,7 +1,6 @@
 import React from 'react';
 // import logo from './logo.svg';
 import './App.css';
-import ThemeProvider from 'react-bootstrap/ThemeProvider';
 import Home from './home/component';
 import Applications from './applications';
 import CreateProject from './create-project';
@@ -9,12 +8,38 @@ import Deploy from './deploy';
 import { Deployment } from './deploy';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import sideNavigationLinks from './navigation/navigation-links';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import { createTheme, ThemeProvider } from '@mui/material';
+
+
+const theme = createTheme({
+  components: {
+    MuiTypography: {
+      defaultProps: {
+        variantMapping: {
+          h1: 'h2',
+          h2: 'h2',
+          h3: 'h2',
+          h4: 'h2',
+          h5: 'h2',
+          h6: 'h2',
+          subtitle1: 'h2',
+          subtitle2: 'h2',
+          body1: 'span',
+          body2: 'span',
+        },
+      },
+    },
+  },
+});
 
 function App() {
   return (
     <ThemeProvider
-      breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
-      minBreakpoint="xxs"  
+     theme={theme}
     >
       <BrowserRouter>
         <Routes>

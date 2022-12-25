@@ -4,7 +4,7 @@ import {CreateProjectResponseInterface} from '../types'
 
 const SuccessFulDeploymentComponent = (props?: CreateProjectResponseInterface) => {
     // projectInfo state
-    const [projectInfo, setProjectInfo] = React.useState<CreateProjectResponseInterface>({});
+    const [projectInfo, setProjectInfo] = React.useState<CreateProjectResponseInterface>();
 
     useEffect(() => {
         console.log(props);
@@ -16,7 +16,7 @@ const SuccessFulDeploymentComponent = (props?: CreateProjectResponseInterface) =
         <div className="content border d-flex flex-column p-2">           
             <p className="h4">{projectInfo?.application_name}</p>
             <p className="text-muted">Git repo: {projectInfo?.local_git_repo}</p>
-            <p className="text-muted">Created date: {projectInfo?.requestedAt}</p>           
+            {/* <p className="text-muted">Created date: {projectInfo?.date_created}</p>            */}
         </div>
     );
 }

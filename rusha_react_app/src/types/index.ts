@@ -1,4 +1,4 @@
-import CreateProjectResponseInterface from './create-project-response-type';
+import {CreateProjectResponseInterface} from './create-project-response-type';
 
 export  { 
     type CreateProjectResponseInterface
