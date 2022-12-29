@@ -6,8 +6,8 @@ import yaml
 import logging
 
 
-from .helpers.post_receive_templates import replace_template
-from .helpers.application import Application
+from .post_receive_templates import replace_template
+from .application import Application
 
 from rushiwa_applications_api.models import Application as ApplicationModel
 

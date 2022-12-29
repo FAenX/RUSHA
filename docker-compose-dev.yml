@@ -20,7 +20,6 @@ services:
     command: bash -c "
         python manage.py makemigrations &&
         python manage.py migrate &&
-        ansible-playbook -i ../ansible/hosts.ini ../ansible/dev_playbook.yml &&
         python manage.py runserver 0.0.0.0:8000" 
     depends_on:
       - postgresdb
@@ -96,15 +95,17 @@ services:
     volumes:
       - ./rusha_django_project:/code
     working_dir: /code
-    command: bash -c "celery -A rusha_django.nginx_restart beat --loglevel=INFO --logfile=celery_beat_$(date +\\%Y\\%m\\%d).log"
+    command: bash -c "celery -A celery_tasks.celery_worker beat --loglevel=INFO --logfile=celery_beat_$(date +\\%Y\\%m\\%d).log"
 
   celery_worker:
     build: 
       dockerfile: ./Dockerfile
     volumes:
       - ./rusha_django_project:/code
+      - ./nginx:/nginx
+      - ./git:/git
     working_dir: /code
-    command: bash -c "celery -A rusha_django.celery worker --loglevel=INFO --logfile=celery_$(date +\\%Y\\%m\\%d).log"
+    command: bash -c "celery -A celery_tasks.celery_worker worker --loglevel=INFO --logfile=celery_$(date +\\%Y\\%m\\%d).log"
 
 
   

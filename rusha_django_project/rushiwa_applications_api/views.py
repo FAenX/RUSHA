@@ -13,7 +13,7 @@ from .helpers.generate_application_path import generate_application_path
 from .helpers.generate_application_port import generate_application_port
 from .helpers.generate_domain_name import generate_domain_name
 from .helpers.get_host_name import get_hostname
-from .tasks import create_git_repo_task
+from celery_tasks.celery_worker import create_git_repo_task
 
 # Create your views here.
 @csrf_exempt
@@ -61,6 +61,7 @@ def deploy_application(request):
 
         if app_serializer.is_valid():
             a =  create_git_repo_task.delay(**app_serializer.validated_data)
+            pass
            
         else:
             return JsonResponse(app_serializer.errors, status=400)

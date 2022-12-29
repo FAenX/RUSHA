@@ -7,5 +7,5 @@ docker run --rm \
 --entrypoint /bin/bash \
 --network host \
 celery_task -c "\
-      cd rusha_django_project && celery -A rusha_django.nginx_restart_task beat --loglevel=INFO  \
+      cd rusha_django_project && celery -A celery_tasks.celery_beat beat --loglevel=INFO  \
    ";

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
      'rest_framework',
      'rushiwa_applications_api',
      'corsheaders',
+     'celery_tasks',
     #  'cron_jobs',
     #  'django_celery_results',
 ]
