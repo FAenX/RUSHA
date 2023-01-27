@@ -89,14 +89,6 @@ services:
     volumes:
       - ./redis:/data
 
-  celery_beat:
-    build: 
-      dockerfile: ./Dockerfile
-    volumes:
-      - ./rusha_django_project:/code
-    working_dir: /code
-    command: bash -c "celery -A celery_tasks.celery_worker beat --loglevel=INFO --logfile=celery_beat_$(date +\\%Y\\%m\\%d).log"
-
   celery_worker:
     build: 
       dockerfile: ./Dockerfile
@@ -105,7 +97,7 @@ services:
       - ./nginx:/nginx
       - ./git:/git
     working_dir: /code
-    command: bash -c "celery -A celery_tasks.celery_worker worker --loglevel=INFO --logfile=celery_$(date +\\%Y\\%m\\%d).log"
+    command: bash -c "celery -A celery_tasks.celery_worker worker --loglevel INFO"
 
 
   

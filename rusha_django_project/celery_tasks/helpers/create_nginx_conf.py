@@ -29,7 +29,7 @@ class NginxConf:
 
             # queue nginx restart if not already queued
             redis_connection = get_redis_connection("default")
-            redis_connection.set('nginx_restart', 1 )
+            redis_connection.set('nginx_restart_queue', 1 )
 
             return 0
         except Exception as e:
