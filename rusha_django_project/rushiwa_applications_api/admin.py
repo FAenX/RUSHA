@@ -1,8 +1,7 @@
 from django.contrib import admin
 
-from .models import Application, NginxConfCreateQueue
+from .models import Application
 
 admin.site.register(Application)
-admin.site.register(NginxConfCreateQueue)
 
 # Register your models here.

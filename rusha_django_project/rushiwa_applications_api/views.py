@@ -7,8 +7,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from rest_framework import generics
 
-from .models import Application, NginxConfCreateQueue
-from .serializers import ApplicationSerializer, NginxConfCreateQueueSerializer
+from .models import Application
+from .serializers import ApplicationSerializer
 from .helpers.generate_application_path import generate_application_path
 from .helpers.generate_application_port import generate_application_port
 from .helpers.generate_domain_name import generate_domain_name
@@ -65,14 +65,6 @@ def deploy_application(request):
            
         else:
             return JsonResponse(app_serializer.errors, status=400)
-
-        #  insert into NginxConfCreateQueue
-        # application = Application.objects.get(pk=a.pk)
-        # application = ApplicationSerializer(application).data
-
-        # print(application)
-
-        # create_git_repo_task.delay(**application)
 
         return JsonResponse(app_serializer.data, status=201)
     

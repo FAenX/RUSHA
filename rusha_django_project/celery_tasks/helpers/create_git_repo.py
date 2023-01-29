@@ -8,7 +8,7 @@ import logging
 
 from .git.templates import react_post_receive_template
 from .application import Application
-from .git.application_types import static_files, api
+from .enums.application_types import static_files, api
 
 from rushiwa_applications_api.models import Application as ApplicationModel
 
@@ -25,9 +25,9 @@ class GitRepo:
         try:            
             application = Application(application)
 
-            if application.framework in static_files:
+            if application.framework.lower() == "react":
                 post_receive_template = react_post_receive_template
-            elif application.framework in api:
+            else:
                 pass
 
             

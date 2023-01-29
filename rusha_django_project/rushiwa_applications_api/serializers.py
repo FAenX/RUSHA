@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Application, NginxConfCreateQueue
+from .models import Application
 
 
 class ApplicationSerializer(serializers.ModelSerializer):
@@ -8,10 +8,6 @@ class ApplicationSerializer(serializers.ModelSerializer):
         model = Application
         fields = '__all__'
 
-class NginxConfCreateQueueSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = NginxConfCreateQueue
-        fields = '__all__'
 
 
 
