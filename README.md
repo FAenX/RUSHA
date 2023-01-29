@@ -11,6 +11,8 @@
 7. Git
 8. Bash
 9. Ansible
+10. Docker compose
+11. OpenSSH
 
 Install Docker and docker compose then run the following command
 
