@@ -13,7 +13,9 @@ from .helpers.generate_application_path import generate_application_path
 from .helpers.generate_application_port import generate_application_port
 from .helpers.generate_domain_name import generate_domain_name
 from .helpers.get_host_name import get_hostname
-from celery_tasks.celery_worker import create_git_repo_task
+from celery_tasks.celery_worker import create_git_repo_task, cache_project_page_visits
+from .decorators.validate_home_page_cache_data import validate_home_page_cache_data
+from django_redis import get_redis_connection
 
 # Create your views here.
 @csrf_exempt
@@ -77,4 +79,24 @@ def deploy_application(request):
    
 
     # if request.method == 'POST':
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+@validate_home_page_cache_data
+def user(request):
+    data = json.loads(request.body)
+    print(data["payload"])
+    cache_project_page_visits.delay(**data["payload"])
+   
+    return HttpResponse(status=200)
+
+@csrf_exempt
+@require_http_methods(["GET"])
+def get_home_page_cache(request):
+    print (request)
+    redis_connection = get_redis_connection("default")
+    key = f"{request.GET.get('userId')}_home_page_cache_data"
+    cache_data = redis_connection.get(key)
+    return HttpResponse(cache_data, status=200)
    

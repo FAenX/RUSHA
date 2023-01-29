@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {applicationList} from '../data';
+import {applicationList} from '../backend_requests';
 import {CreateProjectResponseInterface} from '../types'
 import Button from 'react-bootstrap/Button';
 import { DismissibleAlert } from "../common-components";

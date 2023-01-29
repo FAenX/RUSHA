@@ -92,13 +92,6 @@ CACHES = {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
-    "celery_beat": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://localhost:6379",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
 }
 
 # CELERY WORKER
@@ -109,13 +102,6 @@ CELERY_WORKER_TASK_SERIALIZER = "json"
 CELERY_WORKER_TASK_TRACK_STARTED = True
 CELERY_WORKER_CACHE_BACKEND = 'default'
 
-# CELERY BEAT SCHEDULER
-CELERY_BEAT_BROKER_URL = "redis://localhost:6379"
-CELERY_BEAT_RESULT_BACKEND = CELERY_BEAT_BROKER_URL
-CELERY_BEAT_ACCEPT_CONTENT = ["json"]
-CELERY_BEAT_TASK_SERIALIZER = "json"
-CELERY_BEAT_TASK_TRACK_STARTED = True
-CELERY_BEAT_CACHE_BACKEND = 'celery_beat'
 
 
 DATABASES = {

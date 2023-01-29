@@ -2,7 +2,7 @@ import React from "react";
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import {deploy} from '../data';
+import {deploy} from '../backend_requests';
 import {SuccessfulDeployment} from "./successful-deployment";
 import {CreateProjectResponseInterface} from '../types'
 import { DismissibleAlert } from "../common-components";

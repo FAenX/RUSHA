@@ -1,3 +1,5 @@
+
+
 static_files = [
     "react",
     'angular'

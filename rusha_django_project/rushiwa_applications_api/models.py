@@ -4,6 +4,16 @@ import uuid
 import django
 from django.db import models
 
+class Project(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    project_name = models.CharField(max_length=200, unique=True)
+    description = models.CharField(max_length=200, null=True)
+    date_created = models.DateTimeField(default=datetime.datetime.now)
+   
+    
+    def __str__(self):
+        return self.project_name
+
 
 # Create your models here.
 class Application(models.Model):
@@ -22,6 +32,8 @@ class Application(models.Model):
     
     def __str__(self):
         return self.application_name
+
+
     
 
 
