@@ -38,26 +38,8 @@ server {{
             
             # create /etc/nginx/sites-available/application_name.conf
             with open(f'../nginx/nginx.conf.d/auto-{self.application_name}.conf', 'w') as f:
-                f.write(template)  
-
-            html_template = f'''
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>{self.application_name}</title>
-    </head>
-    <body>
-        <h1>{self.application_name}</h1>
-    </body>
-</html>                
-'''
-            # create placeholder html file
-            # mkdir -p ../static/{self.application_name}
-            if not os.path.exists(f'../static/{self.application_name}'):
-                os.makedirs(f'../static/{self.application_name}')
-                with open(f'../static/{self.application_name}/index.html', 'w') as f:
-                    f.write(html_template)  
-
+                f.write(template)
+           
         except Exception as e:
             logging.getLogger().setLevel(logging.ERROR)
             logging.getLogger().error(e)

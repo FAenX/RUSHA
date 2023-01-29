@@ -11,6 +11,5 @@ RUN poetry config virtualenvs.in-project false
 RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
 RUN pip install -r requirements.txt
 
-ENTRYPOINT [ "/bin/bash" ]
 
  

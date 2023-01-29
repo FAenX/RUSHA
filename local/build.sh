@@ -1,23 +1,15 @@
-#!/bin/bash
-# docker build . -t python-poetry-build
-
-# docker run --rm --workdir /github/workspace --user root -v "${PWD}":/github/workspace --entrypoint /bin/bash python-poetry-build -c "\
-#     pip install poetry --cache-dir=.pip; \
-#     poetry export -f requirements.txt  -o requirements.txt --without-hashes; \
-#     pip install -t dist/src -r requirements.txt --cache-dir=.pip ; \
-#     cp -rv --exclude=dist ./* dist/src/; \
-#     rm requirements.txt;"
-
-
-docker run --rm -v "${PWD}":/github/workspace \
---workdir /github/workspace \
+#! /bin/bash
+docker run --rm \
+--volume rusha:/usr \
+--workdir /usr/src \
 --entrypoint /bin/bash \
---volume "${PWD}:/github/workspace" \
---workdir /github/workspace \
+--volume "${PWD}/rusha_django_project:/usr/src" \
+--volume "${PWD}/dist/:/usr/src/dist" \
+--volume "${PWD}/cron_jobs:/usr/src/cron_jobs" \
 python:3.9 -c "\
-    cd rusha_django_project; \
-    ls -la; \
-    pip install poetry; \
-    poetry add psycopg2; \
-    # poetry update -vvv; \   
+    pip install poetry; \  
+    poetry export -f requirements.txt  -o requirements.txt --without-hashes; \
+    pip install -t dist/src -r requirements.txt --cache-dir=.pip ; \
+    cp -r cron_jobs/* dist/src/; \
+    rm requirements.txt;
    "

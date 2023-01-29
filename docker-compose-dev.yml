@@ -1,103 +1,121 @@
 version: '3.9'
 services:
-  rushiwa_django:
-    build: 
-      dockerfile: ./Dockerfile
-    volumes:
-      - ./rusha_django_project:/code
-      - ./applications:/applications
-      - ./tmp:/tmp
-      - ./git:/git
-      - ./nginx:/nginx
-      - ./static:/static
-      - ./ansible:/ansible
-    working_dir: /code
-    ports:
-      - 8000:8000   
-    environment:
-      - RUSHA_HOME=/code
-    restart: always
-    command: bash -c "
-        python manage.py makemigrations &&
-        python manage.py migrate &&
-        python manage.py runserver 0.0.0.0:8000" 
-    depends_on:
-      - postgresdb
-      - rusha_nginx
-      - redis
+  # rushiwa_django:
+  #   build: 
+  #     dockerfile: ./Dockerfile
+  #   volumes:
+  #     - ./rusha_django_project:/code
+  #     - ./applications:/applications
+  #     - ./tmp:/tmp
+  #     - ./git:/git
+  #     - ./nginx:/nginx
+  #     - ./static:/static
+  #     - ./ansible:/ansible
+  #   working_dir: /code
+  #   ports:
+  #     - 8000:8000   
+  #   environment:
+  #     - RUSHA_HOME=/code
+  #   restart: always
+  #   command: bash -c "
+  #       python manage.py makemigrations &&
+  #       python manage.py migrate &&
+  #       python manage.py runserver 0.0.0.0:8000" 
+  #   depends_on:
+  #     - postgresdb
+  #     - rusha_nginx
+  #     - redis
 
-  postgresdb:
-    image: postgres:latest
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: 123456
-      POSTGRES_USER: postgres
-    ports:
-      - 5432:5432
-    volumes:
-      - postgres:/var/lib/postgresql/data
-      - ./postgres/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+  # postgresdb:
+  #   image: postgres:latest
+  #   restart: always
+  #   environment:
+  #     POSTGRES_PASSWORD: 123456
+  #     POSTGRES_USER: postgres
+  #   ports:
+  #     - 5432:5432
+  #   volumes:
+  #     - postgres:/var/lib/postgresql/data
+  #     - ./postgres/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
 
-  pgAdmin:
-    image: dpage/pgadmin4:latest
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: 'test@test.com'
-      PGADMIN_DEFAULT_PASSWORD: '123456'
-    ports:
-      - 5050:80
-    depends_on:
-      - postgresdb
-    volumes:
-      - pgAdmin:/var/lib/pgadmin
+  # pgAdmin:
+  #   image: dpage/pgadmin4:latest
+  #   restart: always
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: 'test@test.com'
+  #     PGADMIN_DEFAULT_PASSWORD: '123456'
+  #   ports:
+  #     - 5050:80
+  #   depends_on:
+  #     - postgresdb
+  #   volumes:
+  #     - pgAdmin:/var/lib/pgadmin
     
     
 
-  rusha_nginx:
-    image: nginx:latest
-    container_name: rusha_nginx
-    ports:
-      - 80:80
-    expose: 
-      - 80
-    volumes:
-      - ./static:/usr/share/nginx/htm
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/nginx.conf.d:/etc/nginx/conf.d  
-  rusha_ui: 
-    image: node:16
-    container_name: rusha_ui
-    ports: 
-      - 3000:3000
-    volumes: 
-      - ./rusha_react_app/:/src
-    working_dir: /src
+  # rusha_nginx:
+  #   image: nginx:latest
+  #   container_name: rusha_nginx
+  #   ports:
+  #     - 80:80
+  #   expose: 
+  #     - 80
+  #   volumes:
+  #     - ./static:/usr/share/nginx/html
+  #     - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+  #     - ./nginx/nginx.conf.d:/etc/nginx/conf.d  
+  # rusha_ui: 
+  #   image: node:16
+  #   container_name: rusha_ui
+  #   ports: 
+  #     - 3000:3000
+  #   volumes: 
+  #     - ./rusha_react_app/:/src
+  #   working_dir: /src
     
-    depends_on:
-      - rushiwa_django
-      - postgresdb
-      - rusha_nginx
-      - redis
-    command: bash -c "npm install && npm start"
+  #   depends_on:
+  #     - rushiwa_django
+  #     - postgresdb
+  #     - rusha_nginx
+  #     - redis
+  #   command: bash -c "npm install && npm start"
 
-  redis:
-    image: redis:latest
-    container_name: redis
-    restart: always
+  # redis:
+  #   image: redis:latest
+  #   container_name: redis
+  #   restart: always
+  #   ports:
+  #     - 6379:6379
+  #   volumes:
+  #     - ./redis:/data
+
+  # celery_worker:
+  #   build: 
+  #     dockerfile: ./Dockerfile
+  #   volumes:
+  #     - ./rusha_django_project:/code
+  #     - ./nginx:/nginx
+  #     - ./git:/git
+  #     - ./static:/static
+  #   working_dir: /code
+  #   command: bash -c "celery -A celery_tasks.celery_worker worker --loglevel INFO"
+
+  git_server:
+    image: lscr.io/linuxserver/openssh-server:latest
+    container_name: openssh-server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - USER_NAME=git
+    volumes:
+      - ./git:/srv/git
+    working_dir: /srv/git
     ports:
-      - 6379:6379
-    volumes:
-      - ./redis:/data
-
-  celery_worker:
-    build: 
-      dockerfile: ./Dockerfile
-    volumes:
-      - ./rusha_django_project:/code
-      - ./nginx:/nginx
-      - ./git:/git
-    working_dir: /code
-    command: bash -c "celery -A celery_tasks.celery_worker worker --loglevel INFO"
+      - 22:2222
+    restart: unless-stopped
+    
+    
 
 
   
@@ -110,6 +128,7 @@ volumes:
   rusha_ui:
   applications:
   git:
+  shh_service:
 
 
  

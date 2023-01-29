@@ -1,5 +1,23 @@
-- hosts: docker
+- hosts: local
   vars:
     ansible_connection: local
-    path: "{{ lookup('env', 'RUSHA_HOME')}}"
-  tasks:        
+    path: "/Users/emmanueldavidson/Documents/projects/PRIVATE/RUSHA"
+  tasks:  
+    - name: Build python cron job task
+      shell: "\
+        cd {{path}}; \
+        poetry export -f requirements.txt  -o requirements.txt --without-hashes; \
+        pip install -t dist/src -r requirements.txt --cache-dir=.pip ; \
+        cp -r cron_jobs/* dist/src/; \
+        rm requirements.txt;
+      "
+    - name: Make python script executable
+      shell: "chmod +x {{path}}/dist/src/restart_nginx_periodicaly.py"
+        
+    - name: Create nginx restart crontab entry
+      cron:
+        name: "restart nginx"
+        minute: "*/1"
+        job: "{{path}}/dist/src/restart_nginx_periodicaly.py >> {{path}}/log_restart_nginx_$(date +\\%Y\\%m\\%d).log 2>&1" 
+
+ 

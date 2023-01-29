@@ -8,6 +8,8 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 ansible = "^7.1.0"
+redis = "^4.4.2"
+celery = "^5.2.7"
 
 
 [build-system]

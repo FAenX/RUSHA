@@ -23,6 +23,7 @@ print (app)
 
 app.config_from_object('django.conf:settings', namespace='CELERY_WORKER')
 
+
 @app.task(bind=True)
 def create_git_repo_task(*args, **application):
     application = save_application_to_db(**application)

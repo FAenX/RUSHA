@@ -1,5 +1,12 @@
 hosts.ini
 
+.pip
+dist
+ssh
+
+log*
+
+celerybeat-schedule
 mssql
 logs/*
 git
