@@ -4,7 +4,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import {ProjectCacheInterface} from "../../types/create-project-response-type";
-import { Avatar, Stack } from '@mui/material';
+import { Avatar, Link, Stack } from '@mui/material';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -36,15 +36,16 @@ function Child(props: {application: any}){
     return (
         <Stack direction={"row"} spacing={3} alignContent="center" className='border'>
             <Stack justifyContent={""} sx={{padding:2}}>
-                <Avatar sx={{ bgcolor: "black" }} variant="square">
+                <Avatar sx={{ bgcolor: "black", width: 70, height: 70 }} variant="square" >
                     {props.application.application_name[0]}
                 </Avatar>
             </Stack>
             <Stack>
                 <Typography>{props.application.application_name}</Typography>
-                <Typography>{props.application.domain_name}</Typography>
-                <Typography>{props.application.domain_name}</Typography>
-                <Typography>{props.application.domain_name}</Typography>
+                <Link href={`http://${props.application.domain_name}`}><Typography>{props.application.domain_name}</Typography></Link>
+                <Typography>{props.application.tag}</Typography>
+                <Typography>{props.application.framework}</Typography>
+                <Typography>{props.application.local_git_repo}</Typography>
             </Stack>
         </Stack>
     )

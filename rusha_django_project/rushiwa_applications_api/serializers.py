@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Application
+from .models import Application, Project
 
 
 class ApplicationSerializer(serializers.ModelSerializer):
@@ -9,6 +9,9 @@ class ApplicationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
+class ProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = '__all__'
 
 

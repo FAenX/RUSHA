@@ -9,6 +9,7 @@ class Project(models.Model):
     project_name = models.CharField(max_length=200, unique=True)
     description = models.CharField(max_length=200, null=True)
     date_created = models.DateTimeField(default=datetime.datetime.now)
+    tag = models.CharField(max_length=200, null=True)
    
     
     def __str__(self):

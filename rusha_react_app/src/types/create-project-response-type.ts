@@ -19,14 +19,18 @@ export interface ProjectCacheInterface {
     user_id?: string;
     project: {
         project_name: string;
-        project_id: string;
+        id: string;
         description: string;
         tag: string[];
         applications: Array<{
             application_name: string;
-            application_id: string;
-            application_description: string;
-            application_port: string;
+            id: string;
+            framework: string;
+            description: string;
+            domain_name: string;
+            tag: string;
+            local_git_repo: string;
+            
         }>
     }
     
