@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { DismissibleAlert } from "../common-components";
 
 import {format} from "date-fns"
-import { Typography, Stack } from "@mui/material";
+import { Typography, Stack, Link } from "@mui/material";
 
 
 
@@ -74,7 +74,7 @@ const Component = () => {
                                  framework: {application.framework}
                             </Typography>
                             <Typography>
-                                 domain name: {application.domain_name}
+                                domain name: <Link href={`http://${application.domain_name}`}> {application.domain_name} </Link>
                             </Typography>
                                 
                             

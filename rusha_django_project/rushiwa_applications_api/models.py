@@ -18,6 +18,7 @@ class Project(models.Model):
 # Create your models here.
 class Application(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     application_name = models.CharField(max_length=200, unique=True)
     framework = models.CharField(max_length=200)
     local_git_repo = models.CharField(max_length=200, null=True)

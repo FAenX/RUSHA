@@ -15,3 +15,19 @@ export interface CreateProjectResponseInterface {
 
 }
 
+export interface ProjectCacheInterface {
+    user_id?: string;
+    project: {
+        project_name: string;
+        project_id: string;
+        project_description: string;
+        applications: Array<{
+            application_name: string;
+            application_id: string;
+            application_description: string;
+            application_port: string;
+        }>
+    }
+    
+}
+

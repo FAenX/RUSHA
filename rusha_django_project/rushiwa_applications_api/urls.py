@@ -6,5 +6,5 @@ urlpatterns = [
     path('applications/', application_list),
     path('deploy/', deploy_application),
     path('user/', user),
-    path('get_home_page_cache/<int:userId>', get_home_page_cache)
+    path('get-home-page-cache/<userId>/', get_home_page_cache)
 ]

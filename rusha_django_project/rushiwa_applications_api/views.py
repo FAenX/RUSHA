@@ -91,12 +91,12 @@ def user(request):
    
     return HttpResponse(status=200)
 
-@csrf_exempt
 @require_http_methods(["GET"])
-def get_home_page_cache(request):
+def get_home_page_cache(request, **kwargs):
     print (request)
     redis_connection = get_redis_connection("default")
-    key = f"{request.GET.get('userId')}_home_page_cache_data"
-    cache_data = redis_connection.get(key)
+    key = f"{kwargs.get('userId')}_home_page_cache_data"
+    print(key)
+    cache_data  = redis_connection.get(key)
     return HttpResponse(cache_data, status=200)
    

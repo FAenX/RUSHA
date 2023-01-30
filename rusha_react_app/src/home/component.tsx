@@ -1,28 +1,37 @@
 import React, {useEffect, useState} from "react";
 import Layout from "../layout/component";
 
-import { Stack } from "@mui/material";
+import { Avatar, Stack, Typography } from "@mui/material";
 import {Select} from "./components"
 import {cacheHomePage, retrieveHomePageCache} from "../backend_requests/user";
+import {ProjectCacheInterface} from "../types/create-project-response-type";
+import {ProjectTabs} from "./components";
+import { Button } from "react-bootstrap";
+
+
 
 const PlaceHolder = () => {
 
-    const [userId, setUserId] = useState<string>('123');
+    const [project, setProject] = useState<ProjectCacheInterface>();
 
     useEffect(() => {
-       ( async()=>retrieveHomePageCache({
-            path: `get_home_page_cache/${userId}`,
+       ( 
+        async()=> {
+            const data =await retrieveHomePageCache()
+            console.log(data);
+            setProject(data);
+        }
+        
+        )()
 
-        }))()
+        
     }, []);
+
+    console.log(project)
 
     useEffect(() => {
         // call backend to log visit
-        cacheHomePage({payload: {
-            timestamp: new Date().toISOString(),
-            projectId: "123",
-            userId: userId,
-       }}).then((response) => {console.log(response)}).catch((error) => {console.log(error)});
+        // cacheHomePage(project).then((response) => {console.log(response)}).catch((error) => {console.log(error)});
        
        
     }, []);
@@ -42,11 +51,21 @@ const PlaceHolder = () => {
                 <Select />
                 
             </Stack>
-            <Stack className="border" direction={"column"}>
-                Content
+            <Stack className="border" direction={"column"} spacing={3} sx={{padding: 2}}>
+                <Stack  direction={"row"} spacing={3}>
+                    <Stack>
+                        <Avatar sx={{ bgcolor: "black" }} variant="square">
+                            P
+                        </Avatar>
+                    </Stack>
+                    <Stack>
+                        {project && project?.project.project_name }
+                    </Stack>
+                    </Stack>
             </Stack>
-            <Stack className="border" direction={"column"}>
-                Content
+            <Stack className="border" direction={"column"} spacing={3} sx={{padding: 2}}>
+                <ProjectTabs project={project}/>
+                
             </Stack>
           
         </Stack>
