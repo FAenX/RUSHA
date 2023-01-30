@@ -7,6 +7,7 @@ import {cacheHomePage, retrieveHomePageCache} from "../backend_requests/user";
 import {ProjectCacheInterface} from "../types/create-project-response-type";
 import {ProjectTabs} from "./components";
 import { Button } from "react-bootstrap";
+import {FreeSolo} from "./components";
 
 
 
@@ -40,26 +41,26 @@ const PlaceHolder = () => {
         <Stack className="border" direction={"column"} justifyContent="flex-start" sx={{"width": "100%", margin: 2, padding: 2}}>
             {/* project heading */}
             <Stack className="border" direction={"row"} justifyContent={"space-between"} sx={{margin: 5, padding: 2}}>
-                <Stack direction={"row"}>
-                    <Stack className="border" direction={"column"} sx={{margin: 2}}>
-                        Content
-                    </Stack>
-                    <Stack className="border" direction={"column"} sx={{margin: 2}}>
-                        Content
-                    </Stack>
+                <Stack  className=""  >
+                    
+                <FreeSolo />
+       
                 </Stack>
                 <Select />
                 
             </Stack>
             <Stack className="border" direction={"column"} spacing={3} sx={{padding: 2}}>
                 <Stack  direction={"row"} spacing={3}>
-                    <Stack>
-                        <Avatar sx={{ bgcolor: "black" }} variant="square">
+                    <Stack justifyContent={"center"}>
+                        <Avatar sx={{ bgcolor: "black", height: 100, width: 100}} variant="square">
                             P
                         </Avatar>
                     </Stack>
-                    <Stack>
-                        {project && project?.project.project_name }
+                    <Stack justifyContent={"center"}>
+                        <Typography>{project && project?.project.project_name }</Typography>
+                        <Typography>{project && project?.project.tag }</Typography>
+                        <Typography>{project && project?.project.description }</Typography>
+                       
                     </Stack>
                     </Stack>
             </Stack>

@@ -20,7 +20,8 @@ export interface ProjectCacheInterface {
     project: {
         project_name: string;
         project_id: string;
-        project_description: string;
+        description: string;
+        tag: string[];
         applications: Array<{
             application_name: string;
             application_id: string;

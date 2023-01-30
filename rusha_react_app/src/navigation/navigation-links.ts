@@ -6,7 +6,7 @@ interface links {
 
 export default (args?: links)=>({
     home: {title: 'Home', link: '/'},
-    applications: {title: 'applications', link: '/applications'},
+    // applications: {title: 'applications', link: '/applications'},
     createNewProject:{title: 'New project', link: '/project/new'},
     project: {title: `Project ${args?.id}`, link: '/project/:id'},
     projectSettings: {title: 'Project settings', link: '/projects/:id/settings'},
