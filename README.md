@@ -22,7 +22,7 @@ Basically I am trying to build an infrastructure that 'high level' looks like th
 
 Eventually the plan is to replace Docker with k8s.
 
-<iframe src="https://onedrive.live.com/embed?cid=21CE6CAC97F5E4D7&resid=21CE6CAC97F5E4D7%2153605&authkey=AGtudleXTuNJ7lI" width="98" height="120" frameborder="0" scrolling="no"></iframe>)
+<iframe src="https://onedrive.live.com/embed?cid=21CE6CAC97F5E4D7&resid=21CE6CAC97F5E4D7%2153605&authkey=AGtudleXTuNJ7lI" width="98" height="120" frameborder="0" scrolling="no"></iframe>
 
 
 You can create containers using git post-recieve by pushing to a git bare repo in the server.
