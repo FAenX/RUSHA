@@ -22,7 +22,7 @@ Basically I am trying to build an infrastructure that 'high level' looks like th
 
 Eventually the plan is to replace Docker with k8s.
 
-![high level](https://am3pap003files.storage.live.com/y4me37PBHC62LAZ3ec2jcrrzAFyUzkhCTCQRVZ4ZjLzf64Nf9yQHlGy6p1N0eVNWXhAJuqFlH3eZMzrAahmACYEuYqXwVLCdffSolyzt6jJALDOILzU8sAsMZyAV4mjkz-AxvEMl2k4lfS8Tq11bGpW5cRdF8fJbR6x6rCtt4mJJkDMIR-B98mKRgxrAIPSwukD?width=953&height=1526&cropmode=none)
+![high level](https://am3pap003files.storage.live.com/y4mGA5f-6sKiRt1Nja1YgF3wm1B7_n479R8v2s_nN5XSM-gwTvh8w0314CQSq7Jue3iVoyxAuBzOyZ9l_qMOf7pN6TrSnOMxdMtva91CdaowY3PtmtU8GWQQo7jOXTnXu_AQiviciLmJjKfW7yXdDD1QVXAYFVMWkvIxezsm9DuhYZzaLAL5-K_QHXCQKGtZNAY?width=953&height=1526&cropmode=none)
 
 
 You can create containers using git post-recieve by pushing to a git bare repo in the server.
