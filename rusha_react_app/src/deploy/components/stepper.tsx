@@ -71,7 +71,7 @@ export default function VerticalLinearStepper() {
                         
                         } label={
                             <Stack direction={"row"} sx={{width: 200}} spacing={3} alignContent="center" alignItems={"center"}>
-                                <Avatar sx={{width: 50, height: 50, margin:1}}>
+                                <Avatar sx={{width: 30, height: 30, margin:2}} variant="rounded">
                                     {resource.icon}
                                 </Avatar>
                                 {resource.name}
