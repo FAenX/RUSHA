@@ -16,23 +16,32 @@ export interface CreateProjectResponseInterface {
 }
 
 export interface ProjectCacheInterface {
-    user_id?: string;
-    project: {
-        project_name: string;
-        id: string;
-        description: string;
-        tag: string[];
-        applications: Array<{
-            application_name: string;
+        user_id?: string;
+        project: {
+            project_name: string;
             id: string;
-            framework: string;
             description: string;
-            domain_name: string;
-            tag: string;
-            local_git_repo: string;
-            
-        }>
+            tag: string[];
+            applications: Array<{
+                application_name: string;
+                id: string;
+                framework: string;
+                description: string;
+                domain_name: string;
+                tag: string;
+                local_git_repo: string;
+                
+            }>
+        }
     }
-    
+export interface Content{
+        supported_frameworks: Array<{
+            framework_name: string;
+            id: string;
+            description: string;
+            tag: string[];
+        }>
 }
+    
+
 

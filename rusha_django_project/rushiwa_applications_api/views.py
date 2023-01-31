@@ -91,17 +91,33 @@ def user(request):
    
     return HttpResponse(status=200)
 
+
+
+@require_http_methods(["GET"])
+def get_home_page_content_cache(request):
+    redis_connection = get_redis_connection("default")
+    home_page_content_cache = redis_connection.get("home_page_content_cache")
+
+    print(home_page_content_cache)
+
+    if home_page_content_cache:
+        return HttpResponse(home_page_content_cache, status=200)
+    else:
+        return HttpResponse(status=404)
+
+
+
 @require_http_methods(["GET"])
 def get_home_page_cache(request, **kwargs):
-
+    data = request.body
     redis_connection = get_redis_connection("default")
     key = f"af44fd17-a0d4-4de4-b648-d3d3a593f8bb_home_page_cache_data"
-    print(key)
-    cache_data  = redis_connection.get(key)
 
-    print(cache_data)
-    if cache_data:
-        return HttpResponse(cache_data, status=200)
+    project_cache_data  = redis_connection.get(key)
+
+
+    if project_cache_data:
+        return HttpResponse(project_cache_data, status=200)
     else:
         project = Project.objects.get(id="af44fd17-a0d4-4de4-b648-d3d3a593f8bb")
         project = ProjectSerializer(project).data

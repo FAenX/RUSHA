@@ -1,5 +1,5 @@
-import Select from './select';
+import CreateApplication from './createApplication';
 import ProjectTabs from './tabs';
-import FreeSolo from './searchBar';
+import SearchBar from './searchBar';
 
-export { Select, ProjectTabs, FreeSolo };
+export { CreateApplication, ProjectTabs, SearchBar };

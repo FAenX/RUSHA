@@ -44,9 +44,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path={sideNavigationLinks().home.link} element={<Home />} />
-          {/* <Route path={sideNavigationLinks().applications.link} element={<Applications />} /> */}
           <Route path={sideNavigationLinks().createNewProject.link} element={<CreateProject />} />
-          <Route path={sideNavigationLinks().deploy.link} element={<Deploy />} />
           <Route path={sideNavigationLinks().deployment.link} element={<Deployment />} />
         </Routes>
       </BrowserRouter>

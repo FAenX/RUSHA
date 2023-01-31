@@ -2,24 +2,24 @@ import React, {useEffect, useState} from "react";
 import Layout from "../layout/component";
 
 import { Avatar, Stack, Typography } from "@mui/material";
-import {Select} from "./components"
-import {cacheHomePage, retrieveHomePageCache} from "../backend_requests/user";
-import {ProjectCacheInterface} from "../types/create-project-response-type";
+import {CreateApplication} from "./components"
+import {retrieveHomePageCache, retrieveHomePageContentCached} from "../backend_requests";
+import {ProjectCacheInterface, Content} from "../types/create-project-response-type";
 import {ProjectTabs} from "./components";
 import { Button } from "react-bootstrap";
-import {FreeSolo} from "./components";
+import {SearchBar} from "./components";
 
 
 
 const PlaceHolder = () => {
 
     const [project, setProject] = useState<ProjectCacheInterface>();
+    const [content, setContent] = useState<Content>();
 
     useEffect(() => {
        ( 
         async()=> {
             const data =await retrieveHomePageCache()
-            console.log(data);
             setProject(data);
         }
         
@@ -28,13 +28,17 @@ const PlaceHolder = () => {
         
     }, []);
 
-    console.log(project)
-
     useEffect(() => {
-        // call backend to log visit
-        // cacheHomePage(project).then((response) => {console.log(response)}).catch((error) => {console.log(error)});
-       
-       
+        ( 
+            async()=> {
+                const data =await retrieveHomePageContentCached()
+                console.log(data);
+                setContent(data);
+                // setProject(data);
+            }
+            
+        )()
+        // call backend to get content
     }, []);
 
     return (
@@ -43,10 +47,10 @@ const PlaceHolder = () => {
             <Stack className="border" direction={"row"} justifyContent={"space-between"} sx={{margin: 5, padding: 2}}>
                 <Stack  className=""  >
                     
-                <FreeSolo />
+                <SearchBar />
        
                 </Stack>
-                <Select />
+                <CreateApplication content={content}/>
                 
             </Stack>
             <Stack className="border" direction={"column"} spacing={3} sx={{padding: 2}}>

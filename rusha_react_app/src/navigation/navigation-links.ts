@@ -12,6 +12,5 @@ export default (args?: links)=>({
     projectSettings: {title: 'Project settings', link: '/projects/:id/settings'},
     projectSettingsGeneral: {title: `Application settings ${args?.id}`, link: '/applications/:id/settings/general'},
     logout: {title: 'Logout', link: '/logout'},
-    deploy: {title: 'Deploy', link: '/deploy'},
     deployment: {title: 'React deployment', link: '/deploy/:app'},
 });
