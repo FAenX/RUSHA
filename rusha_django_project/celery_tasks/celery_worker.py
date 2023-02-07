@@ -16,6 +16,7 @@ from celery_tasks.create_git_repo import GitRepo
 from celery_tasks.create_nginx_conf import NginxConf
 from .serializers import CacheSerializer
 from django_redis import get_redis_connection
+import subprocess
 
 
 
@@ -41,7 +42,33 @@ def cache_project_page_visits(*args, **cache_data):
     redis_connection = get_redis_connection("default")
     key = f"{cache_data.get('userId')}_home_page_cache_data"
     redis_connection.set(key, json.dumps(cache_data))
+
     
+app.conf.beat_schedule = {
+    "restart_nginx": {
+        "task": "celery_tasks.celery_worker.restart_nginx",
+        "schedule": 15, 
+    }
+}
+
+@app.task
+def restart_nginx(*args, **kwargs):
+    try:
+        print(args, kwargs)
+        redis_connection = get_redis_connection("default")
+        if redis_connection.get('nginx_restart_queue') == b'1':
+            print('nginx restart')
+            subprocess.Popen('docker run -it -v /var/run/docker.sock:/var/run/docker.sock rusha_nginx nginx -s reload', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            print('nginx restarted')
+            redis_connection.set('nginx_restart_queue', 0)
+        else:
+            print('nginx not restarted')
+    except Exception as e:
+        print(e)
+
+
+if __name__ == '__main__':
+    restart_nginx()
 
     
 

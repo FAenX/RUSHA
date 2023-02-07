@@ -99,9 +99,24 @@ services:
       - ./static:/static
       - ./tmp:/tmp
     working_dir: /code
-    command: bash -c "celery -A celery_tasks.celery_worker worker --loglevel INFO"
+    command: bash -c "celery -A celery_tasks.celery_worker worker --loglevel INFO  --logfile=celery_worker_$(date +\\%Y\\%m\\%d).log"
+    depends_on:
+      - postgresdb
+      - redis
 
-  git_server:
+
+  celery_beat:
+    build: 
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./rusha_django_project:/code
+      - /var/run/docker.sock:/var/run/docker.sock
+    working_dir: /code
+    command: bash -c "celery -A celery_tasks.celery_worker beat --loglevel=INFO  --logfile=celery_beat_$(date +\\%Y\\%m\\%d).log"
+    depends_on:
+      - redis
+
+  ssh_server:
     image: lscr.io/linuxserver/openssh-server:latest
     container_name: openssh-server
     environment:

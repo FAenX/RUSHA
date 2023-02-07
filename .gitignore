@@ -6,6 +6,9 @@ ssh
 
 log*
 
+*.log
+celerybeat-schedule
+
 celerybeat-schedule
 mssql
 logs/*
