@@ -7,7 +7,7 @@ import {SuccessfulDeployment} from "./successful-deployment";
 import {CreateProjectResponseInterface} from '../types'
 import { DismissibleAlert } from "../common-components";
 import { Stack, Typography } from "@mui/material";
-import {  VerticalLinearStepper } from "./components";
+import {  CreateApplication, VerticalLinearStepper } from "./components";
 
 
 
@@ -52,7 +52,7 @@ const ReactDeployment = () => {
 
                 </Stack>
                 <Stack direction={"row"} className="border" sx={{padding: 5}}>
-                    <VerticalLinearStepper />
+                    <CreateApplication/>
                 </Stack>
             </Stack>
 

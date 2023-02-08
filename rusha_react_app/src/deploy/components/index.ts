@@ -1,6 +1,7 @@
 import Stepper from './createApplicationFlow';
-import BasicTextFields from './textInput';
 import steps, {Repositories} from './steps';
 import VerticalLinearStepper from './stepper';
+import CreateApplication from './createApplicationFlow';
 
-export { Stepper, BasicTextFields, Repositories, VerticalLinearStepper, steps };
+
+export { Stepper, Repositories, VerticalLinearStepper, steps, CreateApplication };

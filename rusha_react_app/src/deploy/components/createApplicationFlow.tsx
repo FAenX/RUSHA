@@ -8,17 +8,40 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { Avatar, FormControlLabel, Radio, RadioGroup, Stack } from '@mui/material';
-import {BasicTextFields, VerticalLinearStepper} from ".";
+import { VerticalLinearStepper} from ".";
+import { AppData } from '../../types/create-project-response-type';
 
+
+
+const repositories = [
+  {
+      name: "Github",
+      icon: "G"
+  },
+  {
+      name: "GitLab",
+      icon: "G"
+  },
+  {
+      name: "Other",
+      icon: "O"
+  }
+]
 
 
 export default function CreateApplication() {
+
+  const [appData, setAppData] = React.useState<AppData>();
+  const [applicationName, setApplicationName] = React.useState<string>('');
   
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setApplicationName(event.target.value);
+    };
 
   return (
  
       <Stack>
-        <VerticalLinearStepper/>
+        <VerticalLinearStepper onChange={handleChange} repositories={repositories} applicationName={applicationName}/>
       </Stack>
 
   );

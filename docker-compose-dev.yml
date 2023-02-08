@@ -72,6 +72,8 @@ services:
     volumes: 
       - ./rusha_react_app/:/src
     working_dir: /src
+    expose:
+      - 3000
     
     depends_on:
       - rushiwa_django

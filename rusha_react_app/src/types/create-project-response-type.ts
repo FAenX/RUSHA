@@ -51,6 +51,24 @@ export interface Repository{
 export interface SetActiveStepFunction{
     (): void;
 }
-    
+
+export interface AppData{
+    application_name?: string;
+    framework?: string;
+    description?: string;
+    tag?: string;
+}
+
+export interface StepProps {
+    repositories?: Repository[];
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    applicationName?: string;
+    reviewProps?: {
+        applicationName: string;
+        githubRepo: string;
+        url: string;
+      };
+
+}
 
 

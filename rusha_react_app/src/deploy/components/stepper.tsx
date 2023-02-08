@@ -8,26 +8,21 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import {steps} from ".";
+import { AppData, Repository, StepProps } from '../../types/create-project-response-type';
 
 
-const repositories = [
-    {
-        name: "Github",
-        icon: "G"
-    },
-    {
-        name: "GitLab",
-        icon: "G"
-    },
-    {
-        name: "Other",
-        icon: "O"
-    }
-]
 
 
-export default function VerticalLinearStepper() {
+
+export default function VerticalLinearStepper(props : StepProps) {
+    
+
+    const {repositories, applicationName, onChange, reviewProps} = props;
+
+
   const [activeStep, setActiveStep] = React.useState(0);
+
+
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => activeStep==steps.length -1 ? activeStep : prevActiveStep + 1);
@@ -41,8 +36,37 @@ export default function VerticalLinearStepper() {
     setActiveStep(0);
   };
 
+  
+
+
   return (
     <Box sx={{ width: "100%"}}>
+        <Paper square elevation={2} sx={{ p: 1, width: 600 }}>
+            <Box sx={{ mb: 1, margin: 1 }}>
+                { activeStep!==steps.length -1 && <Button
+                onClick={handleNext}
+                sx={{ mt: 1, mr: 1 }}
+                >
+                Next
+                </Button>}
+
+                { activeStep!==0 && <Button
+                onClick={handleBack}
+                sx={{ mt: 1, mr: 1 }}
+                >
+                Back
+                </Button>}
+            
+        
+                { activeStep==steps.length -1 && <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+                    Reset
+                </Button>}
+
+                { activeStep==steps.length -1 && <Button  sx={{ mt: 1, mr: 1 }}>
+                    Submit
+                </Button>}
+                </Box>
+        </Paper>
       <Stepper activeStep={activeStep} orientation="vertical">
 
         {steps.map((step, index) => (
@@ -57,7 +81,12 @@ export default function VerticalLinearStepper() {
                 </StepLabel>
                 <StepContent >
                     <Typography>
-                        {<step.component repositories={repositories}/>}
+                        {<step.component repositories= {repositories} onChange={onChange} applicationName={applicationName} reviewProps={{
+                            applicationName: applicationName? applicationName : "", 
+                            githubRepo: reviewProps?.githubRepo? reviewProps?.githubRepo : "Repository not generated", 
+                            url: reviewProps?.url? reviewProps?.url : "URL not generated",
+                        }}  
+                        />}
                     </Typography>
                 </StepContent>
             </Step>
@@ -66,28 +95,7 @@ export default function VerticalLinearStepper() {
         ))}
       </Stepper>
      
-        <Paper square elevation={0} sx={{ p: 3 }}>
-            <Box sx={{ mb: 1, margin: 1 }}>
-                <Button
-                onClick={handleNext}
-                sx={{ mt: 1, mr: 1 }}
-                >
-                Next
-                </Button>
-
-                <Button
-                onClick={handleBack}
-                sx={{ mt: 1, mr: 1 }}
-                >
-                Back
-                </Button>
-            
         
-                <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-                    Reset
-                </Button>
-                </Box>
-        </Paper>
       
     </Box>
   );
