@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import {deploy} from '../backend_requests';
 import {useLocation} from 'react-router-dom';
-import ReactDeployment from "./react-deployment";
+import ReactDeployment from "./createApplication";
 import NodeDeployment from "./node-deployment";
 
 

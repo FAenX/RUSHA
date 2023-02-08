@@ -8,7 +8,7 @@ from django.views.decorators.http import require_http_methods
 from rest_framework import generics
 
 from .models import Application, Project
-from .serializers import ApplicationSerializer, ProjectSerializer
+from .serializers import ApplicationSerializer, ProjectSerializer, ApplicationProjectSerializer
 from .helpers.generate_application_path import generate_application_path
 from .helpers.generate_application_port import generate_application_port
 from .helpers.generate_domain_name import generate_domain_name
@@ -16,6 +16,7 @@ from .helpers.get_host_name import get_hostname
 from celery_tasks.celery_worker import create_git_repo_task, cache_project_page_visits
 from .decorators.validate_home_page_cache_data import validate_home_page_cache_data
 from django_redis import get_redis_connection
+from rest_framework import serializers
 
 # Create your views here.
 @csrf_exempt
@@ -44,9 +45,11 @@ def deploy_application(request):
 
         framework = data.get('framework')
         application_name = data.get('applicationName')
+        project_id = data.get('projectId')
         application_dict = {
             'framework': framework,
-            'application_name': application_name
+            'application_name': application_name,
+            'project_id': project_id
         }
 
         application_path = generate_application_path(application_name)
@@ -61,9 +64,14 @@ def deploy_application(request):
 
         app_serializer = ApplicationSerializer(data=application_dict)
 
+        
+        
+
         if app_serializer.is_valid():
-            a =  create_git_repo_task.delay(**app_serializer.validated_data)
-            pass
+
+            project = ApplicationProjectSerializer(app_serializer.validated_data)
+            dump = json.dumps(project.data)
+            create_git_repo_task.delay(dump)
            
         else:
             return JsonResponse(app_serializer.errors, status=400)

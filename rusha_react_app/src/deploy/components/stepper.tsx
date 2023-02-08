@@ -8,33 +8,59 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import {steps} from ".";
-import { AppData, Repository, StepProps } from '../../types/create-project-response-type';
+import { AppData, CreateProjectResponseInterface, Repository, StepProps } from '../../types/create-project-response-type';
+import { deploy } from '../../backend_requests';
 
 
 
 
 
 export default function VerticalLinearStepper(props : StepProps) {
+    const [projectName, setProjectName] = React.useState<string>('project1');
+    const [responseData, setResponseData] = React.useState<CreateProjectResponseInterface>();
+    const [error, setError] = React.useState({error: false, message: ""});
+    const [done, setDone] = React.useState(false);
     
 
     const {repositories, applicationName, onChange, reviewProps} = props;
 
 
-  const [activeStep, setActiveStep] = React.useState(0);
+    const [activeStep, setActiveStep] = React.useState(0);
 
 
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => activeStep==steps.length -1 ? activeStep : prevActiveStep + 1);
-  };
+    const handleNext = () => {
+        setActiveStep((prevActiveStep) => activeStep==steps.length -1 ? activeStep : prevActiveStep + 1);
+    };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => activeStep==0 ? activeStep : prevActiveStep - 1);
-  };
+    const handleBack = () => {
+        setActiveStep((prevActiveStep) => activeStep==0 ? activeStep : prevActiveStep - 1);
+    };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
+    const handleReset = () => {
+        setActiveStep(0);
+    };
+
+    
+
+    const handleSubmit = async () => {
+        console.log(projectName);
+        try{
+            const data = await deploy({payload: {
+                applicationName: applicationName ? applicationName : "",
+                framework: "react",
+                projectId : "af44fd17-a0d4-4de4-b648-d3d3a593f8bb",
+            }});
+            console.log(data);
+            setResponseData(data);
+            setDone(true);
+
+           
+        } catch (error: any) {
+            console.log(error.response.data);
+            setError({error: true, message: `Error: ${JSON.stringify(error.response.data)}`});
+        }
+    }
 
   
 
@@ -62,7 +88,7 @@ export default function VerticalLinearStepper(props : StepProps) {
                     Reset
                 </Button>}
 
-                { activeStep==steps.length -1 && <Button  sx={{ mt: 1, mr: 1 }}>
+                { activeStep==steps.length -1 && <Button onClick={handleSubmit}  sx={{ mt: 1, mr: 1 }}>
                     Submit
                 </Button>}
                 </Box>
