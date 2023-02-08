@@ -53,18 +53,20 @@ app.conf.beat_schedule = {
 
 @app.task
 def restart_nginx(*args, **kwargs):
-    try:
-        print(args, kwargs)
-        redis_connection = get_redis_connection("default")
-        if redis_connection.get('nginx_restart_queue') == b'1':
-            print('nginx restart')
-            subprocess.Popen('docker run -it -v /var/run/docker.sock:/var/run/docker.sock rusha_nginx nginx -s reload', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            print('nginx restarted')
-            redis_connection.set('nginx_restart_queue', 0)
-        else:
-            print('nginx not restarted')
-    except Exception as e:
-        print(e)
+    # print(args, kwargs)
+    redis_connection = get_redis_connection("default")
+    if redis_connection.get('nginx_restart_queue') == b'1':
+        print('nginx restart')
+        
+        subprocess.run(
+            'docker run --rm -v /var/run/docker.sock:/var/run/docker.sock rusha sh -c "docker restart rusha_nginx"', 
+            shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+       
+        redis_connection.set('nginx_restart_queue', 0)
+        
+            
+ 
 
 
 if __name__ == '__main__':

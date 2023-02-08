@@ -98,6 +98,7 @@ services:
       - ./git:/git
       - ./static:/static
       - ./tmp:/tmp
+      - /var/run/docker.sock:/var/run/docker.sock
     working_dir: /code
     command: bash -c "celery -A celery_tasks.celery_worker worker --loglevel INFO  --logfile=celery_worker_$(date +\\%Y\\%m\\%d).log"
     depends_on:
@@ -110,7 +111,6 @@ services:
       dockerfile: ./Dockerfile
     volumes:
       - ./rusha_django_project:/code
-      - /var/run/docker.sock:/var/run/docker.sock
     working_dir: /code
     command: bash -c "celery -A celery_tasks.celery_worker beat --loglevel=INFO  --logfile=celery_beat_$(date +\\%Y\\%m\\%d).log"
     depends_on:
