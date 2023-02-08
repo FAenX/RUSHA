@@ -7,9 +7,10 @@ import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { Avatar, FormControlLabel, Radio, RadioGroup, Stack } from '@mui/material';
+import {steps} from ".";
 
-const resources = [
+
+const repositories = [
     {
         name: "Github",
         icon: "G"
@@ -29,11 +30,11 @@ export default function VerticalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep((prevActiveStep) => activeStep==steps.length -1 ? activeStep : prevActiveStep + 1);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep((prevActiveStep) => activeStep==0 ? activeStep : prevActiveStep - 1);
   };
 
   const handleReset = () => {
@@ -43,109 +44,49 @@ export default function VerticalLinearStepper() {
   return (
     <Box sx={{ width: "100%"}}>
       <Stepper activeStep={activeStep} orientation="vertical">
-        
-          <Step >
-            <StepLabel
-              optional={"select repository"}
-            >
-              <Typography variant={"h6"}>
-                Resources
-                </Typography>
-            </StepLabel>
-            <StepContent sx={{padding: 5}}>
 
+        {steps.map((step, index) => (
 
-              <Stack direction={"row"}> 
-                <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        defaultValue="female"
-                        name="radio-buttons-group"
-                    >
-                        {resources.map((resource) => (
-                        <Button variant="outlined" sx={{margin: 2}}>
-                        
-                        <FormControlLabel value="github" control={
-                            <Stack direction={"row"} alignContent={""} justifyContent={"space-between"} >
-                                <Radio />     
-                            </Stack>
-                        
-                        } label={
-                            <Stack direction={"row"} sx={{width: 200}} spacing={3} alignContent="center" alignItems={"center"}>
-                                <Avatar sx={{width: 30, height: 30, margin:2}} variant="rounded">
-                                    {resource.icon}
-                                </Avatar>
-                                {resource.name}
-                            </Stack>
-                        } />
-                    </Button>
-                        ))}
-                    
-                   
-                </RadioGroup>
-               
-              </Stack>
-              
-              
-              <Box sx={{ mb: 1, margin: 5 }}>
-                
-                  <Button
-                    onClick={handleBack}
-                    sx={{ mt: 1, mr: 1 }}
-                  >
-                    Back
-                  </Button>
-                
-              </Box>
-            </StepContent>
-          </Step>
-
-            <Step>
-            <StepLabel
-                optional={"Project Name"}
-            >
-                <Typography variant={"h6"}>
-                    Environment Variables
-                </Typography>
-            </StepLabel>
-            <StepContent sx={{padding: 5}}>
-                <Typography>
-                    <Stack direction={"row"} spacing={3}>
-                        <Avatar sx={{width: 50, height: 50, margin:1}}>
-                            G
-                        </Avatar>
-                        Github
-                    </Stack>
-                </Typography>
+            <Step key={step.label}>
+                <StepLabel
+                    optional={"select repository"}
+                >
+                    <Typography variant={"h6"}>
+                    {step.label}
+                    </Typography>
+                </StepLabel>
+                <StepContent >
+                    <Typography>
+                        {<step.component repositories={repositories}/>}
+                    </Typography>
                 </StepContent>
             </Step>
 
-            <Step>
-            <StepLabel
-                optional={"Review and create"}
-            >
-                <Typography variant={"h6"}>
-                    Review
-                </Typography>
-            </StepLabel>
-            <StepContent sx={{padding: 5}}>
-                <Typography>
-                    <Stack direction={"row"} spacing={3}>
-                        <Avatar sx={{width: 50, height: 50, margin:1}}>
-                            G
-                        </Avatar>
-                        Github
-                    </Stack>
-                </Typography>
-                </StepContent>
-            </Step>
-        
+
+        ))}
       </Stepper>
      
         <Paper square elevation={0} sx={{ p: 3 }}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-            Reset
-          </Button>
+            <Box sx={{ mb: 1, margin: 1 }}>
+                <Button
+                onClick={handleNext}
+                sx={{ mt: 1, mr: 1 }}
+                >
+                Next
+                </Button>
+
+                <Button
+                onClick={handleBack}
+                sx={{ mt: 1, mr: 1 }}
+                >
+                Back
+                </Button>
+            
+        
+                <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+                    Reset
+                </Button>
+                </Box>
         </Paper>
       
     </Box>

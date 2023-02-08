@@ -42,6 +42,15 @@ export interface Content{
             tag: string[];
         }>
 }
+
+export interface Repository{
+        name: string;
+        icon: string;
+}
+
+export interface SetActiveStepFunction{
+    (): void;
+}
     
 
 
