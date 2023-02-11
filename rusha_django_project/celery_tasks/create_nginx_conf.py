@@ -4,7 +4,7 @@ from .nginx.nginx_static_files_with_proxy_configuration import NginxStaticFilesW
 import logging
 import os
 from .enums.application_types import static_files, api
-from rushiwa_applications_api.models import Application as ApplicationModel
+from rushiwa.models import Application as ApplicationModel
 import redis
 from django_redis import get_redis_connection
 

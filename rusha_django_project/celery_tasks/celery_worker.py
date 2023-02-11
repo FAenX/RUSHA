@@ -29,10 +29,15 @@ app.config_from_object('django.conf:settings', namespace='CELERY_WORKER')
 
 
 @app.task(bind=True)
-def create_git_repo_task(*args, **application):
-    application = save_application_to_db(**application)
-    GitRepo().create_git_repo(**application)
-    NginxConf().create_nginx_conf(**application)
+def create_application_task(*args, **application):
+    print (application)
+    print (args)
+    application = save_application_to_db(application)
+    GitRepo().create_git_repo(application)
+    NginxConf().create_nginx_conf(application)
+
+
+
 
 @app.task(bind=True)
 def cache_project_page_visits(*args, **cache_data):

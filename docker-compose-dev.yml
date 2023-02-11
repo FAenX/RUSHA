@@ -17,10 +17,7 @@ services:
     environment:
       - RUSHA_HOME=/code
     restart: always
-    command: bash -c "
-        python manage.py makemigrations &&
-        python manage.py migrate &&
-        python manage.py runserver 0.0.0.0:8000" 
+    command: bash -c "python manage.py runserver 0.0.0.0:8000" 
     depends_on:
       - postgresdb
       - rusha_nginx
@@ -72,8 +69,6 @@ services:
     volumes: 
       - ./rusha_react_app/:/src
     working_dir: /src
-    expose:
-      - 3000
     
     depends_on:
       - rushiwa_django
@@ -102,7 +97,7 @@ services:
       - ./tmp:/tmp
       - /var/run/docker.sock:/var/run/docker.sock
     working_dir: /code
-    command: bash -c "celery -A celery_tasks.celery_worker worker --loglevel INFO  --logfile=celery_worker_$(date +\\%Y\\%m\\%d).log"
+    command: bash -c "celery -A celery_tasks.celery_worker worker --loglevel INFO"
     depends_on:
       - postgresdb
       - redis
@@ -114,7 +109,7 @@ services:
     volumes:
       - ./rusha_django_project:/code
     working_dir: /code
-    command: bash -c "celery -A celery_tasks.celery_worker beat --loglevel=INFO  --logfile=celery_beat_$(date +\\%Y\\%m\\%d).log"
+    command: bash -c "celery -A celery_tasks.celery_worker beat --loglevel=INFO"
     depends_on:
       - redis
 
