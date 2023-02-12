@@ -5,6 +5,7 @@ interface APIBaseURLS {
     UserHomePageCacheApi: string;
     applicationsApi: string;
     default: string;
+    contentCache: string;
 }
 
 interface API {
@@ -16,6 +17,7 @@ const apiBaseUrls: APIBaseURLS  = {
     UserHomePageCacheApi: 'http://localhost:8000/user_cache_api/v1',
     applicationsApi: 'http://localhost:8000/applications_api/v1',
     default: 'http://localhost:8000/user_cache_api/v1',
+    contentCache: 'http://localhost:8000/content_api/v1',
 }
 
 const config = {
@@ -53,7 +55,7 @@ function errorHandler(error: any): object {
 class API {
 
     callAPI = async (
-        api: 'applicationsApi' | "UserHomePageCacheApi" | "default", 
+        api: 'applicationsApi' | "UserHomePageCacheApi" | "default" | "contentCache", 
         endpoint: string,
         method: 'get' | 'post' | 'put' | 'delete',
         data?: object

@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import {API} from '../backend_requests';
 import {useLocation} from 'react-router-dom';
-import ReactDeployment from "./createApplication";
+import CreateApplication from "./createApplication";
 import NodeDeployment from "./node-deployment";
 
 
@@ -17,13 +17,13 @@ const Component = () => {
     const location = useLocation();
 
     // state to store child component
-    const [child, setChild] = React.useState(<ReactDeployment/>);
+    const [child, setChild] = React.useState(<CreateApplication/>);
 
     // useEffect to update child component
     useEffect(() => {
         console.log(location);
-        if (location.pathname === "/deploy/react") {
-            setChild(<ReactDeployment/>);
+        if (location.pathname === "/create-application") {
+            setChild(<CreateApplication/>);
         } else if (location.pathname === "/deploy/node-express") {
             // setChild(<NodeDeployment/>);
         }else {

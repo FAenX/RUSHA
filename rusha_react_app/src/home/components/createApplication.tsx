@@ -32,29 +32,9 @@ export default function CreateApplication(Props: {content?: Content}) {
 
   return (
     <Stack sx={{ minWidth: 120 }} className="border">
-        <Button aria-describedby={id} variant="outlined" onClick={handleClick} sx={{}}>
+        <Button aria-describedby={id} variant="outlined" onClick={handleClick} sx={{}} href={'create-application'}>
           Create
         </Button>
-        <Popover
-          id={id}
-          open={open}
-          anchorEl={anchorEl}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          sx={{width: 500, margin: 2}}
-
-        >
-            {content && content.supported_frameworks.map((application) => (
-              <Button href={`deploy/${application.framework_name.toLowerCase()}`} value={application.id}>{application.framework_name}</Button>
-            ))}
-        </Popover>
-    
-          
-          
-
     </Stack>
   );
 }

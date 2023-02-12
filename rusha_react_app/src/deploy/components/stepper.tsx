@@ -8,8 +8,8 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import {steps} from ".";
-import { AppData, CreateProjectResponseInterface, Repository, StepProps } from '../../types/create-project-response-type';
-import { deploy } from '../../backend_requests';
+import { AppData, CreateProjectResponseInterface, StepProps } from '../../types/create-project-response-type';
+import { deploy, createApplicationPageContentCached } from '../../backend_requests';
 
 
 
@@ -20,6 +20,7 @@ export default function VerticalLinearStepper(props : StepProps) {
     const [responseData, setResponseData] = React.useState<CreateProjectResponseInterface>();
     const [error, setError] = React.useState({error: false, message: ""});
     const [done, setDone] = React.useState(false);
+    const [content, setContent] = React.useState<StepProps>();
     
 
     const {repositories, applicationName, onChange, reviewProps} = props;
@@ -40,6 +41,20 @@ export default function VerticalLinearStepper(props : StepProps) {
     const handleReset = () => {
         setActiveStep(0);
     };
+
+    React.useEffect(() => {
+        ( 
+            async()=> {
+                const data =await createApplicationPageContentCached()
+                console.log(data);
+                setContent(data);
+                // setProject(data);
+            }
+            
+        )()
+        // call backend to get content
+    }, []);
+
 
     
 

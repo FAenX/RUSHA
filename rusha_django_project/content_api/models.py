@@ -24,3 +24,16 @@ class NavigationBar(models.Model):
 
     def __str__(self):
         return self.content
+
+class CreateApplicationPageContent(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    date_created = models.DateTimeField(default=datetime.datetime.now)
+    date_updated = models.DateTimeField(default=datetime.datetime.now)
+    is_active = models.BooleanField(default=True)
+    repositories = models.TextField(null=True)
+    frameworks = models.TextField(null=True)
+    repositories_other = models.BooleanField(default=True)
+    
+
+    def __str__(self):
+        return "Create Application Page Content"
