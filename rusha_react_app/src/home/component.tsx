@@ -4,7 +4,7 @@ import Layout from "../layout/component";
 import { Avatar, Stack, Typography } from "@mui/material";
 import {CreateApplication} from "./components"
 import {retrieveHomePageCache} from "../backend_requests";
-import {UserCache, Content} from "../types/create-project-response-type";
+import {UserHomePageCache, Content} from "../types/create-project-response-type";
 import {ApplicationTabs} from "./components";
 import { Button } from "react-bootstrap";
 import {SearchBar} from "./components";
@@ -16,7 +16,7 @@ const userId = "c36f8dcd-39cf-443c-a7f3-319dfc2d835b";
 
 const Home = () => {
 
-    const [applications, setApplications] = useState<UserCache[]>();
+    const [applications, setApplications] = useState<UserHomePageCache[]>();
     const [content, setContent] = useState<Content>();
 
     useEffect(() => {

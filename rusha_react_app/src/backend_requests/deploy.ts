@@ -13,7 +13,7 @@ interface deployArgs {
 const deploy = async (args: deployArgs):Promise<CreateProjectResponseInterface> => {
     const { payload } = args;
     return await new API().callAPI(
-        "userCacheApi",
+        "UserHomePageCacheApi",
         "'deploy/",
         "post",
         payload

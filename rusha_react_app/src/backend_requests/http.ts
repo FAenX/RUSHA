@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 interface APIBaseURLS {
-    userCacheApi: string;
+    UserHomePageCacheApi: string;
     applicationsApi: string;
     default: string;
 }
@@ -13,7 +13,7 @@ interface API {
 }
 
 const apiBaseUrls: APIBaseURLS  = {
-    userCacheApi: 'http://localhost:8000/user_cache_api/v1',
+    UserHomePageCacheApi: 'http://localhost:8000/user_cache_api/v1',
     applicationsApi: 'http://localhost:8000/applications_api/v1',
     default: 'http://localhost:8000/user_cache_api/v1',
 }
@@ -53,7 +53,7 @@ function errorHandler(error: any): object {
 class API {
 
     callAPI = async (
-        api: 'applicationsApi' | "userCacheApi" | "default", 
+        api: 'applicationsApi' | "UserHomePageCacheApi" | "default", 
         endpoint: string,
         method: 'get' | 'post' | 'put' | 'delete',
         data?: object

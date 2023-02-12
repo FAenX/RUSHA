@@ -15,7 +15,7 @@ export interface CreateProjectResponseInterface {
 
 }
 
-export interface UserCache {
+export interface UserHomePageCache {
             application_name: string;
             id: string;
             framework: string;

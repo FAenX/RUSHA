@@ -3,7 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import {UserCache} from "../../types/create-project-response-type";
+import {UserHomePageCache} from "../../types/create-project-response-type";
 import { Avatar, Link, Stack } from '@mui/material';
 
 interface TabPanelProps {
@@ -52,7 +52,7 @@ function Child(props: {application: any}){
 }
 
 
-export default function ApplicationTabs(props: {applications?: UserCache[]}) {
+export default function ApplicationTabs(props: {applications?: UserHomePageCache[]}) {
   const [value, setValue] = React.useState(0);
 
   const {applications} = props;
