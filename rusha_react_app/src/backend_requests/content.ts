@@ -11,7 +11,7 @@ import { API } from '.';
 export const createApplicationPageContentCached = async() => {
     const response = await new API().callAPI(
         "contentCache",
-        "create_application_page_content_cache",
+        "create_application_page_content_cache/",
         "get",
     );
       
