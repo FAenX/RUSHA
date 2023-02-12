@@ -27,9 +27,9 @@ def create_super_user(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('rushiwa-api/v1/', include('rushiwa.urls')),
+    path('applications-api/v1/', include('applications.urls')),
     path('api_users_api/v1/', include('api_users.urls')),
-    # path('projects-api/v1/', include('rusha_projects.urls')),
+    # path('projects-api/v1/', include('projects.urls')),
     path('user_cache_api/v1/', include('user_cache.urls')),
     path('content_api/v1/', include('content_api.urls')),
     path('create_super_user/', create_super_user),

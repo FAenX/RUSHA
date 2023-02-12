@@ -1,13 +1,15 @@
-import {deploy} from './deploy';
+// import {deploy} from './deploy';
 import {applicationList} from './applications';
 import {cacheHomePage, retrieveHomePageCache} from './cache';
-import http from './http';
+import API from './http';
+import {deploy} from './deploy';
 
 
 export { 
     applicationList, 
-    deploy, 
+    // deploy, 
     cacheHomePage, 
     retrieveHomePageCache, 
-    http
+    API,
+    deploy
 };

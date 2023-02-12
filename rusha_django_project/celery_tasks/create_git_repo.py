@@ -10,7 +10,7 @@ from .git.templates import react_post_receive_template
 from .application import Application
 from .enums.application_types import static_files, api
 
-from rushiwa.models import Application as ApplicationModel
+from applications.models import Application as ApplicationModel
 
 
 

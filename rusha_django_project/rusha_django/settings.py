@@ -38,12 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rushiwa',
+    'applications',
     'corsheaders',
     'celery_tasks',
     'user_cache',
     'api_users',
-    'rusha_projects',
+    'projects',
     'content_api',
     #  'cron_jobs',
     #  'django_celery_results',
@@ -60,9 +60,11 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000", "http://rusha_ui:3000"
+# ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'rusha_django.urls'
 

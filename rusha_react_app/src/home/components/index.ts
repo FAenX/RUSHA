@@ -1,5 +1,5 @@
 import CreateApplication from './createApplication';
-import ProjectTabs from './tabs';
+import ApplicationTabs from './tabs';
 import SearchBar from './searchBar';
 
-export { CreateApplication, ProjectTabs, SearchBar };
+export { CreateApplication, ApplicationTabs, SearchBar };

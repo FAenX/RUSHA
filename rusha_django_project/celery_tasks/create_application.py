@@ -1,7 +1,7 @@
 
 
-from rushiwa.serializers import ApplicationSerializer
-from rushiwa.models import Application
+from applications.serializers import ApplicationSerializer
+from applications.models import Application
 
 
 def save_application_to_db(*args, **application):

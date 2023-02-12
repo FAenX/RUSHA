@@ -15,25 +15,17 @@ export interface CreateProjectResponseInterface {
 
 }
 
-export interface ProjectCacheInterface {
-        user_id?: string;
-        project: {
-            project_name: string;
+export interface UserCache {
+            application_name: string;
             id: string;
+            framework: string;
             description: string;
-            tag: string[];
-            applications: Array<{
-                application_name: string;
-                id: string;
-                framework: string;
-                description: string;
-                domain_name: string;
-                tag: string;
-                local_git_repo: string;
-                
-            }>
+            domain_name: string;
+            tag: string;
+            local_git_repo: string;
+            project_name: string;
         }
-    }
+    
 export interface Content{
         supported_frameworks: Array<{
             framework_name: string;

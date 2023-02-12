@@ -14,13 +14,3 @@ class ApplicationSerializer(serializers.ModelSerializer):
         model = Application
         fields = '__all__'
 
-
-class ApplicationProjectSerializer(serializers.ModelSerializer):
-    project_id = ProjectSerializer()
-
-    def get_related_field(self, instance):
-        return instance.project.value
-
-    class Meta:
-        model = Application
-        fields = '__all__'

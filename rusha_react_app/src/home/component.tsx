@@ -4,8 +4,8 @@ import Layout from "../layout/component";
 import { Avatar, Stack, Typography } from "@mui/material";
 import {CreateApplication} from "./components"
 import {retrieveHomePageCache} from "../backend_requests";
-import {ProjectCacheInterface, Content} from "../types/create-project-response-type";
-import {ProjectTabs} from "./components";
+import {UserCache, Content} from "../types/create-project-response-type";
+import {ApplicationTabs} from "./components";
 import { Button } from "react-bootstrap";
 import {SearchBar} from "./components";
 import { retrieveHomePageContentCached } from "../backend_requests/cache";
@@ -16,7 +16,7 @@ const userId = "c36f8dcd-39cf-443c-a7f3-319dfc2d835b";
 
 const Home = () => {
 
-    const [project, setProject] = useState<ProjectCacheInterface>();
+    const [applications, setApplications] = useState<UserCache[]>();
     const [content, setContent] = useState<Content>();
 
     useEffect(() => {
@@ -24,7 +24,7 @@ const Home = () => {
         async()=> {
             const data =await retrieveHomePageCache(userId)
             console.log(data);
-            setProject(data);
+            setApplications(data);
         }
         
         )()
@@ -65,15 +65,15 @@ const Home = () => {
                         </Avatar>
                     </Stack>
                     <Stack justifyContent={"center"}>
-                        <Typography>{project && project?.project.project_name }</Typography>
-                        <Typography>{project && project?.project.tag }</Typography>
-                        <Typography>{project && project?.project.description }</Typography>
+                        <Typography>{applications && applications[0].project_name }</Typography>
+                        <Typography>{applications && applications[0].tag }</Typography>
+                        <Typography>{applications && applications[0].description }</Typography>
                        
                     </Stack>
                     </Stack>
             </Stack>
             <Stack className="border" direction={"column"} spacing={3} sx={{padding: 2}}>
-                <ProjectTabs project={project}/>
+                <ApplicationTabs applications={applications}/>
                 
             </Stack>
           

@@ -1,6 +1,6 @@
 
 import { CreateProjectResponseInterface } from '../types';
-import { http } from '.';
+import { API } from '.';
 
 interface deployArgs {
     payload: {
@@ -12,9 +12,14 @@ interface deployArgs {
 // call deploy backend
 const deploy = async (args: deployArgs):Promise<CreateProjectResponseInterface> => {
     const { payload } = args;
-    const { data } = await http.post(payload, 'deploy/');
-    console.log(data);
-    return data;
+    return await new API().callAPI(
+        "userCacheApi",
+        "'deploy/",
+        "post",
+        payload
+        );
+   
+   
 };
 
 export  {

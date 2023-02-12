@@ -1,23 +1,36 @@
-import { ProjectCacheInterface } from '../types/create-project-response-type';
-import { http } from '.';
+import { UserCache } from '../types/create-project-response-type';
+import { API } from '.';
 
 
 
 // call deploy backend
-const cacheHomePage = async (payload: ProjectCacheInterface, userId: string ):Promise<object> => {  
+const cacheHomePage = async (payload: UserCache, userId: string ):Promise<object> => {  
 
-    return await http.post(payload, `save-cache/${userId}/`);
+    return await new API().callAPI(
+        "userCacheApi",
+        "cache_home_page/",
+        "post",
+        );
 };
 
-const retrieveHomePageCache = async (userId: string):Promise<ProjectCacheInterface> => {
-    const {data} = await http.get(`home-page-cache/${userId}/`);
+const retrieveHomePageCache = async (userId: string):Promise<UserCache[]> => {
+    const {data} = await new API().callAPI(
+        "userCacheApi",
+        `home_page_cache/${userId}/`,
+        "get",
+        );
     return data;
 };
 
-const retrieveHomePageContentCached = async() => {
-    const {data} = await http.get('content-cache/');
-    return data;
-    }
+const retrieveHomePageContentCached = async(): Promise<UserCache>  => {
+   const response = await new API().callAPI(
+    "userCacheApi",
+    "home_page-content_cached/",
+    "get",
+    );
+    console.log(response)
+    return response;
+ }
 
 export  {
     cacheHomePage, 

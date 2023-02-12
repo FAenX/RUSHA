@@ -8,7 +8,7 @@ from django.views.decorators.http import require_http_methods
 from rest_framework import generics
 
 from .models import Application, Project
-from .serializers import ApplicationSerializer, ProjectSerializer, ApplicationProjectSerializer
+from .serializers import ApplicationSerializer
 from .helpers.generate_application_path import generate_application_path
 from .helpers.generate_application_port import generate_application_port
 from .helpers.generate_domain_name import generate_domain_name
@@ -68,7 +68,7 @@ def deploy_application(request):
 
         if app_serializer.is_valid():
 
-            application_data = ApplicationProjectSerializer(app_serializer.validated_data)
+            application_data = ApplicationSerializer(app_serializer.validated_data)
             # dump = json.dumps(project.data)
             create_application_task.delay(application_data.data)
            

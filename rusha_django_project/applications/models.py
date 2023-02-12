@@ -4,7 +4,7 @@ import uuid
 import django
 from django.db import models
 from api_users.models import User
-from rusha_projects.models import Project
+from projects.models import Project
 
 
 

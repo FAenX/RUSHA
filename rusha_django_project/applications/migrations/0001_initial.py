@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('rusha_projects', '0001_initial'),
+        ('projects', '0001_initial'),
     ]
 
     operations = [
@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('domain_name', models.CharField(max_length=200, unique=True)),
                 ('application_path', models.CharField(max_length=200, unique=True)),
                 ('proxy_host_name_and_or_port', models.CharField(default='http://localhost:8080', max_length=200)),
-                ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='rusha_projects.project')),
+                ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='projects.project')),
             ],
         ),
     ]

@@ -1,9 +1,9 @@
 version: '3.9'
 services:
-  rushiwa_django:
+  applications_django:
     build: 
       dockerfile: ./rusha_django_project/Dockerfile
-    container_name: rushiwa_django
+    container_name: applications_django
     volumes:
       - ./rusha_django_project:/code
       - ./applications:/applications
@@ -59,7 +59,7 @@ services:
     working_dir: /src
     
     depends_on:
-      - rushiwa_django
+      - applications_django
       - mssql
       - rusha_nginx
     command: bash -c "npm install && npm start"

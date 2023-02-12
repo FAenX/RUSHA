@@ -3,7 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import {ProjectCacheInterface} from "../../types/create-project-response-type";
+import {UserCache} from "../../types/create-project-response-type";
 import { Avatar, Link, Stack } from '@mui/material';
 
 interface TabPanelProps {
@@ -52,16 +52,16 @@ function Child(props: {application: any}){
 }
 
 
-export default function ProjectTabs(props: {project?: ProjectCacheInterface}) {
+export default function ApplicationTabs(props: {applications?: UserCache[]}) {
   const [value, setValue] = React.useState(0);
 
-  const {project} = props;
+  const {applications} = props;
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  console.log(project)
+  console.log(applications)
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -71,7 +71,7 @@ export default function ProjectTabs(props: {project?: ProjectCacheInterface}) {
         </Tabs>
       </Box>
         {
-            project?.project?.applications.map((application) => {
+            applications && applications.map((application) => {
                 return (
                     <Applications children={<Child application={application}/>} value={value} index={0}  />
                 )

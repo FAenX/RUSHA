@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  rushiwa_django:
+  applications:
     build: 
       dockerfile: ./Dockerfile
     volumes:
@@ -69,9 +69,11 @@ services:
     volumes: 
       - ./rusha_react_app/:/src
     working_dir: /src
+    expose:
+      - 3000
     
     depends_on:
-      - rushiwa_django
+      - applications
       - postgresdb
       - rusha_nginx
       - redis
