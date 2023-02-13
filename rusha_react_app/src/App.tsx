@@ -4,15 +4,15 @@ import './App.css';
 import Home from './home/component';
 import Applications from './applications';
 import CreateProject from './create-project';
-import Deploy from './deploy';
-import { Deployment } from './deploy';
+import Deploy from './createApplication';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import sideNavigationLinks from './navigation/navigation-links';
+import links from './navigation/navigation-links';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { createTheme, ThemeProvider } from '@mui/material';
+import CreateApplication  from './createApplication';
 
 
 const theme = createTheme({
@@ -43,9 +43,9 @@ function App() {
     >
       <BrowserRouter>
         <Routes>
-          <Route path={sideNavigationLinks().home.link} element={<Home />} />
-          <Route path={sideNavigationLinks().createNewProject.link} element={<CreateProject />} />
-          <Route path={sideNavigationLinks().deployment.link} element={<Deployment />} />
+          <Route path={links().home.link} element={<Home />} />
+          <Route path={links().createNewProject.link} element={<CreateProject />} />
+          <Route path={links().deployment.link} element={<CreateApplication />} />
         </Routes>
       </BrowserRouter>
 

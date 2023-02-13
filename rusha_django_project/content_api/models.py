@@ -9,7 +9,7 @@ class HomePageContent(models.Model):
     date_created = models.DateTimeField(default=datetime.datetime.now)
     date_updated = models.DateTimeField(default=datetime.datetime.now)
     is_active = models.BooleanField(default=True)
-    content = models.TextField()
+    content = models.JSONField()
 
     def __str__(self):
         return self.content
@@ -30,8 +30,8 @@ class CreateApplicationPageContent(models.Model):
     date_created = models.DateTimeField(default=datetime.datetime.now)
     date_updated = models.DateTimeField(default=datetime.datetime.now)
     is_active = models.BooleanField(default=True)
-    repositories = models.TextField(null=True)
-    frameworks = models.TextField(null=True)
+    repositories = models.JSONField(null=True)
+    frameworks = models.JSONField(null=True)
     repositories_other = models.BooleanField(default=True)
     
 

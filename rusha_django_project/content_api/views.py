@@ -41,7 +41,7 @@ def create_application_page_content_cache(request):
 
             })
             redis_connection.set("create_applications_page_content_cache", content)
-            return JsonResponse(content, status=200)
+            return HttpResponse(content, status=200)
 
         else:
             return HttpResponse(status=404)
