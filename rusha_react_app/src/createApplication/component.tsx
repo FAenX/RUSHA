@@ -141,7 +141,7 @@ return (
 
 
 
-const CreateApplication = () => {
+const Component = () => {
   const [applicationName, setApplicationName] = React.useState<string>('');
   const [content, setContent] = React.useState<StepProps>();
 
@@ -165,24 +165,22 @@ const CreateApplication = () => {
 
  
   return (
-        <Stack className="border" sx={{width: "100%", margin: 5}}>
-            <Stack sx={{padding: 5}} spacing={2}>
-                <Typography>Back to project</Typography>
-                <Typography>Create App</Typography>
+        <Layout >
+            <Stack className="border" sx={{width: "100%", margin: 5}}>
+                <Stack sx={{padding: 5}} spacing={2}>
+                    <Typography>Back to project</Typography>
+                    <Typography>Create App</Typography>
 
+                </Stack>
+                <Stack className="border" sx={{padding: 5}}>
+                    <VerticalLinearStepper onChange={handleChange} repositories={content?.repositories} applicationName={applicationName}/>
+                </Stack>
             </Stack>
-            <Stack className="border" sx={{padding: 5}}>
-                <VerticalLinearStepper onChange={handleChange} repositories={content?.repositories} applicationName={applicationName}/>
-            </Stack>
-        </Stack>
+        </Layout>
   );
 }
 
-const Component = () => {
-    return (
-        <Layout child={<CreateApplication/>}/>
-    )
-}
+
 
 
 export default Component;

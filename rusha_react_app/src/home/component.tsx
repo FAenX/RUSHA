@@ -85,7 +85,9 @@ const Home = () => {
 // content container
 const Component = () => {
     return (
-        <Layout child={<Home />} />
+        <Layout>
+            <Home />
+        </Layout>
         
     );
 }

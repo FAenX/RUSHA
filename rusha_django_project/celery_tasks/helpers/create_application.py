@@ -52,6 +52,7 @@ class CreateApplication:
                 SELECT * FROM projects_project 
                 JOIN applications_application ON projects_project.id = applications_application.project_id
                 WHERE projects_project.user_id = 'a6397cf3-7315-46bc-a095-f6322bf7d6af'
+                ORDER BY applications_application.date_created DESC
                 ) t;
                 """, [project_id])
 

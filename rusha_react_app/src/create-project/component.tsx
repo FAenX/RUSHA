@@ -14,7 +14,9 @@ const PlaceHolder = () => {
 
 const Component = () => {
     return (
-        <Layout child={<PlaceHolder />} />
+        <Layout>
+            <PlaceHolder />
+        </Layout>
         
     );
 }

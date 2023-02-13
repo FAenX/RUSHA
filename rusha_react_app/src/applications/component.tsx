@@ -6,7 +6,9 @@ import Content from './content';
 
 const Component = () => {
     return (
-        <Layout child={<Content />} />
+        <Layout>
+            <Content />
+        </Layout>
         
     );
 }
