@@ -10,20 +10,21 @@ import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
 import { AppData, StepProps } from '../types/create-project-response-type';
 import { createApplicationPageContentCached } from '../backend_requests';
-import { deploy } from '../backend_requests';
+import { createApplication } from '../backend_requests/applications';
 import {steps} from "./components";
 import Layout from '../layout';
 
 
 
 function VerticalLinearStepper(props : StepProps) {
-  const [projectName, setProjectName] = React.useState<string>('project1');
-  // const [responseData, setResponseData] = React.useState<CreateProjectResponseInterface>();
+  const [responseData, setResponseData] = React.useState<any>();
   const [error, setError] = React.useState({error: false, message: ""});
   const [done, setDone] = React.useState(false);
   
 
   const {repositories, applicationName, onChange, reviewProps} = props;
+
+  console.log(props);
 
 
   const [activeStep, setActiveStep] = React.useState(0);
@@ -45,16 +46,24 @@ function VerticalLinearStepper(props : StepProps) {
   
 
   const handleSubmit = async () => {
-      console.log(projectName);
       try{
-          const data = await deploy({payload: {
-              applicationName: applicationName ? applicationName : "",
-              framework: "react",
-              projectId : "af44fd17-a0d4-4de4-b648-d3d3a593f8bb",
-          }});
-          console.log(data);
-          // setResponseData(data);
-          setDone(true);
+        const payload = {
+            applicationName: applicationName ? applicationName : "",
+            framework: "react",
+            projectId : "af44fd17-a0d4-4de4-b648-d3d3a593f8bb",
+            description: "test",
+            repository: "other",
+            tags: "test",
+            environmentVariables: "test",
+
+        }
+          
+        const data = await createApplication({...payload});
+
+
+        console.log(data);
+        setResponseData(data);
+        setDone(true);
 
          
       } catch (error: any) {

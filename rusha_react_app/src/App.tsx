@@ -4,7 +4,6 @@ import './App.css';
 import Home from './home/component';
 import Applications from './applications';
 import CreateProject from './create-project';
-import Deploy from './createApplication';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import links from './navigation/navigation-links';
 import '@fontsource/roboto/300.css';

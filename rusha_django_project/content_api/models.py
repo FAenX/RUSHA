@@ -32,7 +32,6 @@ class CreateApplicationPageContent(models.Model):
     is_active = models.BooleanField(default=True)
     repositories = models.JSONField(null=True)
     frameworks = models.JSONField(null=True)
-    repositories_other = models.BooleanField(default=True)
     
 
     def __str__(self):

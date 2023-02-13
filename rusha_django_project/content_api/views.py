@@ -36,8 +36,7 @@ def create_application_page_content_cache(request):
         if create_applications_page_content_cache:
             content = json.dumps({
                 "repositories": create_applications_page_content_cache.repositories,
-                "frameworks": create_applications_page_content_cache.frameworks,
-                "repositories_other": create_applications_page_content_cache.repositories_other
+                "frameworks": create_applications_page_content_cache.frameworks
 
             })
             redis_connection.set("create_applications_page_content_cache", content)

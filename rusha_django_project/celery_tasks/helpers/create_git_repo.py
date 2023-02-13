@@ -1,12 +1,13 @@
 import json
 import subprocess
 import os
+from applications.serializers import ApplicationSerializer
 
 import yaml
 import logging
 
 
-from .git.templates import react_post_receive_template
+from .git_templates.templates import react_post_receive_template
 from .application import Application
 from .enums.application_types import static_files, api
 
@@ -17,11 +18,7 @@ from applications.models import Application as ApplicationModel
 
 
 class GitRepo:
-    def create_git_repo(self, **application):
-
-        print(static_files)
-
-        
+    def create_git_repo(self, application):
         try:            
             application = Application(application)
 

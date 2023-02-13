@@ -11,10 +11,9 @@ import json
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rusha_django.settings')
 django.setup()
 
-from celery_tasks.create_application import save_application_to_db
-from celery_tasks.create_git_repo import GitRepo
-from celery_tasks.create_nginx_conf import NginxConf
-from .serializers import CacheSerializer
+from .helpers.create_git_repo import GitRepo
+from .helpers.create_nginx_conf import NginxConf
+from .helpers.create_application import CreateApplication
 from django_redis import get_redis_connection
 import subprocess
 
@@ -29,12 +28,14 @@ app.config_from_object('django.conf:settings', namespace='CELERY_WORKER')
 
 
 @app.task(bind=True)
-def create_application_task(*args, **application):
-    print (application)
+def create_application_task(*args, **kwargs):
     print (args)
-    application = save_application_to_db(application)
-    GitRepo().create_git_repo(application)
-    NginxConf().create_nginx_conf(application)
+    print (kwargs)
+    application = kwargs.get('application')
+
+    saved_application = CreateApplication().create_application(application)
+    GitRepo().create_git_repo(saved_application)
+    NginxConf().create_nginx_conf(saved_application)
 
 
 
