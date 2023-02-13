@@ -50,11 +50,12 @@ function VerticalLinearStepper(props : StepProps) {
         const payload = {
             applicationName: applicationName ? applicationName : "",
             framework: "react",
-            projectId : "af44fd17-a0d4-4de4-b648-d3d3a593f8bb",
+            projectId : "d17d88b4-388d-4679-ad0c-7ba906711989",
             description: "test",
             repository: "other",
             tags: "test",
             environmentVariables: "test",
+            userId: "c36f8dcd-39cf-443c-a7f3-319dfc2d835b",
 
         }
           

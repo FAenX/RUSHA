@@ -5,7 +5,7 @@ import { Avatar, Stack, Typography } from "@mui/material";
 import {CreateApplication} from "./components"
 import {retrieveHomePageCache} from "../backend_requests";
 import {UserHomePageCache, Content} from "../types/create-project-response-type";
-import {ApplicationTabs} from "./components";
+import {Tabs} from "./components";
 import { Button } from "react-bootstrap";
 import {SearchBar} from "./components";
 import { retrieveHomePageContentCached } from "../backend_requests/cache";
@@ -73,7 +73,7 @@ const Home = () => {
                     </Stack>
             </Stack>
             <Stack className="border" direction={"column"} spacing={3} sx={{padding: 2}}>
-                <ApplicationTabs applications={applications}/>
+                <Tabs applications={applications}/>
                 
             </Stack>
           

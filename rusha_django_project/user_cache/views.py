@@ -16,18 +16,19 @@ from django.db import connection
 def get_home_page_cache(request, **kwargs):
     redis_connection = get_redis_connection("default")
     user_id = kwargs.get("user_id")
-    project_cache_data  = redis_connection.get(user_id)
+    project_cache_data  = redis_connection.get(f"{user_id}_home_page_cache_data")
     
     if project_cache_data:
         return HttpResponse(project_cache_data, status=200)
     else:
         rows = []
         with connection.cursor() as cursor:
-            cursor.execute("""
+            cursor.execute(f"""
             SELECT row_to_json(t)
             FROM (
             SELECT * FROM projects_project 
             JOIN applications_application ON projects_project.id = applications_application.project_id
+            WHERE projects_project.user_id = 'a6397cf3-7315-46bc-a095-f6322bf7d6af'
             ) t;
             """)
 
@@ -35,8 +36,9 @@ def get_home_page_cache(request, **kwargs):
             rows = cursor.fetchall()
 
 
+        print(rows)
 
-        serializer = ApplicationProjectSerializer(list(rows[0]), many=True)
+        serializer = ApplicationProjectSerializer([i[0] for i in rows], many=True)
         serializer_data = serializer.data
 
         redis_connection = get_redis_connection("default")

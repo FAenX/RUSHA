@@ -22,6 +22,7 @@ interface CreateApplicationPayload {
     "repository": string;
     "environmentVariables": string;
     "tags": string;
+    "userId": string;
 
 }
 

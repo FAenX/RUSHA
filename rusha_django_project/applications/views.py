@@ -15,18 +15,6 @@ from rest_framework import serializers
 from .decorators.validate_application_payload import validate_application_payload
 
 
-# Create your views here.
-@csrf_exempt
-def application_list(request):
-    """
-    retrieve:
-    """   
-
-    if request.method == 'GET':
-        applications = Application.objects.all()
-        serializer = ApplicationSerializer(applications, many=True)
-        return JsonResponse(serializer.data, safe=False)
-
 
 @csrf_exempt
 @require_http_methods(["POST"])
@@ -44,6 +32,7 @@ def deploy_application(request):
         description = data['description']
         tags = data['tags']
         environment_variables = data['environmentVariables']
+        user_id = data['userId']
 
         application_dict = {
             'framework': framework,
@@ -51,7 +40,8 @@ def deploy_application(request):
             'project_id': project_id,
             'description': description,
             'tags': tags,
-            'environment_variables': environment_variables
+            'environment_variables': environment_variables,
+            'user_id': user_id
         }
 
        

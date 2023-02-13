@@ -29,14 +29,13 @@ app.config_from_object('django.conf:settings', namespace='CELERY_WORKER')
 
 @app.task(bind=True)
 def create_application_task(*args, **kwargs):
-    print (args)
-    print (kwargs)
     application = kwargs.get('application')
 
     saved_application = CreateApplication().create_application(application)
     GitRepo().create_git_repo(saved_application)
     NginxConf().create_nginx_conf(saved_application)
 
+   
 
 
 

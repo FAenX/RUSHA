@@ -17,6 +17,7 @@ def validate_application_payload(func):
             description = data['description']
             tags = data['tags']
             environment_variables = data['environmentVariables']
+            user_id = data['userId']
         except KeyError:
             return JsonResponse({'error': 'Missing required field'}, status=400)
         return func(*args, **kwargs)

@@ -2,6 +2,9 @@ import json
 import subprocess
 import os
 from applications.serializers import ApplicationSerializer
+from django_redis import get_redis_connection
+from projects.models import Project
+from user_cache.serializers import ApplicationProjectSerializer
 
 import yaml
 import logging
@@ -16,6 +19,7 @@ from .generate_application_path import generate_application_path
 from .generate_application_port import generate_application_port
 from .generate_domain_name import generate_domain_name
 from .get_host_name import get_hostname
+from django.db import connection
 
 
 
@@ -23,7 +27,6 @@ from .get_host_name import get_hostname
 
 class CreateApplication:
     def create_application(self, application):
-        print(application)
         application_name = application['application_name']
         project_id = application['project_id']
         application_path = generate_application_path(application_name)
@@ -40,7 +43,33 @@ class CreateApplication:
 
         if app_serializer.is_valid():
             app_serializer.save()
+
+            rows = []
+            with connection.cursor() as cursor:
+                cursor.execute("""
+                SELECT row_to_json(t)
+                FROM (
+                SELECT * FROM projects_project 
+                JOIN applications_application ON projects_project.id = applications_application.project_id
+                WHERE projects_project.user_id = 'a6397cf3-7315-46bc-a095-f6322bf7d6af'
+                ) t;
+                """, [project_id])
+
+
+                rows = cursor.fetchall()
+
+
+
+            serializer = ApplicationProjectSerializer([i[0] for i in rows], many=True)
+            serializer_data = serializer.data
+
+            redis_connection = get_redis_connection("default")
+            user_id = application['user_id']
+            key = f"{user_id}_home_page_cache_data"
+
+            redis_connection.set(key, json.dumps(serializer_data))
             return app_serializer.data
+
         else:
             # queue notification to user 
             # queue notification to admin

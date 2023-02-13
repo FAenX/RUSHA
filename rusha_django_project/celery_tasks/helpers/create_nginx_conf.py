@@ -9,7 +9,7 @@ import redis
 from django_redis import get_redis_connection
 
 class NginxConf:
-    def create_nginx_conf(self, **application):
+    def create_nginx_conf(self, application):
         try:
             #  create ../nginx/sites-available/ folder if not exists
             sites_available_path = '../nginx/sites-available'
