@@ -33,4 +33,5 @@ urlpatterns = [
     path('user_cache_api/v1/', include('user_cache.urls')),
     path('content_api/v1/', include('content_api.urls')),
     path('create_super_user/', create_super_user),
+    # path('web_socket/v1/', include('ws_server.urls')),
 ]

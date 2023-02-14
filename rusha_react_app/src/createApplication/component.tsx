@@ -13,18 +13,36 @@ import { createApplicationPageContentCached } from '../backend_requests';
 import { createApplication } from '../backend_requests/applications';
 import {steps} from "./components";
 import Layout from '../layout';
-
+import io from 'socket.io-client';
 
 
 function VerticalLinearStepper(props : StepProps) {
   const [responseData, setResponseData] = React.useState<any>();
   const [error, setError] = React.useState({error: false, message: ""});
   const [done, setDone] = React.useState(false);
+  const [socket, setSocket] = React.useState<any>(null);
+  
+
+  React.useEffect(() => {
+    const ws = new WebSocket("ws://localhost:8001/ws/");
+    setSocket(ws);
+    ws.onopen = () => {
+      console.log('connected')
+    }
+    ws.onmessage = (e) => {
+      console.log(e)
+    }
+    ws.onclose = () => {
+      console.log('disconnected')
+    }
+    // return () => {
+    //   ws.close()
+    // }
+  }, []);
   
 
   const {repositories, applicationName, onChange, reviewProps} = props;
 
-  console.log(props);
 
 
   const [activeStep, setActiveStep] = React.useState(0);
@@ -43,9 +61,17 @@ function VerticalLinearStepper(props : StepProps) {
       setActiveStep(0);
   };
 
+
+
+
+
   
 
   const handleSubmit = async () => {
+    // socket && socket.addEventListener('message', (event:any) => {
+    //     console.log('Message from server ', event.data);
+    //     });
+      socket && socket.send(JSON.stringify({message: "hello"}) );
       try{
         const payload = {
             applicationName: applicationName ? applicationName : "",
@@ -108,7 +134,7 @@ return (
 
       {steps.map((step) => (
 
-          <Step key={step.label}>
+          <Step key={Math.random()}>
               <StepLabel
                   optional={"select repository"}
               >

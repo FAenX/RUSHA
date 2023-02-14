@@ -26,7 +26,7 @@ export function Repositories(props: StepProps) {
                         name="radio-buttons-group"
                     >
                         {repositories && repositories.map((repository) => (
-                        <Button variant="outlined" sx={{margin: 2}}>
+                        <Button variant="outlined" sx={{margin: 2}} key={Math.random()}>
                         
                         <FormControlLabel value="github" control={
                             <Stack direction={"row"} alignContent={""} justifyContent={"space-between"} >

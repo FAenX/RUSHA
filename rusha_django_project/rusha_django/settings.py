@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'api_users',
     'projects',
     'content_api',
+    'channels',
+    'ws_server'
     #  'cron_jobs',
     #  'django_celery_results',
 ]
@@ -153,6 +155,7 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
 
 
 # Static files (CSS, JavaScript, Images)
