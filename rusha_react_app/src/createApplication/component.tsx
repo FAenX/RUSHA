@@ -19,26 +19,38 @@ import io from 'socket.io-client';
 function VerticalLinearStepper(props : StepProps) {
   const [responseData, setResponseData] = React.useState<any>();
   const [error, setError] = React.useState({error: false, message: ""});
-  const [done, setDone] = React.useState(false);
-  const [socket, setSocket] = React.useState<any>(null);
+  const [done, setDone] = React.useState(true);
+  const [socket, setSocket] = React.useState<any>();
   
 
   React.useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8001/ws/");
-    setSocket(ws);
-    ws.onopen = () => {
+    const socket = new WebSocket("ws://localhost:8001/ws/")
+    setSocket(socket);
+    socket.onopen = () => {
       console.log('connected')
     }
-    ws.onmessage = (e) => {
+    socket.onmessage = (e) => {
       console.log(e)
     }
-    ws.onclose = () => {
+    socket.onclose = () => {
       console.log('disconnected')
     }
-    // return () => {
-    //   ws.close()
-    // }
+   
+    return () => {
+      socket.close()
+      setSocket(null);
+    }
   }, []);
+
+  React.useEffect(() => {
+
+    const intervalId = setInterval(() => {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({ request: "status" }));
+      }
+    }, 5000);
+    return () => clearInterval(intervalId);
+  }, [socket]);
   
 
   const {repositories, applicationName, onChange, reviewProps} = props;
@@ -60,18 +72,10 @@ function VerticalLinearStepper(props : StepProps) {
   const handleReset = () => {
       setActiveStep(0);
   };
-
-
-
-
-
   
 
   const handleSubmit = async () => {
-    // socket && socket.addEventListener('message', (event:any) => {
-    //     console.log('Message from server ', event.data);
-    //     });
-      socket && socket.send(JSON.stringify({message: "hello"}) );
+      setDone(false);
       try{
         const payload = {
             applicationName: applicationName ? applicationName : "",
@@ -90,7 +94,7 @@ function VerticalLinearStepper(props : StepProps) {
 
         console.log(data);
         setResponseData(data);
-        setDone(true);
+        // setDone(true);
 
          
       } catch (error: any) {

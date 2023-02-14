@@ -11,8 +11,8 @@ class MyConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         data = json.loads(text_data)
-        message = data['message']
+        print(data)
 
         await self.send(text_data=json.dumps({
-            'message': message
+            'message': "Hello World!"
         }))
