@@ -30,10 +30,39 @@ app.config_from_object('django.conf:settings', namespace='CELERY_WORKER')
 @app.task(bind=True)
 def create_application_task(*args, **kwargs):
     application = kwargs.get('application')
+    user_id = application.get('user_id')
+    connection = get_redis_connection("default")
+    try:
+        saved_application = CreateApplication().create_application(application, user_id)
+        GitRepo().create_git_repo(saved_application, user_id)
+        NginxConf().create_nginx_conf(saved_application, user_id)
 
-    saved_application = CreateApplication().create_application(application)
-    GitRepo().create_git_repo(saved_application)
-    NginxConf().create_nginx_conf(saved_application)
+        connection.lpush(f'{user_id}_notification_queue', json.dumps({
+                'message': f'Nginx configuration created successfully',
+                'type': 'success',
+                "activeStep": 4,
+                "failedStep": 5
+            }))
+            
+        
+        return True
+    except Exception as e:
+        # write to a redis notification queue to admin
+        
+        connection.lpush(f'{user_id}_notification_queue', json.dumps({
+            'message': f'Application {application.get("application_name")} could not be created',
+            'type': 'error',
+            "error": f"{e}",
+            'failedStep': 1,
+            "activeStep": 1
+        }))
+
+        raise e
+        
+        
+
+
+   
 
    
 

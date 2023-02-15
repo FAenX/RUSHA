@@ -2,6 +2,7 @@ import json
 import subprocess
 import os
 from applications.serializers import ApplicationSerializer
+from django_redis import get_redis_connection
 
 import yaml
 import logging
@@ -18,7 +19,8 @@ from applications.models import Application as ApplicationModel
 
 
 class GitRepo:
-    def create_git_repo(self, application):
+    def create_git_repo(self, application, user_id):
+        connection = get_redis_connection("default")
         try:            
             application = Application(application)
 
@@ -51,6 +53,14 @@ class GitRepo:
             ApplicationModel.objects.filter(id=application.id).update(local_git_repo=git_link)
 
     
+          
+            connection.lpush(f'{user_id}_notification_queue', json.dumps({
+                'message': f'successfully created git repo',
+                'type': 'success',
+                "activeStep": 2,
+                "failedStep": 5
+            }))
+          
             
                 
 
@@ -58,5 +68,13 @@ class GitRepo:
         except Exception as e:
             logging.getLogger().setLevel(logging.ERROR)
             logging.getLogger().error(e)
+             # write to a redis notification queue
+            
+            
+            connection.lpush(f'{user_id}_notification_queue', json.dumps({
+                'message': f'Application could not be created',
+                'type': 'error',
+                'failedStep': 2
+            }))
             raise e
             

@@ -8,52 +8,23 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
-import { AppData, StepProps } from '../types/create-project-response-type';
+import { StepProps } from '../types/create-project-response-type';
 import { createApplicationPageContentCached } from '../backend_requests';
 import { createApplication } from '../backend_requests/applications';
 import {steps} from "./components";
 import Layout from '../layout';
-import io from 'socket.io-client';
+import {ProgressStepper} from "./components";
+
+
+
 
 
 function VerticalLinearStepper(props : StepProps) {
-  const [responseData, setResponseData] = React.useState<any>();
-  const [error, setError] = React.useState({error: false, message: ""});
-  const [done, setDone] = React.useState(true);
-  const [socket, setSocket] = React.useState<any>();
+  
+ 
   
 
-  React.useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8001/ws/")
-    setSocket(socket);
-    socket.onopen = () => {
-      console.log('connected')
-    }
-    socket.onmessage = (e) => {
-      console.log(e)
-    }
-    socket.onclose = () => {
-      console.log('disconnected')
-    }
-   
-    return () => {
-      socket.close()
-      setSocket(null);
-    }
-  }, []);
-
-  React.useEffect(() => {
-
-    const intervalId = setInterval(() => {
-      if (socket && socket.readyState === WebSocket.OPEN) {
-        socket.send(JSON.stringify({ request: "status" }));
-      }
-    }, 5000);
-    return () => clearInterval(intervalId);
-  }, [socket]);
-  
-
-  const {repositories, applicationName, onChange, reviewProps} = props;
+  const {repositories, applicationName, onChange, reviewProps, handleSubmit} = props;
 
 
 
@@ -74,34 +45,7 @@ function VerticalLinearStepper(props : StepProps) {
   };
   
 
-  const handleSubmit = async () => {
-      setDone(false);
-      try{
-        const payload = {
-            applicationName: applicationName ? applicationName : "",
-            framework: "react",
-            projectId : "d17d88b4-388d-4679-ad0c-7ba906711989",
-            description: "test",
-            repository: "other",
-            tags: "test",
-            environmentVariables: "test",
-            userId: "c36f8dcd-39cf-443c-a7f3-319dfc2d835b",
-
-        }
-          
-        const data = await createApplication({...payload});
-
-
-        console.log(data);
-        setResponseData(data);
-        // setDone(true);
-
-         
-      } catch (error: any) {
-          console.log(error.response.data);
-          setError({error: true, message: `Error: ${JSON.stringify(error.response.data)}`});
-      }
-  }
+  
 
 
 
@@ -174,6 +118,8 @@ return (
 const Component = () => {
   const [applicationName, setApplicationName] = React.useState<string>('');
   const [content, setContent] = React.useState<StepProps>();
+  const [responseData, setResponseData] = React.useState<any>();
+  const [error, setError] = React.useState({error: false, message: ""});
 
   React.useEffect(() => {
     ( 
@@ -191,21 +137,126 @@ const Component = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setApplicationName(event.target.value);
     };
+
+    const [done, setDone] = React.useState(false);
+    const [socket, setSocket] = React.useState<any>();
+    const [activeStep, setActiveStep] = React.useState(0);
+    const [failedStep, setFailedStep] = React.useState(5);
+    const [alertMessage, setAlertMessage] = React.useState("");
+    const [timer, setTimer] = React.useState(0);
+
+    
+    const notification = React.useReducer((state:any, action: any) => {
+      return action;
+    }, null);
+    
+  
+    React.useEffect(() => {
+      const socket = new WebSocket("ws://localhost:8001/ws/")
+      setSocket(socket);
+      socket.onopen = () => {
+        console.log('connected')
+        
+        
+      }
+      socket.onmessage = (e) => {
+        const data = JSON.parse(e.data);
+        console.log(data)
+        if (data.type === "error") {
+          notification[1](data);
+          setActiveStep(data.activeStep)
+          setError({error: true, message: data.message});
+          setFailedStep(data.failedStep);
+          setAlertMessage(data.message);
+        }
+        else if (data.type === "success") {
+          notification[1](data);
+          setFailedStep(data.failedStep);
+          setActiveStep(data.activeStep);
+        }
+        else {
+          console.log("unknown message")
+        }
+      }
+      socket.onclose = () => {
+        console.log('disconnected')
+      }
+     
+      return () => {
+        socket.close()
+        setSocket(null);
+        
+      }
+    }, []);
+
+    React.useEffect(() => {
+        if (socket && socket.readyState === WebSocket.OPEN && done !== true) {
+          socket.send(JSON.stringify({ 
+            request: "get_notifications",
+            userId: "c36f8dcd-39cf-443c-a7f3-319dfc2d835b",
+          }));
+        }
+    }, [timer]);
+  
+    React.useEffect(() => {
+      const intervalId = setInterval(() => {
+          setTimer(timer + 1);
+          console.log(timer);
+      }, 5000);
+      return () => clearInterval(intervalId);
+    }, [timer]);
+
+
+    const handleSubmit = async () => {
+      setDone(false);
+      setActiveStep(1);
+      try{
+        const payload = {
+            applicationName: applicationName ? applicationName : "",
+            framework: "react",
+            projectId : "d17d88b4-388d-4679-ad0c-7ba906711989",
+            description: "test",
+            repository: "other",
+            tags: "test",
+            environmentVariables: "test",
+            userId: "c36f8dcd-39cf-443c-a7f3-319dfc2d835b",
+
+        }
+          
+        const data = await createApplication({...payload});
+
+
+        console.log(data);
+        setResponseData(data);
+
+         
+      } catch (error: any) {
+          console.log(error.response.data);
+          setError({error: true, message: `Error: ${JSON.stringify(error.response.data)}`});
+      }
+  }
  
 
  
   return (
         <Layout >
+
+          
             <Stack className="border" sx={{width: "100%", margin: 5}}>
+                
                 <Stack sx={{padding: 5}} spacing={2}>
                     <Typography>Back to project</Typography>
                     <Typography>Create App</Typography>
 
                 </Stack>
+                {<Stack className="border" sx={{padding: 5}}>
+                  <ProgressStepper activeStep={activeStep} failedStep={failedStep} alertMessage={alertMessage}/>
+                </Stack>}
                 <Stack className="border" sx={{padding: 5}}>
-                    <VerticalLinearStepper onChange={handleChange} repositories={content?.repositories} applicationName={applicationName}/>
+                    <VerticalLinearStepper onChange={handleChange} repositories={content?.repositories} applicationName={applicationName} handleSubmit={handleSubmit}/>
                 </Stack>
             </Stack>
+  
         </Layout>
   );
 }

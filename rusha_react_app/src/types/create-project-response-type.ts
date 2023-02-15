@@ -54,6 +54,9 @@ export interface AppData{
 export interface StepProps {
     repositories?: Repository[];
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    // on click handler for the submit button
+    handleSubmit?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+   
     applicationName?: string;
     reviewProps?: {
         applicationName: string;

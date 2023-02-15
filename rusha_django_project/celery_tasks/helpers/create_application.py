@@ -26,52 +26,71 @@ from django.db import connection
 
 
 class CreateApplication:
-    def create_application(self, application):
-        application_name = application['application_name']
-        project_id = application['project_id']
-        application_path = generate_application_path(application_name)
-        application_port = generate_application_port()
-        domain_name = generate_domain_name(application_name)
+    def create_application(self, application, user_id):
+        redis_connection = get_redis_connection("default")
+        try:
+            application_name = application['application_name']
+            project_id = application['project_id']
+            application_path = generate_application_path(application_name)
+            application_port = generate_application_port()
+            domain_name = generate_domain_name(application_name)
 
-        application['application_path'] = application_path
-        application['application_port'] = application_port
-        application['domain_name'] = domain_name
-        application['proxy_host_name_and_or_port'] = f'{get_hostname()}:{application_port}'
-        application['project'] = project_id
+            application['application_path'] = application_path
+            application['application_port'] = application_port
+            application['domain_name'] = domain_name
+            application['proxy_host_name_and_or_port'] = f'{get_hostname()}:{application_port}'
+            application['project'] = project_id
 
-        app_serializer = ApplicationSerializer(data=application)
+            app_serializer = ApplicationSerializer(data=application)
 
-        if app_serializer.is_valid():
-            app_serializer.save()
+            if app_serializer.is_valid():
+                app_serializer.save()
 
-            rows = []
-            with connection.cursor() as cursor:
-                cursor.execute("""
-                SELECT row_to_json(t)
-                FROM (
-                SELECT * FROM projects_project 
-                JOIN applications_application ON projects_project.id = applications_application.project_id
-                WHERE projects_project.user_id = 'a6397cf3-7315-46bc-a095-f6322bf7d6af'
-                ORDER BY applications_application.date_created DESC
-                ) t;
-                """, [project_id])
-
-
-                rows = cursor.fetchall()
-
+                rows = []
+                with connection.cursor() as cursor:
+                    cursor.execute("""
+                    SELECT row_to_json(t)
+                    FROM (
+                    SELECT * FROM projects_project 
+                    JOIN applications_application ON projects_project.id = applications_application.project_id
+                    WHERE projects_project.user_id = 'a6397cf3-7315-46bc-a095-f6322bf7d6af'
+                    ORDER BY applications_application.date_created DESC
+                    ) t;
+                    """, [project_id])
 
 
-            serializer = ApplicationProjectSerializer([i[0] for i in rows], many=True)
-            serializer_data = serializer.data
+                    rows = cursor.fetchall()
 
-            redis_connection = get_redis_connection("default")
-            user_id = application['user_id']
-            key = f"{user_id}_home_page_cache_data"
 
-            redis_connection.set(key, json.dumps(serializer_data))
-            return app_serializer.data
 
-        else:
-            # queue notification to user 
-            # queue notification to admin
-            raise Exception(app_serializer.errors)
+                serializer = ApplicationProjectSerializer([i[0] for i in rows], many=True)
+                serializer_data = serializer.data
+
+                
+                key = f"{user_id}_home_page_cache_data"
+
+                redis_connection.set(key, json.dumps(serializer_data))
+
+                redis_connection.lpush(f'{user_id}_notification_queue', json.dumps({
+                    'message': f'Application  created',
+                    'type': 'success',
+                    'failedStep': 5,
+                    'activeStep': 2
+                }))
+
+                return app_serializer.data
+
+            else:
+                # queue notification to user 
+                # queue notification to admin
+                raise Exception(app_serializer.errors)
+            
+            
+        except Exception as e:
+            redis_connection.lpush(f'{user_id}_notification_queue', json.dumps({
+                'message': f'Application could not be created',
+                'type': 'error',
+                'failedStep': 2
+            }))
+            raise e
+           
