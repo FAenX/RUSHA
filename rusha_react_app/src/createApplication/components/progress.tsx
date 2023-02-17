@@ -6,9 +6,9 @@ import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 
 interface Props {
-    activeStep: number;
-    failedStep: number;
-    alertMessage: string;
+    activeStep?: number;
+    failedStep?: number;
+    alertMessage?: string;
 
 }
 

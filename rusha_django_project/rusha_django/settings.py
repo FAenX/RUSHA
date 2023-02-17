@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'projects',
     'content_api',
     'channels',
-    'ws_server'
+    'ws_server',
+    'library',
     #  'cron_jobs',
     #  'django_celery_results',
 ]

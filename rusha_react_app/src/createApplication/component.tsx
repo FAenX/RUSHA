@@ -120,6 +120,18 @@ const Component = () => {
   const [content, setContent] = React.useState<StepProps>();
   const [responseData, setResponseData] = React.useState<any>();
   const [error, setError] = React.useState({error: false, message: ""});
+  const [done, setDone] = React.useState(false);
+  const [socket, setSocket] = React.useState<any>();
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [failedStep, setFailedStep] = React.useState<number>();
+  const [alertMessage, setAlertMessage] = React.useState("");
+  const [timer, setTimer] = React.useState(0);
+
+    
+  const notification = React.useReducer((state:any, action: any) => {
+    return action;
+  }, null);
+    
 
   React.useEffect(() => {
     ( 
@@ -138,17 +150,6 @@ const Component = () => {
     setApplicationName(event.target.value);
     };
 
-    const [done, setDone] = React.useState(false);
-    const [socket, setSocket] = React.useState<any>();
-    const [activeStep, setActiveStep] = React.useState(0);
-    const [failedStep, setFailedStep] = React.useState(5);
-    const [alertMessage, setAlertMessage] = React.useState("");
-    const [timer, setTimer] = React.useState(0);
-
-    
-    const notification = React.useReducer((state:any, action: any) => {
-      return action;
-    }, null);
     
   
     React.useEffect(() => {
@@ -160,23 +161,23 @@ const Component = () => {
         
       }
       socket.onmessage = (e) => {
-        const data = JSON.parse(e.data);
-        console.log(data)
-        if (data.type === "error") {
-          notification[1](data);
-          setActiveStep(data.activeStep)
-          setError({error: true, message: data.message});
-          setFailedStep(data.failedStep);
-          setAlertMessage(data.message);
-        }
-        else if (data.type === "success") {
-          notification[1](data);
-          setFailedStep(data.failedStep);
-          setActiveStep(data.activeStep);
-        }
-        else {
-          console.log("unknown message")
-        }
+          const data = JSON.parse(e.data);
+          console.log(data)
+          if (data.message.type === "error") {
+            notification[1](data);
+            // setActiveStep(data.activeStep)
+            setError({error: true, message: data.message});
+            setFailedStep(activeStep + 1);
+            setAlertMessage(data.message.message);
+          }
+          else if (data.message.type === "success") {
+            setFailedStep(undefined);
+            notification[1](data);
+            setActiveStep(activeStep + 1);
+          }
+          else {
+            console.log("unknown message")
+          }
       }
       socket.onclose = () => {
         console.log('disconnected')
@@ -201,7 +202,7 @@ const Component = () => {
     React.useEffect(() => {
       const intervalId = setInterval(() => {
           setTimer(timer + 1);
-          console.log(timer);
+          // console.log(timer);
       }, 5000);
       return () => clearInterval(intervalId);
     }, [timer]);
@@ -209,7 +210,7 @@ const Component = () => {
 
     const handleSubmit = async () => {
       setDone(false);
-      setActiveStep(1);
+      setActiveStep(activeStep + 1);
       try{
         const payload = {
             applicationName: applicationName ? applicationName : "",

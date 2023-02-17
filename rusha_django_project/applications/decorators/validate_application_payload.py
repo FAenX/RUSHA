@@ -9,7 +9,6 @@ def validate_application_payload(func):
     def wrapper(*args, **kwargs):
         request = args[0]
         data = json.loads(request.body)
-        print(data)
         try:
             framework = data['framework']
             application_name = data['applicationName']

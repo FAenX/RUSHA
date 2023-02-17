@@ -26,31 +26,8 @@ def deploy_application(request):
     try:
        
         data = json.loads(request.body)
-        framework = data['framework']
-        application_name = data['applicationName']
-        project_id = data['projectId']
-        description = data['description']
-        tags = data['tags']
-        environment_variables = data['environmentVariables']
-        user_id = data['userId']
-
-        application_dict = {
-            'framework': framework,
-            'application_name': application_name,
-            'project_id': project_id,
-            'description': description,
-            'tags': tags,
-            'environment_variables': environment_variables,
-            'user_id': user_id
-        }
-
-       
-
-        create_application_task.delay(application=application_dict)
-           
-       
+        create_application_task.delay(payload=data)
         return HttpResponse(1, status=201)
-    
     except Exception as e:
         print(e)
         return JsonResponse(json.dumps({"errored": "true"}), status=500)

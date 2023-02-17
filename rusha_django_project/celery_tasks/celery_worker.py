@@ -5,77 +5,72 @@ import django
 from celery import Celery
 import os
 import json
+import subprocess
+
+
 
 
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rusha_django.settings')
 django.setup()
 
-from .helpers.create_git_repo import GitRepo
-from .helpers.create_nginx_conf import NginxConf
-from .helpers.create_application import CreateApplication
-from django_redis import get_redis_connection
-import subprocess
+from .modules.create_git_repo import GitRepo
+from .modules.create_nginx_conf import NginxConf
+from .modules.create_application import CreateApplication
+from library.error_handler import ErrorHandler
+from library.notifications_handler import NotificationsHandler, NotificationType
+from library.redis_connection import RedisConnection
+
+
 
 
 
 # celery worker
-app = Celery('rusha_django_worker')
-
-print (app)
+app = Celery('rusha_worker')
 
 app.config_from_object('django.conf:settings', namespace='CELERY_WORKER')
 
 
 @app.task(bind=True)
 def create_application_task(*args, **kwargs):
-    application = kwargs.get('application')
-    user_id = application.get('user_id')
-    connection = get_redis_connection("default")
-    try:
-        saved_application = CreateApplication().create_application(application, user_id)
-        GitRepo().create_git_repo(saved_application, user_id)
-        NginxConf().create_nginx_conf(saved_application, user_id)
+    payload = kwargs.get('payload')
+    
+    user_id = payload['userId']
+    payload['user_id'] = user_id
 
-        connection.lpush(f'{user_id}_notification_queue', json.dumps({
-                'message': f'Nginx configuration created successfully',
-                'type': 'success',
-                "activeStep": 4,
-                "failedStep": 5
-            }))
-            
-        
+
+
+    notification_sender = NotificationsHandler(
+        payload,
+        notification_type=NotificationType.SUCCESS
+    )
+
+
+    try:
+        saved_application = CreateApplication(payload).create_application()
+        saved_application['user_id'] = user_id
+
+        print(saved_application)
+        GitRepo(saved_application).create_git_repo()
+        NginxConf(saved_application).create_nginx_conf()
+        notification_sender.send_notification(message={
+            'message': 'Application configurations created successfully',
+            'type': notification_sender.notification_type
+        })
+
         return True
     except Exception as e:
         # write to a redis notification queue to admin
-        
-        connection.lpush(f'{user_id}_notification_queue', json.dumps({
-            'message': f'Application {application.get("application_name")} could not be created',
-            'type': 'error',
-            "error": f"{e}",
-            'failedStep': 1,
-            "activeStep": 1
-        }))
-
-        raise e
-        
-        
-
-
-   
-
-   
-
+        error_handler = ErrorHandler('celery_worker', payload)
+        error_handler.handle_error()
 
 
 @app.task(bind=True)
 def cache_project_page_visits(*args, **cache_data):
-    print (cache_data)
-    print (args)
-    print ('cache_project_page_visits')
-    redis_connection = get_redis_connection("default")
+    redis_connection = RedisConnection()
+    
     key = f"{cache_data.get('userId')}_home_page_cache_data"
-    redis_connection.set(key, json.dumps(cache_data))
+    redis_connection.insert_key_value_pair(key, json.dumps(cache_data))
 
     
 app.conf.beat_schedule = {
@@ -88,16 +83,17 @@ app.conf.beat_schedule = {
 @app.task
 def restart_nginx(*args, **kwargs):
     # print(args, kwargs)
-    redis_connection = get_redis_connection("default")
-    if redis_connection.get('nginx_restart_queue') == b'1':
-        print('nginx restart')
+    redis_connection = RedisConnection()
+    
+    if redis_connection.get_value('nginx_restart_queue') == b'1':
+       
         
         subprocess.run(
             'docker run --rm -v /var/run/docker.sock:/var/run/docker.sock rusha sh -c "docker restart rusha_nginx"', 
             shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
        
-        redis_connection.set('nginx_restart_queue', 0)
+        redis_connection.insert_key_value_pair('nginx_restart_queue', 0)
         
             
  
