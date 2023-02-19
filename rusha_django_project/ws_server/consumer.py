@@ -23,6 +23,8 @@ class MyConsumer(AsyncWebsocketConsumer):
             while redis_connection.llen(key) > 0:
                 notification = redis_connection.rpop(key)
                 await self.send(text_data=notification.decode('utf-8'))
+                # wait for 1 second before sending the next notification
+                await asyncio.sleep(5)
 
             
 

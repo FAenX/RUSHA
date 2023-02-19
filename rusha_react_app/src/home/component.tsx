@@ -23,8 +23,9 @@ const Home = () => {
        ( 
         async()=> {
             const data =await retrieveHomePageCache(userId)
-            console.log(data);
-            setApplications(data);
+            const truncated = data.slice(0, 3);
+            console.log(truncated);
+            setApplications(truncated);
         }
         
         )()

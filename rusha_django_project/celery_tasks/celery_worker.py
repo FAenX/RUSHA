@@ -20,6 +20,8 @@ from .modules.create_application import CreateApplication
 from library.error_handler import ErrorHandler
 from library.notifications_handler import NotificationsHandler, NotificationType
 from library.redis_connection import RedisConnection
+from library.error_handler import ErrorHandler, CeleryWorkerSteps, Application as ApplicationEnum
+
 
 
 
@@ -55,14 +57,18 @@ def create_application_task(*args, **kwargs):
         NginxConf(saved_application).create_nginx_conf()
         notification_sender.send_notification(message={
             'message': 'Application configurations created successfully',
-            'type': notification_sender.notification_type
+            'type': notification_sender.notification_type,
+            'step': CeleryWorkerSteps.COMPLETED,
         })
 
         return True
     except Exception as e:
         # write to a redis notification queue to admin
-        error_handler = ErrorHandler('celery_worker', payload)
-        error_handler.handle_error()
+        # error_handler = ErrorHandler(ApplicationEnum.CELERY_WORKER, payload)
+        # error_handler.handle_error(
+        #     step=CeleryWorkerSteps.DONE, error=e
+        # )
+        raise e
 
 
 @app.task(bind=True)

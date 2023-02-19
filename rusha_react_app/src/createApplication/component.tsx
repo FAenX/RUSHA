@@ -20,18 +20,8 @@ import {ProgressStepper} from "./components";
 
 
 function VerticalLinearStepper(props : StepProps) {
-  
- 
-  
-
   const {repositories, applicationName, onChange, reviewProps, handleSubmit} = props;
-
-
-
   const [activeStep, setActiveStep] = React.useState(0);
-
-
-
   const handleNext = () => {
       setActiveStep((prevActiveStep) => activeStep==steps.length -1 ? activeStep : prevActiveStep + 1);
   };
@@ -43,12 +33,6 @@ function VerticalLinearStepper(props : StepProps) {
   const handleReset = () => {
       setActiveStep(0);
   };
-  
-
-  
-
-
-
 
 return (
   <Box sx={{ width: "100%"}}>
@@ -120,18 +104,9 @@ const Component = () => {
   const [content, setContent] = React.useState<StepProps>();
   const [responseData, setResponseData] = React.useState<any>();
   const [error, setError] = React.useState({error: false, message: ""});
-  const [done, setDone] = React.useState(false);
-  const [socket, setSocket] = React.useState<any>();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [failedStep, setFailedStep] = React.useState<number>();
-  const [alertMessage, setAlertMessage] = React.useState("");
-  const [timer, setTimer] = React.useState(0);
+  
+  
 
-    
-  const notification = React.useReducer((state:any, action: any) => {
-    return action;
-  }, null);
-    
 
   React.useEffect(() => {
     ( 
@@ -139,7 +114,7 @@ const Component = () => {
             const {data} =await createApplicationPageContentCached()
             console.log(data);
             setContent(data);
-            // setProject(data);
+            // setProject(data);/
         }
         
     )()
@@ -150,67 +125,10 @@ const Component = () => {
     setApplicationName(event.target.value);
     };
 
-    
+    // 
   
-    React.useEffect(() => {
-      const socket = new WebSocket("ws://localhost:8001/ws/")
-      setSocket(socket);
-      socket.onopen = () => {
-        console.log('connected')
-        
-        
-      }
-      socket.onmessage = (e) => {
-          const data = JSON.parse(e.data);
-          console.log(data)
-          if (data.message.type === "error") {
-            notification[1](data);
-            // setActiveStep(data.activeStep)
-            setError({error: true, message: data.message});
-            setFailedStep(activeStep + 1);
-            setAlertMessage(data.message.message);
-          }
-          else if (data.message.type === "success") {
-            setFailedStep(undefined);
-            notification[1](data);
-            setActiveStep(activeStep + 1);
-          }
-          else {
-            console.log("unknown message")
-          }
-      }
-      socket.onclose = () => {
-        console.log('disconnected')
-      }
-     
-      return () => {
-        socket.close()
-        setSocket(null);
-        
-      }
-    }, []);
-
-    React.useEffect(() => {
-        if (socket && socket.readyState === WebSocket.OPEN && done !== true) {
-          socket.send(JSON.stringify({ 
-            request: "get_notifications",
-            userId: "c36f8dcd-39cf-443c-a7f3-319dfc2d835b",
-          }));
-        }
-    }, [timer]);
-  
-    React.useEffect(() => {
-      const intervalId = setInterval(() => {
-          setTimer(timer + 1);
-          // console.log(timer);
-      }, 5000);
-      return () => clearInterval(intervalId);
-    }, [timer]);
-
-
     const handleSubmit = async () => {
-      setDone(false);
-      setActiveStep(activeStep + 1);
+      
       try{
         const payload = {
             applicationName: applicationName ? applicationName : "",
@@ -251,7 +169,7 @@ const Component = () => {
 
                 </Stack>
                 {<Stack className="border" sx={{padding: 5}}>
-                  <ProgressStepper activeStep={activeStep} failedStep={failedStep} alertMessage={alertMessage}/>
+                  <ProgressStepper />
                 </Stack>}
                 <Stack className="border" sx={{padding: 5}}>
                     <VerticalLinearStepper onChange={handleChange} repositories={content?.repositories} applicationName={applicationName} handleSubmit={handleSubmit}/>

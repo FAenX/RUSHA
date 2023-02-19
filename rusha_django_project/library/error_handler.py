@@ -8,6 +8,15 @@ class Application:
     CREATE_APPLICATION_API = 'create_application_API'
     CELERY_WORKER = 'celery_worker'
 
+class CeleryWorkerSteps:
+    SAVE_APPLICATION = 'save_application'
+    CREATE_GIT_REPO = 'create_git_repo'
+    CREATE_NGINX_CONF = 'create_nginx_conf'
+    COMPLETED = 'completed'
+
+
+    
+
 
 
 class ErrorHandler:
@@ -21,11 +30,11 @@ class ErrorHandler:
 
     
         
-    def handle_error(self):
+    def handle_error(self, step=None, error=None):
         if self.application == Application.CREATE_APPLICATION_API:
             self.create_application_API()
         elif self.application == Application.CELERY_WORKER:
-            self.celery_worker()
+            self.celery_worker(step, error)
 
     
             
@@ -34,21 +43,20 @@ class ErrorHandler:
 
     
     
-    def celery_worker(self):
+    def celery_worker(self, step, error):
 
         # user notification
         self.send_notification.send_notification(
             message = {
             "type": self.send_notification.notification_type,
-            "message": "Error while creating application"
+            "message": "Error while creating application",
+            "step": step,
             },
             
         )
 
-                
-        
-        error = self.payload.get('error')
         raise Exception(error)
+        
            
         
         

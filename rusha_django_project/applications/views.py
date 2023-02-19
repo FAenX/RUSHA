@@ -1,17 +1,10 @@
 import json
 
-from django.db import transaction
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-from rest_framework import generics
 
-from .models import Application, Project
-from .serializers import ApplicationSerializer
-from celery_tasks.celery_worker import create_application_task, cache_project_page_visits
-from django_redis import get_redis_connection
-from rest_framework import serializers
+from celery_tasks.celery_worker import create_application_task
 from .decorators.validate_application_payload import validate_application_payload
 
 

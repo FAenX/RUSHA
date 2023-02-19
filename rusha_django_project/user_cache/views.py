@@ -4,6 +4,9 @@ from django_redis import get_redis_connection
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from .serializers import ApplicationProjectSerializer
+from library.redis_connection import RedisConnection
+
+
 
 
 from django.db import connection
@@ -14,11 +17,25 @@ from django.db import connection
 @csrf_exempt
 @require_http_methods(["GET"])
 def get_home_page_cache(request, **kwargs):
-    redis_connection = get_redis_connection("default")
+
+    redis_connection = RedisConnection()
     user_id = kwargs.get("user_id")
-    project_cache_data  = redis_connection.get(f"{user_id}_home_page_cache_data")
+    project_cache_data  = redis_connection.get_value(f"{user_id}_home_page_cache_data")
+    was_project_updated = redis_connection.get_value(f"{user_id}_home_page_cache_data_updated")
+
+
+    print(was_project_updated)
+
+    if was_project_updated.lower() == b"true":
+        project_updated = True
+    else:
+        project_updated = False
+
+    print(project_updated)
+
     
-    if project_cache_data:
+    
+    if project_cache_data and not was_project_updated:
         return HttpResponse(project_cache_data, status=200)
     else:
         rows = []
@@ -43,5 +60,6 @@ def get_home_page_cache(request, **kwargs):
         key = f"{user_id}_home_page_cache_data"
 
         redis_connection.set(key, json.dumps(serializer_data))
+        redis_connection.set(f"{user_id}_home_page_cache_data_updated", str(False))
         return JsonResponse(serializer_data, status=200, safe=False)
    
