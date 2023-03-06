@@ -1,4 +1,0 @@
-FROM node:latest
-RUN apk add git
-FROM lscr.io/linuxserver/openssh-server:latest
-

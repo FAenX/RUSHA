@@ -1,0 +1,45 @@
+FROM alpine:latest
+
+RUN apk update && apk add --no-cache openssh-server bash
+RUN apk add git
+RUN apk add git
+RUN apk add --update docker openrc
+RUN rc-update add docker boot
+
+RUN sed -i s/#PermitRootLogin.*/PermitRootLogin\ no/ /etc/ssh/sshd_config && \
+    sed -i s/#PasswordAuthentication.*/PasswordAuthentication\ no/ /etc/ssh/sshd_config && \
+    sed -i s/#AllowTcpForwarding.*/AllowTcpForwarding\ yes/ /etc/ssh/sshd_config
+
+RUN adduser -D -s /bin/bash git && \
+    echo 'git:password' | chpasswd && \
+    mkdir /home/git/.ssh && \
+    chmod 700 /home/git/.ssh
+
+COPY authorized_keys/authorized_keys /home/git/.ssh/authorized_keys
+
+RUN chown git:git -R /home/git/.ssh && \
+    chmod 600 /home/git/.ssh/authorized_keys
+
+RUN ssh-keygen -A
+
+RUN apk add sudo
+RUN echo '%wheel ALL=(ALL) ALL' > /etc/sudoers.d/wheel
+RUN echo 'git ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/wheel
+
+RUN adduser git root
+
+RUN apk upgrade --update-cache --available
+
+
+# create a key pair on the host machine and copy the public key to authorized_keys
+EXPOSE 22
+
+CMD ["/usr/sbin/sshd", "-D"]
+
+
+
+
+
+
+
+

@@ -32,8 +32,13 @@ export default function CreateApplication(Props: {content?: Content}) {
 
   return (
     <Stack sx={{ minWidth: 120 }} className="border">
-        <Button aria-describedby={id} variant="outlined" onClick={handleClick} sx={{}} href={'create-application'}>
-          Create
+        <Button 
+        aria-describedby={id} 
+        variant="outlined" 
+        onClick={handleClick} 
+        sx={{"textTransform": "none"}} 
+        href={'create-application'}>
+          Create application
         </Button>
     </Stack>
   );

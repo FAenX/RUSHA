@@ -9,20 +9,27 @@ import {Tabs} from "./components";
 import { Button } from "react-bootstrap";
 import {SearchBar} from "./components";
 import { retrieveHomePageContentCached } from "../backend_requests/cache";
-
-const userId = "c36f8dcd-39cf-443c-a7f3-319dfc2d835b";
-
+import { authenticate } from "../utils/decorators";
 
 
-const Home = () => {
+
+
+
+
+
+const Home = authenticate(function() {
 
     const [applications, setApplications] = useState<UserHomePageCache[]>();
     const [content, setContent] = useState<Content>();
 
+    // get user id from session
+    
+
+
     useEffect(() => {
        ( 
         async()=> {
-            const data =await retrieveHomePageCache(userId)
+            const data =await retrieveHomePageCache("userId")
             const truncated = data.slice(0, 3);
             console.log(truncated);
             setApplications(truncated);
@@ -65,22 +72,23 @@ const Home = () => {
                             P
                         </Avatar>
                     </Stack>
-                    <Stack justifyContent={"center"}>
+                    {/* <Stack justifyContent={"center"}>
                         <Typography>{applications && applications[0].project_name }</Typography>
                         <Typography>{applications && applications[0].tag }</Typography>
                         <Typography>{applications && applications[0].description }</Typography>
                        
-                    </Stack>
+                    </Stack> */}
                     </Stack>
             </Stack>
             <Stack className="border" direction={"column"} spacing={3} sx={{padding: 2}}>
-                <Tabs applications={applications}/>
+                {/* <Tabs applications={applications}/> */}
                 
             </Stack>
           
         </Stack>
     );
-}
+
+});
 
 
 // content container

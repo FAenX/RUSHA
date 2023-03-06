@@ -1,6 +1,9 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import links from "./navigation-links";
+import NavigationLinks from "../utils/navigationObject";
+
+const links = new NavigationLinks();
+
 
 
 interface SideNavigationItemInterface {
@@ -29,9 +32,9 @@ const SideNavigationItem = (props: SideNavigationItemInterface ) => {
 
 export default [
     // home icon
-    <SideNavigationItem title={links().home.title}   icon={<i className="bi bi-1-circle"></i>}   link={links().home.link} id='link-home'/>,   
-    <SideNavigationItem title={links().createNewProject.title} icon={<i className="bi bi-node-plus-fill"></i>} link={links().createNewProject.link} id='link-new-project'/>,    // settings
-    <SideNavigationItem  title={links().projectSettings.title} icon={<i className="bi bi-sliders"></i>}  link={links().projectSettings.link} id='link-project-settings'/>,    
-    <SideNavigationItem title={links().logout.title}  icon={<i className="bi bi-sign-turn-right-fill"></i>} link={links().logout.link} id='link-logout'/>,
+    <SideNavigationItem title={links.home.title}   icon={<i className="bi bi-1-circle"></i>}   link={links.home.link} id='link-home'/>,   
+    <SideNavigationItem title={links.createNewProject.title} icon={<i className="bi bi-node-plus-fill"></i>} link={links.createNewProject.link} id='link-new-project'/>,    // settings
+    <SideNavigationItem  title={links.projectSettings.title} icon={<i className="bi bi-sliders"></i>}  link={links.projectSettings.link} id='link-project-settings'/>,    
+    <SideNavigationItem title={links.logout.title}  icon={<i className="bi bi-sign-turn-right-fill"></i>} link={links.logout.link} id='link-logout'/>,
    
 ];
