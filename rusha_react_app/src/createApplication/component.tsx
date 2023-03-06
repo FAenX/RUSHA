@@ -14,6 +14,7 @@ import { createApplication } from '../backend_requests/applications';
 import {steps} from "./components";
 import Layout from '../layout';
 import {ProgressStepper} from "./components";
+import { authenticate } from '../utils/decorators';
 
 
 
@@ -99,7 +100,7 @@ return (
 
 
 
-const Component = () => {
+const Component = authenticate(function()  {
   const [applicationName, setApplicationName] = React.useState<string>('');
   const [content, setContent] = React.useState<StepProps>();
   const [responseData, setResponseData] = React.useState<any>();
@@ -178,7 +179,7 @@ const Component = () => {
   
         </Layout>
   );
-}
+});
 
 
 
