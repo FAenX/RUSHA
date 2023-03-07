@@ -63,9 +63,9 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:3000", "http://rusha_ui:3000"
-# ]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost"
+]
 
 CORS_ORIGIN_ALLOW_ALL = True
 

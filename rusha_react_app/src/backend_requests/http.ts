@@ -1,23 +1,30 @@
 import axios from 'axios';
 
 
-interface APIBaseURLS {
-    UserHomePageCacheApi: string;
-    applicationsApi: string;
-    default: string;
-    contentCache: string;
-}
+
 
 interface API {
     typeOfRequest: string;
     // getBaseUrl: () => string;
 }
 
-const apiBaseUrls: APIBaseURLS  = {
+export const apiBaseUrls  = {
     UserHomePageCacheApi: 'http://localhost:8000/user_cache_api/v1',
     applicationsApi: 'http://localhost:8000/applications_api/v1',
     default: 'http://localhost:8000/user_cache_api/v1',
     contentCache: 'http://localhost:8000/content_api/v1',
+    users: 'http://localhost:8000/users_api/v1',
+}
+
+export const endpoints = {
+    homePageCache: 'home_page_cache/',
+    homePageContentCached: 'home_page-content_cached/',
+    createApplicationPageContentCache: 'create_application_page_content_cache/',
+    deploy: 'deploy/',
+    applications: 'applications/',
+    login: 'login/',
+    register: 'register/',
+    logout: 'logout/',
 }
 
 const config = {
@@ -55,13 +62,13 @@ function errorHandler(error: any): object {
 class API {
 
     callAPI = async (
-        api: 'applicationsApi' | "UserHomePageCacheApi" | "default" | "contentCache", 
+        api: string, 
         endpoint: string,
         method: 'get' | 'post' | 'put' | 'delete',
         data?: object
 
         ): Promise<any> => {
-        const url = `${apiBaseUrls[api]}/${endpoint}`;
+        const url = `${api}/${endpoint}`;
         try {
             if (method.toLocaleLowerCase() === 'get') {
                 const response = await axios[method](url, config);
