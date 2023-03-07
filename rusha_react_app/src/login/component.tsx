@@ -1,7 +1,7 @@
 import { Avatar, Button, Stack, TextField, Typography } from "@mui/material";
 import React  from "react";
 import { login } from "../backend_requests/user";
-import { userReducer, UserAction, UserState } from "../utils/reducers";
+import { userReducer, UserAction, UserState } from "../utils/userProvider";
 
 
 const initialState: UserState = {

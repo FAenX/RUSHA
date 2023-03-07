@@ -24,7 +24,7 @@ interface SideNavigationItemInterface {
 const SideNavigationItem = (props: SideNavigationItemInterface ) => {
     return (
         <Button  id={props.id} href={props.link} sx={{textTransform: "none"}}  onClick={props.onClick}>
-            <p className="border">
+            <p >
                 {props.title}
             </p>
         </Button>

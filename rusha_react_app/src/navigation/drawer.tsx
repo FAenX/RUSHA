@@ -109,9 +109,8 @@ export default function MiniDrawer() {
       <AppBar 
         position="fixed" 
         color="inherit" 
-        sx={{}}
+        sx={{borderBottom: 1, borderColor: 'divider'}}
         elevation={0}
-        className="border"
         open={open} >
         <Toolbar>
           <IconButton
@@ -140,7 +139,7 @@ export default function MiniDrawer() {
         
         <List>
           {children.map((component, index) => (
-            <ListItem sx={{padding: 1}}  className="border" >
+            <ListItem sx={{padding: 1}}   >
               
                 <ListItemIcon sx={{padding: 1}} className="border" >
                     <component.icon />

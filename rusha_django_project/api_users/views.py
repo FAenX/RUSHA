@@ -7,6 +7,9 @@ from django.views.decorators.http import require_http_methods
 from library.decorators import validate_login_payload
 from django.views.decorators.csrf import csrf_exempt
 
+from .models import User
+from .serializers import UserSerializer
+
 # Create your views here.
 
 
@@ -22,30 +25,15 @@ def login(request):
     email = payload['email']
     password = payload['password']
 
-    print(email, password)
-    # TODO: check if user exists
+    user = User.objects.get(email=email)
+
+    serialized_user = UserSerializer(user)
+
+    print(serialized_user.data)
 
     response_payload = {
         "auth_token": "1234567890",
-        "user": {
-            "id": 1,
-            "email": email,
-            "first_name": "John",
-            "last_name": "Doe",
-            "phone": "1234567890",
-            "address": "123 Main St",
-            "city": "New York",
-            "state": "NY",
-            "zip_code": "12345",
-            "country": "USA",
-            "is_active": True,
-            "is_staff": False,
-            "is_superuser": False,
-            "date_joined": "2020-01-01T00:00:00Z",
-            "last_login": "2020-01-01T00:00:00Z",
-        }
+        "user": serialized_user.data
     }
-
-
 
     return JsonResponse(response_payload, status=200)
