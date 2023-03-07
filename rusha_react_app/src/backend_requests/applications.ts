@@ -1,7 +1,6 @@
-import axios from 'axios';
-import { API } from '.';
 
-const apiUrl = 'http://localhost:8000/app-api/v1'
+import { API } from '.';
+import {apiBaseUrls, endpoints} from './http';
 
 
 
@@ -9,7 +8,11 @@ const apiUrl = 'http://localhost:8000/app-api/v1'
 
 
 const applicationList = async () => {  
-    const { data } = await axios.get(`${apiUrl}/applications/`);
+    const { data } = await new API().callAPI(
+        apiBaseUrls.applicationsApi,
+        endpoints.applications,
+        "get",
+    )
     return data;
 };
 
@@ -31,8 +34,8 @@ interface CreateApplicationPayload {
 const createApplication = async (payload: CreateApplicationPayload):Promise<0|1> => {
     
     return await new API().callAPI(
-        "applicationsApi",
-        "deploy/",
+        apiBaseUrls.applicationsApi,
+        endpoints.deploy,
         "post",
         payload
         );

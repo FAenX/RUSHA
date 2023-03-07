@@ -1,11 +1,23 @@
 import { Avatar, Button, Stack, TextField, Typography } from "@mui/material";
 import React  from "react";
 import { login } from "../backend_requests/user";
+import { userReducer, UserAction, UserState } from "../utils/reducers";
 
+
+const initialState: UserState = {
+            email: "",
+            id: '',
+            createdAt: "",
+            updatedAt: "",
+            role: "",
+            name: "",
+};
 
 export const Login = () => {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+
+    const [userState, userDispatch] = React.useReducer(userReducer, initialState)
 
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
@@ -21,8 +33,29 @@ export const Login = () => {
 
         login(email, password).then((response) => {
             console.log(response)
+            
+            if (response.status === 200) {
+                localStorage.setItem('rusha_token', response.data.auth_token);
+
+                userDispatch({
+                    type: 'SET_USER',
+                    user: {
+                        email: response.data.user.email,
+                        id: response.data.user.id,
+                        createdAt: response.data.user.created_at,
+                        updatedAt: response.data.user.updated_at,
+                        role: response.data.user.role,
+                        name: response.data.user.name,
+                    }
+                });
+
+                window.location.href = '/';
+            }
+
         }
-        )
+        ).catch((error) => {
+            console.log(error)
+        })
 
 
     };

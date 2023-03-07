@@ -1,6 +1,12 @@
 import axios from 'axios';
 
 
+const requests = {
+    "get": "GET",
+    "post": "POST",
+    "put": "PUT",
+    "delete": "DELETE"
+}
 
 
 interface API {

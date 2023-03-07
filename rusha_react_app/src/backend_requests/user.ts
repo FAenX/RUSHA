@@ -4,7 +4,10 @@ import { API } from '.';
 import {apiBaseUrls, endpoints} from './http';
 
 
-export const login = async (email: string, password: string): Promise<string> => {
+
+
+
+export const login = async (email: string, password: string): Promise<any> => {
     const response = await new API().callAPI(
         apiBaseUrls.users,
         endpoints.login,
