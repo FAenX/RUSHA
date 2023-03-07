@@ -10,12 +10,7 @@ import { Button } from "react-bootstrap";
 import {SearchBar} from "./components";
 import { retrieveHomePageContentCached } from "../backend_requests/cache";
 import { authenticate } from "../utils/decorators";
-import { UserProvider } from "../utils/userProvider";
-
-
-
-
-
+import { UserProvider, UserContext } from "../utils/userProvider";
 
 
 
@@ -24,6 +19,10 @@ const Home = authenticate(function() {
 
     const [applications, setApplications] = useState<UserHomePageCache[]>();
     const [content, setContent] = useState<Content>();
+
+    const {state} = React.useContext(UserContext);
+
+    console.log(state)
 
 
     useEffect(() => {

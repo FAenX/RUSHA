@@ -41,7 +41,7 @@ type CounterContextType = {
 };
 
 
-const UserContext = React.createContext<CounterContextType>({
+export const UserContext = React.createContext<CounterContextType>({
     state: userInitialState,
     dispatch: () => {},
 });
