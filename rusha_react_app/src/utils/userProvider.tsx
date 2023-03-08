@@ -4,60 +4,51 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './redux';
 
-const initialState = {
-        id: '',
-        email: '',
-        first_name: '',
-        last_name: '',
-};
 
 interface User {
     id: string;
     email: string;
     first_name: string;
     last_name: string;
-}
+};
 
 interface UserState {
     user: User | null;
 }
 
-export type UserAction = {
-    type: 'SET_USER';
-    user: UserState;
- };
-    
+const initialState: UserState = {
+    user: null
+};
+
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
-        state = action.payload
+        state.user = action.payload
     },
   },
 });
 
 
-export default userSlice.reducer;
+const { setUser} = userSlice.actions;
 
   
 type ProviderProps = {
     children: React.ReactNode;
 };
 
-type ContextType = {
-    user: User;
+type UserContextType = {
+    user: User | null;
     setUser: (user: User) => void;
 };
 
 
-export const UserContext = React.createContext<ContextType>({
-    user: initialState,
-    setUser: () => {},
+export const UserContext = React.createContext<UserContextType>({
+    user: null,
+    setUser: () => {}
 });
-
-const { setUser} = userSlice.actions;
 
 export const UserProvider: React.FC<ProviderProps> = ({children}) => {
 
@@ -66,19 +57,15 @@ export const UserProvider: React.FC<ProviderProps> = ({children}) => {
         dispatch(setUser(user));
     }
 
-    const state = useSelector((state: RootState) => state);
-    console.log(state)
-
-    const user = useSelector((state: RootState) => state.user);
+    const user = useSelector((state: RootState) => state.user.user);
 
     return (
-        <UserContext.Provider value={{
-            user: user,
-            setUser: handleSetUser,
-        }}>
+        <UserContext.Provider value={{user, setUser: handleSetUser }}>
             {children}
         </UserContext.Provider>
     )
 }
 
+
+export default userSlice.reducer;
 

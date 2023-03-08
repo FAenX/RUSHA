@@ -11,7 +11,6 @@ export const Login = () => {
     const [password, setPassword] = React.useState("");
 
     const {user, setUser} = useContext(UserContext);
-    
 
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
