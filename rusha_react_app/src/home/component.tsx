@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer, useState} from "react";
+import React, {useContext, useEffect, useReducer, useState} from "react";
 import Layout from "../layout/component";
 
 import { Avatar, Stack, Typography } from "@mui/material";
@@ -10,6 +10,7 @@ import { Button } from "react-bootstrap";
 import {SearchBar} from "./components";
 import { retrieveHomePageContentCached } from "../backend_requests/cache";
 import { authenticate } from "../utils/decorators";
+import { UserContext } from "../utils/userProvider";
 // import { UserProvider, UserContext } from "../utils/userProvider";
 
 
@@ -20,13 +21,15 @@ const Home = authenticate(function() {
     const [applications, setApplications] = useState<UserHomePageCache[]>();
     const [content, setContent] = useState<Content>();
 
-    
+    const {user} = useContext(UserContext);
 
+    console.log(user)
+    // 
 
     useEffect(() => {
        ( 
         async()=> {
-            const data =await retrieveHomePageCache("userId")
+            const data =await retrieveHomePageCache(user ? user.id : '')
             const truncated = data.slice(0, 3);
             console.log(truncated);
             setApplications(truncated);
@@ -60,7 +63,7 @@ const Home = authenticate(function() {
                 <SearchBar />
        
                 </Stack>
-                <CreateApplication content={content}/>
+                <CreateApplication/>
                 
             </Stack>
             <Stack className="border" direction={"column"} spacing={3} sx={{padding: 2}}>

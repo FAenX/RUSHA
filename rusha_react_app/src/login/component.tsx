@@ -40,18 +40,6 @@ export const Login = () => {
         
     };
 
-    // useEffect(() => {
-    //     console.log('debug user')
-    //     console.log(user)
-        
-    //     if (localStorage.getItem('rusha_token') !== null) {
-    //         console.log('token is not null')
-    //         console.log(user)
-            
-    //     }
-        
-    // }, [user]);
-
     return (
         
         <Stack justifyContent={"center"} alignItems="center" className="border" sx={{minHeight: "100vh"}}>

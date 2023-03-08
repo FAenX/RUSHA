@@ -9,31 +9,22 @@ import { Content } from '../../types/create-project-response-type';
 import Button, {} from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 import PopupState from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 
-export default function CreateApplication(Props: {content?: Content}) {
-  const [application, setApplication] = React.useState('');
+export default function CreateApplication() {
 
-  const {content} = Props;
-
- 
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+  const navigate = useNavigate()
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    navigate('/create-application')
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  
 
   return (
     <Stack sx={{ minWidth: 120 }} className="border">
         <Button 
-        aria-describedby={id} 
         variant="outlined" 
         onClick={handleClick} 
         sx={{"textTransform": "none"}} 
