@@ -10,7 +10,7 @@ import { Button } from "react-bootstrap";
 import {SearchBar} from "./components";
 import { retrieveHomePageContentCached } from "../backend_requests/cache";
 import { authenticate } from "../utils/decorators";
-import { UserProvider, UserContext } from "../utils/userProvider";
+// import { UserProvider, UserContext } from "../utils/userProvider";
 
 
 
@@ -20,9 +20,7 @@ const Home = authenticate(function() {
     const [applications, setApplications] = useState<UserHomePageCache[]>();
     const [content, setContent] = useState<Content>();
 
-    const {state} = React.useContext(UserContext);
-
-    console.log(state)
+    
 
 
     useEffect(() => {
@@ -53,7 +51,7 @@ const Home = authenticate(function() {
     // }, []);
 
     return (
-        <UserProvider>
+       
         <Stack className="border" direction={"column"} justifyContent="flex-start" sx={{"width": "100%", margin: 2, padding: 2}}>
             {/* project heading */}
             <Stack className="border" direction={"row"} justifyContent={"space-between"} sx={{margin: 5, padding: 2}}>
@@ -86,7 +84,7 @@ const Home = authenticate(function() {
             </Stack>
           
         </Stack>
-        </UserProvider>
+       
     );
 
 });

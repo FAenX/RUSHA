@@ -1,23 +1,17 @@
 import { Avatar, Button, Stack, TextField, Typography } from "@mui/material";
-import React  from "react";
+import React, { useContext, useEffect }  from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../backend_requests/user";
-import { userReducer, UserState } from "../utils/userProvider";
+import { UserContext } from "../utils/userProvider";
+// import { UserContext } from "../utils/userProvider";
 
-
-const initialState: UserState = {
-            email: "",
-            id: '',
-            createdAt: "",
-            updatedAt: "",
-            role: "",
-            name: "",
-};
 
 export const Login = () => {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
 
-    const [state, dispatch] = React.useReducer(userReducer, initialState);
+    const {user, setUser} = useContext(UserContext);
+    
 
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
@@ -29,41 +23,37 @@ export const Login = () => {
         setPassword(event.target.value);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log(email)
         console.log(password)
-
-        login(email, password).then((response) => {
-            console.log(response)
-            
-            if (response.status === 200) {
-                localStorage.setItem('rusha_token', response.data.auth_token);
-
-                dispatch({
-                    type: 'SET_USER',
-                    user: {
-                        email: response.data.email,
-                        id: response.data.id,
-                        createdAt: response.data.createdAt,
-                        updatedAt: response.data.updatedAt,
-                        role: response.data.role,
-                        name: response.data.name,
-
-                    }
-                })
-
-                console.log('debug state')
-                console.log(state)
-
-                window.location.href = '/';
-            }
-
+        const response = await login(email, password)
+        localStorage.setItem('rusha_token', response.data.auth_token);
+        const userData = {
+            id: response.data.user.id,
+            email: response.data.user.email,
+            first_name: response.data.user.first_name,
+            last_name: response.data.user.last_name,
         }
-        ).catch((error) => {
-            console.log(error)
-        })
+        setUser(userData)
+        console.log('debug user')
+        console.log(user)
+        
     };
+
+    useEffect(() => {
+        console.log('debug user')
+        console.log(user)
+        
+        if (localStorage.getItem('rusha_token') !== null) {
+            console.log('token is not null')
+            console.log(user)
+            // window.location.href = '/'
+        }
+        
+    }, [user]);
+
     return (
+        
         <Stack justifyContent={"center"} alignItems="center" className="border" sx={{minHeight: "100vh"}}>
             <Stack className='border' >
             <Stack direction={"row"} spacing={3} alignContent="center" sx={{padding: 10}}>
@@ -87,5 +77,7 @@ export const Login = () => {
                     </Stack>
                 </Stack>
         </Stack>
+       
+       
     );
     };

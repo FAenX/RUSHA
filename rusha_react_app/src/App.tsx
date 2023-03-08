@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import Home from './home/component';
@@ -13,6 +13,9 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import CreateApplication  from './createApplication';
 import NavigationLinks from './utils/navigationObject';
 import { Login } from './login/component';
+import { UserContext, UserProvider } from './utils/userProvider';
+import { store } from './utils/redux'
+import { Provider } from 'react-redux'
 
 const links = new NavigationLinks();
   
@@ -40,20 +43,31 @@ const theme = createTheme({
 });
 
 function App() {
+  
   return (
+    <Provider store={store}>
+    <UserProvider>
     <ThemeProvider
      theme={theme}
     >
+      
       <BrowserRouter>
+      
         <Routes>
+        
           <Route path={links.login.link} element={<Login />} />
           <Route path={links.home.link} element={<Home />} />
           <Route path={links.createNewProject.link} element={<CreateProject />} />
           <Route path={links.deployment.link} element={<CreateApplication />} />
+        
         </Routes>
+        
       </BrowserRouter>
+      
 
      </ThemeProvider>
+      </UserProvider>
+      </Provider>
   );
 }
 
