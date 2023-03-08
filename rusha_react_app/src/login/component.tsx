@@ -1,9 +1,8 @@
 import { Avatar, Button, Stack, TextField, Typography } from "@mui/material";
-import React, { useContext, useEffect }  from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useContext }  from "react";
 import { login } from "../backend_requests/user";
 import { UserContext } from "../utils/userProvider";
-// import { UserContext } from "../utils/userProvider";
+import { useNavigate } from 'react-router-dom';
 
 
 export const Login = () => {
@@ -16,6 +15,7 @@ export const Login = () => {
         setEmail(event.target.value);
     };
 
+    let navigate = useNavigate();
    
 
     const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,20 +36,21 @@ export const Login = () => {
         setUser(userData)
         console.log('debug user')
         console.log(user)
+        navigate('/')
         
     };
 
-    useEffect(() => {
-        console.log('debug user')
-        console.log(user)
+    // useEffect(() => {
+    //     console.log('debug user')
+    //     console.log(user)
         
-        if (localStorage.getItem('rusha_token') !== null) {
-            console.log('token is not null')
-            console.log(user)
-            // window.location.href = '/'
-        }
+    //     if (localStorage.getItem('rusha_token') !== null) {
+    //         console.log('token is not null')
+    //         console.log(user)
+            
+    //     }
         
-    }, [user]);
+    // }, [user]);
 
     return (
         
