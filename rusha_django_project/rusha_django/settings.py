@@ -50,7 +50,14 @@ INSTALLED_APPS = [
     'library',
     #  'cron_jobs',
     #  'django_celery_results',
+    # 'rest_framework.authtoken'
 ]
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     ],
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

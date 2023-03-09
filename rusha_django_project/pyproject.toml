@@ -18,6 +18,8 @@ jinja2 = "^3.1.2"
 tornado = "^6.2"
 channels = "^4.0.0"
 daphne = "^4.0.0"
+djangorestframework-simplejwt = "^5.2.2"
+pyjwt = "^2.6.0"
 
 [tool.poetry.dev-dependencies]
 

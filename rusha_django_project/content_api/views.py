@@ -12,6 +12,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from .serializers import ApplicationProjectSerializer
 from library.redis_connection import RedisConnection
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import authentication_classes, permission_classes
 
 from django.db import connection
 # Create your views here.
@@ -40,7 +43,7 @@ def get_home_page_content_cache(request):
 
     
     
-    if len(project_cache_data) > 1:
+    if project_cache_data:
         print(project_cache_data)
         return HttpResponse(project_cache_data, status=200)
     else:

@@ -9,6 +9,11 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import User
 from .serializers import UserSerializer
+import jwt
+
+
+SECRET_KEY = 'dsldmksdkfdnfjdnfkjdnfkjsnjkfnkjdnfjksdnfjkndkfndksnfkjsd'
+
 
 # Create your views here.
 
@@ -29,10 +34,12 @@ def login(request):
 
     serialized_user = UserSerializer(user)
 
-    print(serialized_user.data)
+    print(serialized_user)
+
+    token = jwt.encode({'user_id': user.id.hex}, SECRET_KEY, algorithm='HS256')
 
     response_payload = {
-        "auth_token": "1234567890",
+        "auth_token": token,
         "user": serialized_user.data
     }
 
