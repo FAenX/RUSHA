@@ -1,18 +1,14 @@
-import React, {useContext, useEffect, useReducer, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import Layout from "../layout/component";
 
-import { Avatar, Stack, Typography } from "@mui/material";
+import { Avatar, Stack } from "@mui/material";
 import {CreateApplication} from "./components"
 import {retrieveHomePageCache} from "../backend_requests";
 import {UserHomePageCache, Content} from "../types/create-project-response-type";
-import {Tabs} from "./components";
-import { Button } from "react-bootstrap";
 import {SearchBar} from "./components";
 import { retrieveHomePageContentCached } from "../backend_requests/cache";
 import { authenticate } from "../utils/decorators";
 import { UserContext } from "../utils/userProvider";
-// import { UserProvider, UserContext } from "../utils/userProvider";
-
 
 
 
@@ -40,18 +36,18 @@ const Home = authenticate(function() {
         
     }, []);
 
-    // useEffect(() => {
-    //     ( 
-    //         async()=> {
-    //             const data =await retrieveHomePageContentCached()
-    //             console.log(data);
-    //             setContent(data);
-    //             // setProject(data);
-    //         }
+    useEffect(() => {
+        ( 
+            async()=> {
+                const data =await retrieveHomePageContentCached()
+                console.log(data);
+                // setContent(data);
+                // setProject(data);
+            }
             
-    //     )()
-    //     // call backend to get content
-    // }, []);
+        )()
+        // call backend to get content
+    }, []);
 
     return (
        
