@@ -2,7 +2,7 @@ import json
 from applications.serializers import ApplicationSerializer
 from library.notifications_handler import NotificationType
 from library.redis_connection import RedisConnection
-from user_cache.serializers import ApplicationProjectSerializer
+from content_api.serializers import ApplicationProjectSerializer
 from library.send_notification import SendNotification
 
 

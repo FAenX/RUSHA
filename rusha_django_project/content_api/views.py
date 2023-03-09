@@ -1,26 +1,76 @@
 import json
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 
 from django_redis import get_redis_connection
 from content_api.models import HomePageContent, CreateApplicationPageContent
+import json
+from django.http import HttpResponse, JsonResponse
+from django_redis import get_redis_connection
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+from .serializers import ApplicationProjectSerializer
+from library.redis_connection import RedisConnection
 
+from django.db import connection
 # Create your views here.
 
 
 
-
-@require_http_methods(["GET"])
+@csrf_exempt
+@require_http_methods(["POST"])
 def get_home_page_content_cache(request):
-    redis_connection = get_redis_connection("default")
-    home_page_content_cache = redis_connection.get("home_page_content_cache")
+    redis_connection = RedisConnection()
+    body = json.loads(request.body)
 
-    print(home_page_content_cache)
+    print(body)
+    token = body.get("token")
+    print(token)
+    project_cache_data  = redis_connection.get_value(f"{token}_home_page_cache_data")
+    # was_project_updated = redis_connection.get_value(f"{token}_home_page_cache_data_updated")
 
-    # if home_page_content_cache:
-    return HttpResponse(home_page_content_cache, status=200)
+
+    # if was_project_updated.lower() == b"true":
+    #     project_updated = True
     # else:
-    #     return HttpResponse(status=404)
+    #     project_updated = False
+
+    # print(project_updated)
+
+    
+    
+    if len(project_cache_data) > 1:
+        print(project_cache_data)
+        return HttpResponse(project_cache_data, status=200)
+    else:
+        rows = []
+        with connection.cursor() as cursor:
+            cursor.execute(f"""
+            SELECT row_to_json(t)
+            FROM (
+            SELECT * FROM projects_project 
+            JOIN applications_application ON projects_project.id = applications_application.project_id
+            WHERE projects_project.user_id = '9cd0e932-05bd-4ae1-b89e-e320cfa2b7e4'
+            ORDER BY applications_application.date_created DESC
+            ) t;
+            """)
+
+
+            rows = cursor.fetchall()
+
+        print(rows)
+
+        serializer = ApplicationProjectSerializer([i[0] for i in rows], many=True)
+        serializer_data = serializer.data
+
+        redis_connection = get_redis_connection("default")
+        key = f"{token}_home_page_cache_data"
+
+        redis_connection.set(key, json.dumps(serializer_data))
+        redis_connection.set(f"{token}_home_page_cache_data_updated", str(False))
+        return JsonResponse(serializer_data, status=200, safe=False)
+   
 
 @require_http_methods(["GET"])
 def create_application_page_content_cache(request):

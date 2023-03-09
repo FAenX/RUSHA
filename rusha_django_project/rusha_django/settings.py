@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'applications',
     'corsheaders',
     'celery_tasks',
-    'user_cache',
+    # 'user_cache',
     'api_users',
     'projects',
     'content_api',

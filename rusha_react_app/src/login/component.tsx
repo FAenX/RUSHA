@@ -3,6 +3,7 @@ import React, { useContext }  from "react";
 import { login } from "../backend_requests/user";
 import { UserContext } from "../utils/userProvider";
 import { useNavigate } from 'react-router-dom';
+import staticVariables from "../utils/static";
 
 
 export const Login = () => {
@@ -26,12 +27,13 @@ export const Login = () => {
         console.log(email)
         console.log(password)
         const response = await login(email, password)
-        localStorage.setItem('rusha_token', response.data.auth_token);
+        localStorage.setItem(staticVariables.rushaToken, response.data.auth_token);
         const userData = {
             id: response.data.user.id,
             email: response.data.user.email,
             first_name: response.data.user.first_name,
             last_name: response.data.user.last_name,
+            rushaToken: response.data.auth_token
         }
         setUser(userData)
         console.log('debug user')

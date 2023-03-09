@@ -1,14 +1,15 @@
 import {useContext, useEffect, useState} from "react";
 import Layout from "../layout/component";
 
-import { Avatar, Stack } from "@mui/material";
-import {CreateApplication} from "./components"
-import {retrieveHomePageCache} from "../backend_requests";
+import { Avatar, Stack, Typography } from "@mui/material";
+import {CreateApplication, Tabs} from "./components"
+import {retrieveUserHomePageCache} from "../backend_requests";
 import {UserHomePageCache, Content} from "../types/create-project-response-type";
 import {SearchBar} from "./components";
-import { retrieveHomePageContentCached } from "../backend_requests/cache";
+// import { retrieveHomePageContentCached } from "../backend_requests/cache";
 import { authenticate } from "../utils/decorators";
 import { UserContext } from "../utils/userProvider";
+import staticVariables  from "../utils/static";
 
 
 
@@ -23,24 +24,29 @@ const Home = authenticate(function() {
     // 
 
     useEffect(() => {
+        let rushaToken = localStorage.getItem(staticVariables.rushaToken)
+        if (user) {
+            rushaToken = user.rushaToken 
+        };
+        console.log(rushaToken);
+
        ( 
         async()=> {
-            const data =await retrieveHomePageCache(user ? user.id : '')
-            const truncated = data.slice(0, 3);
-            console.log(truncated);
-            setApplications(truncated);
+            const data =await retrieveUserHomePageCache(rushaToken || "/")
+            console.log(data);
+            setApplications(data);
         }
         
         )()
 
         
-    }, []);
+    }, [user]);
 
     useEffect(() => {
         ( 
             async()=> {
-                const data =await retrieveHomePageContentCached()
-                console.log(data);
+                // const data =await retrieveHomePageContentCached()
+                // console.log(data);
                 // setContent(data);
                 // setProject(data);
             }
@@ -69,16 +75,16 @@ const Home = authenticate(function() {
                             P
                         </Avatar>
                     </Stack>
-                    {/* <Stack justifyContent={"center"}>
+                    <Stack justifyContent={"center"}>
                         <Typography>{applications && applications[0].project_name }</Typography>
                         <Typography>{applications && applications[0].tag }</Typography>
                         <Typography>{applications && applications[0].description }</Typography>
                        
-                    </Stack> */}
+                    </Stack>
                     </Stack>
             </Stack>
             <Stack className="border" direction={"column"} spacing={3} sx={{padding: 2}}>
-                {/* <Tabs applications={applications}/> */}
+                <Tabs applications={applications}/>
                 
             </Stack>
           

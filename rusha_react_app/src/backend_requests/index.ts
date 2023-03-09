@@ -1,6 +1,6 @@
 
 import {createApplication, applicationList} from './applications';
-import {cacheHomePage, retrieveHomePageCache} from './cache';
+import {retrieveUserHomePageCache} from './cache';
 import API from './http';
 
 import { createApplicationPageContentCached} from './content';
@@ -8,8 +8,8 @@ import { createApplicationPageContentCached} from './content';
 
 export { 
     createApplication, 
-    cacheHomePage, 
-    retrieveHomePageCache, 
+    // cacheHomePage, 
+    retrieveUserHomePageCache, 
     API,
     createApplicationPageContentCached,
     applicationList
