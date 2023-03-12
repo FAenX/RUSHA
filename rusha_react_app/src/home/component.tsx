@@ -20,7 +20,7 @@ const Home = authenticate(function() {
 
     const {user} = useContext(UserContext);
 
-    console.log(user)
+   
     // 
 
     useEffect(() => {
@@ -29,6 +29,7 @@ const Home = authenticate(function() {
             rushaToken = user.rushaToken 
         };
         console.log(rushaToken);
+        console.log(user);
 
        ( 
         async()=> {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import staticVariables  from "../utils/static";
 
 
 const requests = {
@@ -25,17 +26,19 @@ export const apiBaseUrls  = {
 export const endpoints = {
     homePageCache: 'home_page_cache/',
     homePageContentCached: 'home_page-content_cached/',
-    createApplicationPageContentCache: 'create_application_page_content_cache/',
+    createApplicationPageContentCache: 'create_application_page_cache/',
     deploy: 'deploy/',
     applications: 'applications/',
     login: 'login/',
     register: 'register/',
     logout: 'logout/',
+    decodeToken: 'decode_token/',
 }
 
 const config = {
     headers: {
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem(staticVariables.rushaToken),
         // 'Access-Control-Allow-Origin': '*',
         // 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
     },

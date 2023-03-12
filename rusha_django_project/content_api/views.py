@@ -76,7 +76,7 @@ def get_home_page_content_cache(request):
    
 
 @require_http_methods(["GET"])
-def create_application_page_content_cache(request):
+def create_application_page_cache(request):
     redis_connection = get_redis_connection("default")
     content = redis_connection.get("create_applications_page_content_cache")
     
@@ -96,4 +96,4 @@ def create_application_page_content_cache(request):
             return HttpResponse(content, status=200)
 
         else:
-            return HttpResponse(status=404)
+            return HttpResponse(status=404, data='No content found')

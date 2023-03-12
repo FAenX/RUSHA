@@ -17,41 +17,32 @@ export function Repositories(props: StepProps) {
 
 
   return (
-   
-
-              <Stack direction={"row"}> 
-                <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        defaultValue="female"
-                        name="radio-buttons-group"
-                    >
-                        {repositories && repositories.map((repository) => (
-                        <Button variant="outlined" sx={{margin: 2}} key={Math.random()}>
-                        
-                        <FormControlLabel value="github" control={
-                            <Stack direction={"row"} alignContent={""} justifyContent={"space-between"} >
-                                <Radio />     
-                            </Stack>
-                        
-                        } label={
-                            <Stack direction={"row"} sx={{width: 200}} spacing={3} alignContent="center" alignItems={"center"}>
-                                <Avatar sx={{width: 30, height: 30, margin:2}} variant="rounded">
-                                    {repository.icon}
-                                </Avatar>
-                                {repository.name}
-                            </Stack>
-                        } />
-                    </Button>
-                        ))}
-                    
-                   
-                </RadioGroup>
-               
-              </Stack>
-              
-              
-              
-       
+        <Stack direction={"row"}> 
+        <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue="female"
+                name="radio-buttons-group"
+            >
+                {repositories && repositories.map((repository) => (
+                <Button variant="outlined" sx={{margin: 2}} key={Math.random()}>
+                
+                <FormControlLabel value="github" control={
+                    <Stack direction={"row"} alignContent={""} justifyContent={"space-between"} >
+                        <Radio />     
+                    </Stack>
+                
+                } label={
+                    <Stack direction={"row"} sx={{width: 200}} spacing={3} alignContent="center" alignItems={"center"}>
+                        <Avatar sx={{width: 30, height: 30, margin:2}} variant="rounded">
+                            {repository.icon}
+                        </Avatar>
+                        {repository.name}
+                    </Stack>
+                } />
+            </Button>
+                ))}
+        </RadioGroup>
+        </Stack>          
   );
 }
 

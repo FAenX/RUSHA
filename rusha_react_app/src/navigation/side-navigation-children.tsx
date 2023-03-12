@@ -6,6 +6,7 @@ import DeckIcon from '@mui/icons-material/Deck';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings';
 import LogoutIcon from '@mui/icons-material/Logout';
+import staticVariables  from "../utils/static";
 
 const links = new NavigationLinks();
 
@@ -35,7 +36,7 @@ const SideNavigationItem = (props: SideNavigationItemInterface ) => {
 const logout=()=>{
     console.log('logout')
     // remove token from local storage
-    localStorage.removeItem('rusha_token');
+    localStorage.removeItem(staticVariables.rushaToken);
     // redirect to login page
     window.location.href = '/login';
 }

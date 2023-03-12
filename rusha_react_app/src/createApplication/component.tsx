@@ -15,87 +15,10 @@ import {steps} from "./components";
 import Layout from '../layout';
 import {ProgressStepper} from "./components";
 import { authenticate } from '../utils/decorators';
+import VerticalLinearStepper from './components/verticalStepper';
+import { UserContext } from '../utils/userProvider';
 
 
-
-
-
-function VerticalLinearStepper(props : StepProps) {
-  const {repositories, applicationName, onChange, reviewProps, handleSubmit} = props;
-  const [activeStep, setActiveStep] = React.useState(0);
-  const handleNext = () => {
-      setActiveStep((prevActiveStep) => activeStep==steps.length -1 ? activeStep : prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-      setActiveStep((prevActiveStep) => activeStep==0 ? activeStep : prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-      setActiveStep(0);
-  };
-
-return (
-  <Box sx={{ width: "100%"}}>
-      <Paper square elevation={2} sx={{ p: 1, width: 600 }}>
-          <Box sx={{ mb: 1, margin: 1 }}>
-              { activeStep!==steps.length -1 && <Button
-              onClick={handleNext}
-              sx={{ mt: 1, mr: 1 }}
-              >
-              Next
-              </Button>}
-
-              { activeStep!==0 && <Button
-              onClick={handleBack}
-              sx={{ mt: 1, mr: 1 }}
-              >
-              Back
-              </Button>}
-          
-      
-              { activeStep==steps.length -1 && <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-                  Reset
-              </Button>}
-
-              { activeStep==steps.length -1 && <Button onClick={handleSubmit}  sx={{ mt: 1, mr: 1 }}>
-                  Submit
-              </Button>}
-              </Box>
-      </Paper>
-    <Stepper activeStep={activeStep} orientation="vertical">
-
-      {steps.map((step) => (
-
-          <Step key={Math.random()}>
-              <StepLabel
-                  optional={"select repository"}
-              >
-                  <Typography variant={"h6"}>
-                  {step.label}
-                  </Typography>
-              </StepLabel>
-              <StepContent >
-                  <Typography>
-                      {<step.component repositories= {repositories} onChange={onChange} applicationName={applicationName} reviewProps={{
-                          applicationName: applicationName? applicationName : "", 
-                          githubRepo: reviewProps?.githubRepo? reviewProps?.githubRepo : "Repository not generated", 
-                          url: reviewProps?.url? reviewProps?.url : "URL not generated",
-                      }}  
-                      />}
-                  </Typography>
-              </StepContent>
-          </Step>
-
-
-      ))}
-    </Stepper>
-   
-      
-    
-  </Box>
-);
-}
 
 
 
@@ -105,9 +28,10 @@ const Component = authenticate(function()  {
   const [content, setContent] = React.useState<StepProps>();
   const [responseData, setResponseData] = React.useState<any>();
   const [error, setError] = React.useState({error: false, message: ""});
-  
-  
 
+  const {user} = React.useContext(UserContext);
+
+  console.log('create_application user :' + user);
 
   React.useEffect(() => {
     ( 
@@ -115,7 +39,7 @@ const Component = authenticate(function()  {
             const {data} =await createApplicationPageContentCached()
             console.log(data);
             setContent(data);
-            // setProject(data);/
+            // setProject(data);
         }
         
     )()
@@ -173,7 +97,12 @@ const Component = authenticate(function()  {
                   <ProgressStepper />
                 </Stack>}
                 <Stack className="border" sx={{padding: 5}}>
-                    <VerticalLinearStepper onChange={handleChange} repositories={content?.repositories} applicationName={applicationName} handleSubmit={handleSubmit}/>
+                    <VerticalLinearStepper 
+                        onChange={handleChange} 
+                        repositories={content?.repositories} 
+                        applicationName={applicationName} 
+                        handleSubmit={handleSubmit}
+                    />
                 </Stack>
             </Stack>
   

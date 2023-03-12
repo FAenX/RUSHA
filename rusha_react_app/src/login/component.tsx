@@ -2,7 +2,7 @@ import { Avatar, Button, Stack, TextField, Typography } from "@mui/material";
 import React, { useContext }  from "react";
 import { login } from "../backend_requests/user";
 import { UserContext } from "../utils/userProvider";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useNavigation } from 'react-router-dom';
 import staticVariables from "../utils/static";
 
 
@@ -24,8 +24,6 @@ export const Login = () => {
     };
 
     const handleSubmit = async () => {
-        console.log(email)
-        console.log(password)
         const response = await login(email, password)
         localStorage.setItem(staticVariables.rushaToken, response.data.auth_token);
         const userData = {
@@ -36,8 +34,6 @@ export const Login = () => {
             rushaToken: response.data.auth_token
         }
         setUser(userData)
-        console.log('debug user')
-        console.log(user)
         navigate('/')
         
     };

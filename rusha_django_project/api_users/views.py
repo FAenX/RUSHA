@@ -36,7 +36,7 @@ def login(request):
 
     print(serialized_user)
 
-    token = jwt.encode({'user_id': user.id.hex}, SECRET_KEY, algorithm='HS256')
+    token = jwt.encode({'id': user.id.hex}, SECRET_KEY, algorithm='HS256')
 
     response_payload = {
         "auth_token": token,
@@ -44,3 +44,15 @@ def login(request):
     }
 
     return JsonResponse(response_payload, status=200)
+
+
+
+@csrf_exempt
+@require_http_methods(["GET"])
+def decode_token(request):
+    token = request.headers.get('Authorization')
+    split_token = token.split(' ')[-1]
+    print(split_token)
+    decoded_token = jwt.decode(split_token, SECRET_KEY, algorithms=['HS256'])
+    print(decoded_token)
+    return JsonResponse(decoded_token, status=200)

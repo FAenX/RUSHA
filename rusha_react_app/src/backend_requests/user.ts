@@ -16,3 +16,13 @@ export const login = async (email: string, password: string): Promise<any> => {
     );
     return response;
 }
+
+export const decodeToken = async (): Promise<any> => {
+    const response = await new API().callAPI(
+        apiBaseUrls.users,
+        endpoints.decodeToken,
+        "get",
+    )
+    console.log(response)
+    return response;
+};

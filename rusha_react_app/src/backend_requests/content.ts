@@ -11,8 +11,8 @@ import {apiBaseUrls, endpoints} from './http';
 
 export const createApplicationPageContentCached = async() => {
     const response = await new API().callAPI(
-        "contentCache",
-        "create_application_page_content_cache/",
+        apiBaseUrls.contentCache,
+        endpoints.createApplicationPageContentCache,
         "get",
     );
       
