@@ -15,11 +15,13 @@ export function authenticate<T>(WrappedComponent: React.FC<T>): React.FC<T> {
       (async () => {
         if (!user) {
           const response  = await decodeToken()
+
+          console.log("authentication decorator response :" + JSON.stringify(response.data));
           const userData = {
-            id: response.data.user.id,
-            email: response.data.user.email,
-            first_name: response.data.user.first_name,
-            last_name: response.data.user.last_name,
+            id: response.data.id,
+            email: response.data.email,
+            first_name: response.data.first_name,
+            last_name: response.data.last_name,
             rushaToken: response.data.auth_token
         }
           setUser(userData)

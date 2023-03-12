@@ -18,14 +18,21 @@ from rest_framework.decorators import authentication_classes, permission_classes
 
 from django.db import connection
 # Create your views here.
+from library.decorators import authenticate
 
 
 
 @csrf_exempt
+@authenticate
 @require_http_methods(["POST"])
-def get_home_page_content_cache(request):
+def get_home_page_content_cache(request, *args, **kwargs):
     redis_connection = RedisConnection()
     body = json.loads(request.body)
+
+    print("*"*100)
+    print(args)
+
+    decoded_token = args[0]
 
     print(body)
     token = body.get("token")
@@ -54,7 +61,7 @@ def get_home_page_content_cache(request):
             FROM (
             SELECT * FROM projects_project 
             JOIN applications_application ON projects_project.id = applications_application.project_id
-            WHERE projects_project.user_id = '9cd0e932-05bd-4ae1-b89e-e320cfa2b7e4'
+            WHERE projects_project.user_id = '{decoded_token["id"]}'
             ORDER BY applications_application.date_created DESC
             ) t;
             """)

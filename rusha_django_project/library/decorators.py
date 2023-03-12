@@ -2,6 +2,9 @@
 
 import json
 from django.http import JsonResponse
+import jwt
+
+SECRET_KEY = 'dsldmksdkfdnfjdnfkjdnfkjsnjkfnkjdnfjksdnfjkndkfndksnfkjsd'
 
 
 def validate_login_payload (func):
@@ -24,3 +27,20 @@ def validate_jwt_token (func):
         
         return func(request)
     return wrapper
+
+
+def authenticate(func):
+    def wrapper(request, *args, **kwargs):
+        token = request.headers.get('Authorization')
+        split_token = token.split(' ')[-1]
+        print(split_token)
+        decoded_token = jwt.decode(split_token, SECRET_KEY, algorithms=['HS256'])
+        print(decoded_token)
+        
+        res = func(request, decoded_token, *args, **kwargs)
+        return res
+    return wrapper
+
+
+
+   

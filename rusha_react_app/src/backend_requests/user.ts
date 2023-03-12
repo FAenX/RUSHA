@@ -23,6 +23,5 @@ export const decodeToken = async (): Promise<any> => {
         endpoints.decodeToken,
         "get",
     )
-    console.log(response)
     return response;
 };

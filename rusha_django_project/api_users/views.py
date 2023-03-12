@@ -9,10 +9,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import User
 from .serializers import UserSerializer
-import jwt
+from library.decorators import authenticate
 
 
-SECRET_KEY = 'dsldmksdkfdnfjdnfkjdnfkjsnjkfnkjdnfjksdnfjkndkfndksnfkjsd'
+
 
 
 # Create your views here.
@@ -48,11 +48,7 @@ def login(request):
 
 
 @csrf_exempt
+@authenticate
 @require_http_methods(["GET"])
-def decode_token(request):
-    token = request.headers.get('Authorization')
-    split_token = token.split(' ')[-1]
-    print(split_token)
-    decoded_token = jwt.decode(split_token, SECRET_KEY, algorithms=['HS256'])
-    print(decoded_token)
+def decode_token(request, decoded_token):
     return JsonResponse(decoded_token, status=200)

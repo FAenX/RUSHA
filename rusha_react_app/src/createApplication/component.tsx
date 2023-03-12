@@ -31,7 +31,7 @@ const Component = authenticate(function()  {
 
   const {user} = React.useContext(UserContext);
 
-  console.log('create_application user :' + user);
+  console.log('create_application user :' + JSON.stringify(user));
 
   React.useEffect(() => {
     ( 
@@ -63,7 +63,7 @@ const Component = authenticate(function()  {
             repository: "other",
             tags: "test",
             environmentVariables: "test",
-            userId: "c36f8dcd-39cf-443c-a7f3-319dfc2d835b",
+            userId: user? user.id : "-1",
 
         }
           
