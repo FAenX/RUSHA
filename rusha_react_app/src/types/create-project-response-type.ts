@@ -51,8 +51,17 @@ export interface AppData{
     tag?: string;
 }
 
+export interface Frameworks{
+    name: string;
+    id: string;
+    description: string;
+    tag: string[];
+    icon: string;
+}
+
 export interface StepProps {
     repositories?: Repository[];
+    frameworks?: Frameworks[];
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     // on click handler for the submit button
     handleSubmit?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;

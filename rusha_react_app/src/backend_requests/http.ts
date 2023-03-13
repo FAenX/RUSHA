@@ -18,7 +18,7 @@ export const apiBaseUrls  = {
 export const endpoints = {
     homePageCache: 'home_page_cache/',
     homePageContentCached: 'home_page-content_cached/',
-    createApplicationPageContentCache: 'create_application_page_cache/',
+    createApplicationOptions: 'create_application_page_cache/',
     deploy: 'deploy/',
     applications: 'applications/',
     login: 'login/',

@@ -126,10 +126,38 @@ export function Review(props: StepProps) {
     )
 }
 
+const Frameworks = (props: StepProps) => {
+    const {onChange, frameworks} = props;
+    return (
+        <Stack direction={"row"}>
+            <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+            >
+                {frameworks && frameworks.map((framework) => (
+                <Button variant="outlined" sx={{margin: 2}} key={Math.random()}>
+                    <Avatar
+                        sx={{width: 30, height: 30, margin:2}}
+                        variant="rounded"
+                    >
+                        {framework.name[0]}
+                    </Avatar>
+                    {framework.name}
+                </Button>
+                ))}
+            </RadioGroup>
+        </Stack>
+    )
+}
+            
+
 const steps =[
     {
         label: "Repositories",
         component: Repositories
+    },
+    {
+        label: "Frameworks",
+        component: Frameworks
     },
     {
         label: "Environment Variables",

@@ -3,7 +3,7 @@ import {createApplication, applicationList} from './applications';
 import {retrieveUserHomePageCache} from './cache';
 import API from './http';
 
-import { createApplicationPageContentCached} from './content';
+import { createApplicationOptions} from './content';
 
 
 export { 
@@ -11,6 +11,6 @@ export {
     // cacheHomePage, 
     retrieveUserHomePageCache, 
     API,
-    createApplicationPageContentCached,
+    createApplicationOptions,
     applicationList
 };

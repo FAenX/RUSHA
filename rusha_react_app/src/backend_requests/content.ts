@@ -9,10 +9,10 @@ import {apiBaseUrls, endpoints} from './http';
 //     }
 
 
-export const createApplicationPageContentCached = async() => {
+export const createApplicationOptions = async() => {
     const response = await new API().callAPI(
         apiBaseUrls.contentCache,
-        endpoints.createApplicationPageContentCache,
+        endpoints.createApplicationOptions,
         "get",
     );
       
