@@ -33,14 +33,14 @@ def get_home_page_content_cache(request, decoded_token, split_token, *args, **kw
     print(args)
     
     project_cache_data  = redis_connection.get_value(f"{split_token}_home_page_cache_data")
-    # was_project_updated = redis_connection.get_value(f"{token}_home_page_cache_data_updated")
-    # if was_project_updated.lower() == b"true":
-    #     project_updated = True
-    # else:
-    #     project_updated = False
+    was_project_updated = redis_connection.get_value(f"{split_token}_home_page_cache_data_updated")
+    if was_project_updated.lower() == b"true":
+        project_updated = True
+    else:
+        project_updated = False
 
-    # print(project_updated)
-    if project_cache_data:
+    print(project_updated)
+    if project_cache_data and not project_updated:
         print(project_cache_data)
         return HttpResponse(project_cache_data, status=200)
     else:

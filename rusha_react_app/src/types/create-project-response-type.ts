@@ -24,7 +24,7 @@ export interface UserHomePageCache {
             tag: string;
             local_git_repo: string;
             project_name: string;
-        }
+        } 
     
 export interface Content{
         supported_frameworks: Array<{

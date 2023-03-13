@@ -58,7 +58,7 @@ const Component = authenticate(function()  {
         const payload = {
             applicationName: applicationName ? applicationName : "",
             framework: "react",
-            projectId : "d17d88b4-388d-4679-ad0c-7ba906711989",
+            projectId : user? user.projectId : "-1",
             description: "test",
             repository: "other",
             tags: "test",

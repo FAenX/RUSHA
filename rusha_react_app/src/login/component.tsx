@@ -26,6 +26,10 @@ export const Login = () => {
     const handleSubmit = async () => {
         const response = await login(email, password)
         localStorage.setItem(staticVariables.rushaToken, response.data.auth_token);
+
+        localStorage.setItem(staticVariables.rushaId, response.data.user.id);
+
+        const token = localStorage.getItem(staticVariables.rushaToken);
         // const userData = {
         //     id: response.data.user.id,
         //     email: response.data.user.email,
@@ -34,7 +38,11 @@ export const Login = () => {
         //     projectId: response.data.user.project_id,
         // }
         // setUser(userData)
-        navigate('/')
+        
+        if (token) {
+            navigate('/')
+        }
+        // navigate('/')
         
     };
 

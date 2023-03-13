@@ -43,7 +43,12 @@ def login(request):
 
     print(serialized_user)
 
-    token = jwt.encode({'id': user.id.hex}, SECRET_KEY, algorithm='HS256')
+    token = jwt.encode({
+        'id': user.id.hex,
+        'email': user.email,
+        'active_project_id': active_project.id.hex
+
+        }, SECRET_KEY, algorithm='HS256')
 
     response_payload = {
         "auth_token": token,
