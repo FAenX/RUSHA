@@ -37,7 +37,7 @@ def authenticate(func):
         decoded_token = jwt.decode(split_token, SECRET_KEY, algorithms=['HS256'])
         print(decoded_token)
         
-        res = func(request, decoded_token, *args, **kwargs)
+        res = func(request, decoded_token, split_token, *args, **kwargs)
         return res
     return wrapper
 

@@ -7,10 +7,14 @@ from django.views.decorators.http import require_http_methods
 from library.decorators import validate_login_payload
 from django.views.decorators.csrf import csrf_exempt
 
+from projects.models import Project
+
 from .models import User
 from .serializers import UserSerializer
 from library.decorators import authenticate
+import jwt
 
+from library.decorators import SECRET_KEY
 
 
 
@@ -34,6 +38,9 @@ def login(request):
 
     serialized_user = UserSerializer(user)
 
+    active_project = Project.objects.filter(user=user).order_by('date_updated').first()
+    print(active_project)
+
     print(serialized_user)
 
     token = jwt.encode({'id': user.id.hex}, SECRET_KEY, algorithm='HS256')
@@ -50,5 +57,5 @@ def login(request):
 @csrf_exempt
 @authenticate
 @require_http_methods(["GET"])
-def decode_token(request, decoded_token):
+def decode_token(request, decoded_token, *args, **kwargs):
     return JsonResponse(decoded_token, status=200)

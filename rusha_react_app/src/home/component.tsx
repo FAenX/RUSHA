@@ -25,15 +25,12 @@ const Home = authenticate(function() {
 
     useEffect(() => {
         let rushaToken = localStorage.getItem(staticVariables.rushaToken)
-        if (user) {
-            rushaToken = user.rushaToken 
-        };
         console.log(rushaToken);
         console.log(user);
 
        ( 
         async()=> {
-            const data =await retrieveUserHomePageCache(rushaToken || "/")
+            const data =await retrieveUserHomePageCache()
             console.log(data);
             setApplications(data);
         }

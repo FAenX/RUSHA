@@ -24,32 +24,22 @@ from library.decorators import authenticate
 
 @csrf_exempt
 @authenticate
-@require_http_methods(["POST"])
-def get_home_page_content_cache(request, *args, **kwargs):
+@require_http_methods(["GET"])
+def get_home_page_content_cache(request, decoded_token, split_token, *args, **kwargs):
     redis_connection = RedisConnection()
-    body = json.loads(request.body)
+   
 
     print("*"*100)
     print(args)
-
-    decoded_token = args[0]
-
-    print(body)
-    token = body.get("token")
-    print(token)
-    project_cache_data  = redis_connection.get_value(f"{token}_home_page_cache_data")
+    
+    project_cache_data  = redis_connection.get_value(f"{split_token}_home_page_cache_data")
     # was_project_updated = redis_connection.get_value(f"{token}_home_page_cache_data_updated")
-
-
     # if was_project_updated.lower() == b"true":
     #     project_updated = True
     # else:
     #     project_updated = False
 
     # print(project_updated)
-
-    
-    
     if project_cache_data:
         print(project_cache_data)
         return HttpResponse(project_cache_data, status=200)
@@ -75,10 +65,10 @@ def get_home_page_content_cache(request, *args, **kwargs):
         serializer_data = serializer.data
 
         redis_connection = get_redis_connection("default")
-        key = f"{token}_home_page_cache_data"
+        key = f"{split_token}_home_page_cache_data"
 
         redis_connection.set(key, json.dumps(serializer_data))
-        redis_connection.set(f"{token}_home_page_cache_data_updated", str(False))
+        redis_connection.set(f"{split_token}_home_page_cache_data_updated", str(False))
         return JsonResponse(serializer_data, status=200, safe=False)
    
 

@@ -10,7 +10,7 @@ interface User {
     email: string;
     first_name: string;
     last_name: string;
-    rushaToken: string;
+    projectId: string;
 };
 
 interface UserState {

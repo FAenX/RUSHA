@@ -14,12 +14,11 @@ import {apiBaseUrls, endpoints} from './http';
 //         );
 // };
 
-const retrieveUserHomePageCache = async (rushaToken: string):Promise<UserHomePageCache[]> => {
+const retrieveUserHomePageCache = async ():Promise<UserHomePageCache[]> => {
     const {data} = await new API().callAPI(
         apiBaseUrls.contentCache,
         endpoints.homePageCache,
-        "post",
-        {token: rushaToken}
+        "get",
         );
     return data;
 };

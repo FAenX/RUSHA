@@ -19,6 +19,7 @@ export function authenticate<T>(WrappedComponent: React.FC<T>): React.FC<T> {
           console.log("authentication decorator response :" + JSON.stringify(response.data));
           const userData = {
             id: response.data.id,
+            projectId: response.data.project_id,
             email: response.data.email,
             first_name: response.data.first_name,
             last_name: response.data.last_name,

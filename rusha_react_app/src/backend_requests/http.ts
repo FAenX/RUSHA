@@ -2,14 +2,6 @@ import axios from 'axios';
 import staticVariables  from "../utils/static";
 
 
-const requests = {
-    "get": "GET",
-    "post": "POST",
-    "put": "PUT",
-    "delete": "DELETE"
-}
-
-
 interface API {
     typeOfRequest: string;
     // getBaseUrl: () => string;

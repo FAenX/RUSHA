@@ -16,6 +16,7 @@ class Project(models.Model):
     description = models.CharField(max_length=200, null=True)
     date_created = models.DateTimeField(default=datetime.datetime.now)
     tag = models.CharField(max_length=200, null=True)
+    date_updated = models.DateTimeField(default=datetime.datetime.now)
    
     
     def __str__(self):

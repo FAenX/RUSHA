@@ -26,14 +26,14 @@ export const Login = () => {
     const handleSubmit = async () => {
         const response = await login(email, password)
         localStorage.setItem(staticVariables.rushaToken, response.data.auth_token);
-        const userData = {
-            id: response.data.user.id,
-            email: response.data.user.email,
-            first_name: response.data.user.first_name,
-            last_name: response.data.user.last_name,
-            rushaToken: response.data.auth_token
-        }
-        setUser(userData)
+        // const userData = {
+        //     id: response.data.user.id,
+        //     email: response.data.user.email,
+        //     first_name: response.data.user.first_name,
+        //     last_name: response.data.user.last_name,
+        //     projectId: response.data.user.project_id,
+        // }
+        // setUser(userData)
         navigate('/')
         
     };
