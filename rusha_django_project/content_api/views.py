@@ -32,8 +32,8 @@ def get_home_page_content_cache(request, decoded_token, split_token, *args, **kw
     print("*"*100)
     print(args)
     
-    project_cache_data  = redis_connection.get_value(f"{split_token}_home_page_cache_data")
-    was_project_updated = redis_connection.get_value(f"{split_token}_home_page_cache_data_updated")
+    project_cache_data  = redis_connection.get_value(f"{decoded_token['id']}_home_page_cache_data")
+    was_project_updated = redis_connection.get_value(f"{decoded_token['id']}_home_page_cache_data_updated")
     if was_project_updated.lower() == b"true":
         project_updated = True
     else:
@@ -65,10 +65,10 @@ def get_home_page_content_cache(request, decoded_token, split_token, *args, **kw
         serializer_data = serializer.data
 
         redis_connection = get_redis_connection("default")
-        key = f"{split_token}_home_page_cache_data"
+        key = f"{decoded_token['id']}_home_page_cache_data"
 
         redis_connection.set(key, json.dumps(serializer_data))
-        redis_connection.set(f"{split_token}_home_page_cache_data_updated", str(False))
+        redis_connection.set(f"{decoded_token['id']}_home_page_cache_data_updated", str(False))
         return JsonResponse(serializer_data, status=200, safe=False)
    
 

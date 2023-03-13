@@ -18,7 +18,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-import children from '../navigation/side-navigation-children'
+import children from '../../navigation/side-navigation-children'
 
 const drawerWidth = 240;
 
@@ -93,7 +93,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function MiniDrawer() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -140,12 +140,6 @@ export default function MiniDrawer() {
         <List>
           {children.map((component, index) => (
             <ListItem sx={{padding: 1}}   >
-              
-                <ListItemIcon sx={{padding: 1}} className="border" >
-                    <component.icon />
-                  
-                </ListItemIcon>
-                
                 <ListItemText primary={component.text} sx={{ opacity: open ? 1 : 0}} className="border" />
             </ListItem>
           ))}

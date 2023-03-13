@@ -3,7 +3,7 @@ import React from 'react';
 import SideNavigation from '../navigation';
 import sideNavigationProps from '../navigation/side-navigation-props';
 import { Stack } from '@mui/material';
-import Drawer from '../navigation/drawer'
+import Drawer from './components/drawer'
 
 interface LayoutInterface {
   children: JSX.Element;
