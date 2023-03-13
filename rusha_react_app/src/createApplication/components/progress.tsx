@@ -4,6 +4,7 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
+import { UserContext } from '../../utils/userProvider';
 
 interface Props {
     done: boolean;
@@ -28,6 +29,8 @@ export default function ProgressStepper() {
     const [alertMessage, setAlertMessage] = React.useState();
     const [timer, setTimer] = React.useState(0);
     const [socket, setSocket] = React.useState<any>();
+
+    const {user} = React.useContext(UserContext);
     
 
     const notification = React.useReducer((state:any, action: any) => {
@@ -102,7 +105,7 @@ export default function ProgressStepper() {
       if (socket && socket.readyState === WebSocket.OPEN ) {
         socket.send(JSON.stringify({ 
           request: "get_notifications",
-          userId: "c36f8dcd-39cf-443c-a7f3-319dfc2d835b",
+          userId: user ? user.id : null,
         }));
       }
   }, [timer]);
